@@ -511,6 +511,379 @@
             transform: scale(1.08);
         }
 
+        /* ============================================================
+           بطاقات الألعاب الزجاجية الفاتحة مع رسومات وخلفيات علوية ناعمة
+           ============================================================ */
+        .game-glass-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 26px;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.96);
+            box-shadow:
+                0 10px 26px -6px rgba(15, 23, 42, 0.065),
+                0 4px 10px -2px rgba(15, 23, 42, 0.025);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.24s ease, border-color 0.24s ease, background-color 0.3s ease;
+        }
+
+        .game-glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 152, 0, 0.38);
+            box-shadow:
+                0 18px 34px -10px rgba(255, 123, 0, 0.16),
+                0 8px 16px -6px rgba(15, 23, 42, 0.06);
+        }
+
+        .game-glass-card:active {
+            transform: scale(0.975);
+        }
+
+        html.dark .game-glass-card {
+            background: rgba(30, 41, 59, 0.88);
+            border-color: rgba(255, 255, 255, 0.09);
+            box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.38);
+        }
+
+        html.dark .game-glass-card:hover {
+            border-color: rgba(255, 167, 38, 0.38);
+            box-shadow: 0 18px 36px -8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* نافذة الرسمة والخلفية الناعمة في أعلى كل بطاقة */
+        .game-art-banner {
+            position: relative;
+            margin: 8px 8px 0 8px;
+            height: 108px;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(15, 23, 42, 0.045);
+        }
+
+        html.dark .game-art-banner {
+            border-color: rgba(255, 255, 255, 0.07);
+        }
+
+        .game-art-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .game-glass-card:hover .game-art-svg {
+            transform: scale(1.055);
+        }
+
+        /* الخلفيات الناعمة المتناسقة مع هوية برو أرينا لكل لعبة */
+        .art-xo {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 55%, #E0F2FE 100%);
+        }
+
+        html.dark .art-xo {
+            background: linear-gradient(135deg, #172554 0%, #1E3A8A 60%, #0C4A6E 100%);
+        }
+
+        .art-mafia {
+            background: linear-gradient(135deg, #FDF2F8 0%, #EDE9FE 52%, #FEE2E2 100%);
+        }
+
+        html.dark .art-mafia {
+            background: linear-gradient(135deg, #2E1065 0%, #3B0764 48%, #450A0A 100%);
+        }
+
+        .art-salfa {
+            background: linear-gradient(135deg, #ECFDF5 0%, #CCFBF1 52%, #E0E7FF 100%);
+        }
+
+        html.dark .art-salfa {
+            background: linear-gradient(135deg, #064E3B 0%, #115E59 50%, #312E81 100%);
+        }
+
+        .art-guess {
+            background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 55%, #FEF3C7 100%);
+        }
+
+        html.dark .art-guess {
+            background: linear-gradient(135deg, #431407 0%, #7C2D12 52%, #1E293B 100%);
+        }
+
+        .art-snake {
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 55%, #ECFCCB 100%);
+        }
+
+        html.dark .art-snake {
+            background: linear-gradient(135deg, #14532D 0%, #166534 55%, #365314 100%);
+        }
+
+        .art-football {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 50%, #DBEAFE 100%);
+        }
+
+        html.dark .art-football {
+            background: linear-gradient(135deg, #064E3B 0%, #065F46 48%, #1E3A8A 100%);
+        }
+
+        .art-billiards {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 52%, #FEF3C7 100%);
+        }
+
+        html.dark .art-billiards {
+            background: linear-gradient(135deg, #052E16 0%, #14532D 55%, #451A03 100%);
+        }
+
+        .art-soon {
+            background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%);
+        }
+
+        html.dark .art-soon {
+            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+        }
+
+        /* شارة التصنيف الطافية على زاوية الرسمة */
+        .game-banner-pill {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 3;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 9px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #0F172A;
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+            line-height: 1.45;
+        }
+
+        html.dark .game-banner-pill {
+            background: rgba(15, 23, 42, 0.72);
+            color: #F8FAFC;
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        /* جسم البطاقة السفلي (نص واضح ومتناسق مع الهوية) */
+        .game-card-body {
+            padding: 12px 12px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .game-card-badges {
+            display: none;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .most-played-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #FFB347 0%, #FF7B00 100%);
+            color: #FFFFFF;
+            box-shadow: 0 4px 10px rgba(255, 123, 0, 0.26);
+            line-height: 1.35;
+        }
+
+        .game-inline-cat {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 9999px;
+            background: #FFF3E0;
+            color: #EA580C;
+            line-height: 1.35;
+        }
+
+        html.dark .game-inline-cat {
+            background: rgba(255, 152, 0, 0.16);
+            color: #FFB74D;
+        }
+
+        .game-card-title {
+            font-weight: 900;
+            font-size: 1rem;
+            line-height: 1.3;
+            color: #0F172A;
+        }
+
+        html.dark .game-card-title {
+            color: #F8FAFC;
+        }
+
+        .game-card-desc {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748B;
+            margin-top: 3px;
+            line-height: 1.45;
+        }
+
+        html.dark .game-card-desc {
+            color: #94A3B8;
+        }
+
+        .game-featured-play-row {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .game-play-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #FFA726 0%, #FF7B00 100%);
+            color: #FFFFFF;
+            font-weight: 900;
+            font-size: 12px;
+            box-shadow: 0 3px 0 #C2410C, 0 8px 16px rgba(255, 123, 0, 0.25);
+            transition: transform 0.2s ease;
+        }
+
+        .game-glass-card:hover .game-play-chip {
+            transform: scale(1.04);
+        }
+
+        /* تنسيق بطاقة الأكثر لعباً بعرض لعبتين (col-span-2) */
+        .game-glass-card.is-most-played {
+            flex-direction: row;
+            align-items: stretch;
+            border: 1.5px solid rgba(255, 152, 0, 0.34);
+            box-shadow:
+                0 14px 32px -8px rgba(255, 123, 0, 0.14),
+                0 6px 14px -4px rgba(15, 23, 42, 0.04);
+            min-height: 146px;
+        }
+
+        html.dark .game-glass-card.is-most-played {
+            border-color: rgba(255, 167, 38, 0.36);
+            box-shadow: 0 16px 34px -8px rgba(0, 0, 0, 0.45);
+        }
+
+        .game-glass-card.is-most-played .game-art-banner {
+            width: 44%;
+            min-width: 128px;
+            max-width: 215px;
+            height: auto;
+            min-height: 126px;
+            margin: 9px;
+            border-radius: 20px;
+        }
+
+        .game-glass-card.is-most-played .game-banner-pill {
+            display: none;
+        }
+
+        .game-glass-card.is-most-played .game-card-body {
+            align-items: flex-start;
+            text-align: right;
+            padding: 14px 6px 14px 16px;
+        }
+
+        .game-glass-card.is-most-played .game-card-badges {
+            display: flex;
+        }
+
+        .game-glass-card.is-most-played .game-card-title {
+            font-size: 1.2rem;
+        }
+
+        .game-glass-card.is-most-played .game-card-desc {
+            font-size: 12px;
+        }
+
+        .game-glass-card.is-most-played .game-featured-play-row {
+            display: flex;
+        }
+
+        @media (max-width: 420px) {
+            .game-glass-card.is-most-played {
+                min-height: 132px;
+            }
+
+            .game-glass-card.is-most-played .game-art-banner {
+                width: 42%;
+                min-width: 112px;
+                min-height: 112px;
+                margin: 8px;
+            }
+
+            .game-glass-card.is-most-played .game-card-body {
+                padding: 12px 4px 12px 12px;
+            }
+
+            .game-glass-card.is-most-played .game-card-title {
+                font-size: 1.05rem;
+            }
+
+            .game-glass-card.is-most-played .game-card-desc {
+                font-size: 11px;
+            }
+
+            .game-play-chip {
+                padding: 6px 13px;
+                font-size: 11px;
+            }
+        }
+
+        /* شريط استكشاف كل الألعاب في قسم الألعاب المقترحة (الصفحة الرئيسية) */
+        .arena-discovery-bar {
+            background: rgba(255, 250, 242, 0.92);
+            border: 1px solid rgba(255, 152, 0, 0.24);
+            border-radius: 22px;
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .arena-discovery-bar:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 152, 0, 0.48);
+            box-shadow: 0 10px 24px -8px rgba(255, 123, 0, 0.18);
+        }
+
+        html.dark .arena-discovery-bar {
+            background: rgba(15, 23, 42, 0.72);
+            border-color: rgba(255, 152, 0, 0.25);
+        }
+
+        .mini-art-dot {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
+            border: 2px solid #FFFFFF;
+        }
+
+        html.dark .mini-art-dot {
+            border-color: #0F172A;
+        }
+
         /* نافذة اللعبة */
         #game-sheet-overlay {
             position: fixed;
@@ -644,9 +1017,20 @@
         }
 
         /* الهيدر العلوي الأنيق والزجاجي */
+        /* التمرير السلس والمتوازن لصفحات التطبيق */
+        #main-scroll-area {
+            scroll-behavior: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
+            touch-action: pan-y;
+        }
+
+        /* الهيدر العلوي الأنيق والزجاجي (ثابت الارتفاع لمنع الاهتزاز أثناء التمرير) */
         #main-header {
             will-change: background-color, box-shadow, height;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: background-color, box-shadow;
+            transition: background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         #main-header.scrolled {
@@ -988,493 +1372,899 @@
 
         <!-- منطقة التمرير الرئيسية لجميع الصفحات -->
         <div id="main-scroll-area" class="flex-1 overflow-y-auto px-4 lg:px-10 pb-32 lg:pb-8 scroll-smooth">
+            <div id="main-scroll-area" class="flex-1 overflow-y-auto px-4 lg:px-10 pb-32 lg:pb-8">
 
-            <!-- ==================== 1. صفحة الأخبار والمتصدرين ==================== -->
-            <div id="news-page" class="page-section max-w-4xl mx-auto space-y-6 flex-col">
+                <!-- ==================== 1. صفحة الأخبار والمتصدرين ==================== -->
+                <div id="news-page" class="page-section max-w-4xl mx-auto space-y-6 flex-col">
 
-                <!-- أولاً: مستطيل الألعاب (لعبتان + لعبة ثالثة مغبّشة تنقل لصفحة الألعاب) -->
-                <div class="stagger-item card-ui p-4 sm:p-5 relative overflow-hidden">
-                    <div
-                        class="absolute -top-10 -left-10 w-36 h-36 bg-brand/10 rounded-full blur-2xl pointer-events-none">
-                    </div>
-
-                    <div class="flex items-center justify-between gap-3 mb-4 relative z-10">
-                        <div class="flex items-center gap-2.5">
-                            <div
-                                class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-gradientStart to-brand-gradientEnd text-white flex items-center justify-center shadow-sm">
-                                <i class="fa-solid fa-gamepad text-sm"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-black text-base md:text-lg text-primary leading-tight">ألعاب مقترحة</h3>
-                                <p class="text-[11px] font-bold text-secondary">ابدأ التحدي مباشرة أو استكشف كل الألعاب
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- المستطيل الداخلي: 3 خانات (لعبتان + الثالثة مغبشة كمدخل لصفحة الألعاب) -->
-                    <div class="grid grid-cols-3 gap-2.5 sm:gap-4 relative z-10">
-                        <!-- اللعبة الأولى: XO -->
-                        <button type="button" onclick="openGameSheet('اكس_او.html', 'لعبة XO')"
-                            class="group bg-gray-50/90 dark:bg-slate-800/80 hover:bg-orange-50/70 dark:hover:bg-slate-800 border border-gray-100 dark:border-slate-700/80 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center text-center transition-all duration-200 hover:-translate-y-1 active:scale-95">
-                            <div
-                                class="w-12 h-12 sm:w-14 sm:h-14 game-icon-bg !rounded-2xl mb-2.5 relative flex items-center justify-center">
-                                <i
-                                    class="fa-solid fa-hashtag text-2xl sm:text-3xl text-blue-500 group-hover:scale-110 transition-transform"></i>
-                            </div>
-                            <span class="font-black text-xs sm:text-sm text-primary truncate w-full">لعبة XO</span>
-                            <span
-                                class="text-[9px] sm:text-[10px] font-bold text-brand bg-orange-100/80 dark:bg-orange-500/20 px-2 py-0.5 rounded-full mt-1">1
-                                ضد 1</span>
-                        </button>
-
-                        <!-- اللعبة الثانية: المافيا -->
-                        <button type="button" onclick="openGameSheet('لعبة_المافيا.html', 'لعبة المافيا')"
-                            class="group bg-gray-50/90 dark:bg-slate-800/80 hover:bg-orange-50/70 dark:hover:bg-slate-800 border border-gray-100 dark:border-slate-700/80 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center text-center transition-all duration-200 hover:-translate-y-1 active:scale-95">
-                            <div
-                                class="w-12 h-12 sm:w-14 sm:h-14 game-icon-bg !rounded-2xl mb-2.5 relative flex items-center justify-center">
-                                <i
-                                    class="fa-solid fa-user-secret text-2xl sm:text-3xl text-purple-600 group-hover:scale-110 transition-transform"></i>
-                            </div>
-                            <span class="font-black text-xs sm:text-sm text-primary truncate w-full">المافيا</span>
-                            <span
-                                class="text-[9px] sm:text-[10px] font-bold text-red-500 bg-red-100/80 dark:bg-red-500/20 px-2 py-0.5 rounded-full mt-1">جماعية</span>
-                        </button>
-
-                        <!-- اللعبة الثالثة المغبشة (تنقلك مباشرة إلى صفحة الألعاب) -->
-                        <button type="button" onclick="switchPage('games')"
-                            class="group relative overflow-hidden rounded-2xl border border-brand/35 dark:border-brand/40 bg-gradient-to-br from-orange-50/80 to-amber-100/60 dark:from-slate-800 dark:to-slate-900 p-3 sm:p-4 flex flex-col items-center justify-center text-center transition-all duration-200 hover:-translate-y-1 active:scale-95">
-                            <!-- محتوى اللعبة الثالثة المغبش بالخلفية -->
-                            <div class="flex flex-col items-center justify-center blur-[3.5px] opacity-55 scale-95 pointer-events-none select-none"
-                                aria-hidden="true">
-                                <div
-                                    class="w-12 h-12 sm:w-14 sm:h-14 game-icon-bg !rounded-2xl mb-2.5 flex items-center justify-center">
-                                    <i class="fa-solid fa-masks-theater text-2xl sm:text-3xl text-emerald-500"></i>
-                                </div>
-                                <span class="font-black text-xs sm:text-sm text-primary">برا السالفة</span>
-                                <span class="text-[10px] font-bold text-emerald-500 mt-1">جماعية</span>
-                            </div>
-
-                            <!-- الطبقة الزجاجية التي توحي بالانتقال لصفحة الألعاب -->
-                            <div
-                                class="absolute inset-0 bg-white/45 dark:bg-slate-900/55 backdrop-blur-[2px] flex flex-col items-center justify-center p-2 transition-colors group-hover:bg-white/30 dark:group-hover:bg-slate-900/40">
-                                <div
-                                    class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-brand-gradientStart to-brand-gradientEnd text-white flex items-center justify-center shadow-3d mb-1.5 group-hover:scale-110 transition-transform">
-                                    <i class="fa-solid fa-angles-left text-sm sm:text-base"></i>
-                                </div>
-                                <span class="font-black text-[11px] sm:text-xs text-primary leading-tight">كل
-                                    الألعاب</span>
-                                <span class="text-[9px] font-bold text-brand mt-0.5">اضغط للمزيد</span>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ثانياً: قسم الأخبار والإعلانات المنشورة من الإدارة -->
-                <div class="stagger-item space-y-4">
-                    <div class="flex items-center justify-between px-1">
-                        <div class="flex items-center gap-2.5">
-                            <div
-                                class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/15 text-nav flex items-center justify-center">
-                                <i class="fa-solid fa-bullhorn text-base"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-black text-lg text-primary leading-tight">آخر الأخبار والإعلانات</h3>
-                                <p class="text-[11px] font-bold text-secondary">تحديثات وبطولات الإدارة المباشرة</p>
-                            </div>
-                        </div>
-
-                        <!-- زر نشر خبر (يظهر للأدمن فقط) -->
-                        <button id="admin-publish-news-btn" onclick="toggleAdminNewsModal()"
-                            class="hidden btn-3d px-4 py-2 text-xs gap-1.5">
-                            <i class="fa-solid fa-plus"></i>
-                            <span>نشر خبر</span>
-                        </button>
-                    </div>
-
-                    <div id="admin-news-list" class="space-y-4">
-                        <div class="card-ui p-10 text-center">
-                            <i class="fas fa-spinner fa-spin text-brand text-2xl"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ثالثاً: مستطيل توب 3 لأفضل اللاعبين مع زر المزيد لعرض التوب 10 -->
-                <div class="stagger-item card-ui p-5 md:p-6 relative overflow-hidden">
-                    <!-- خلفية جمالية ناعمة -->
-                    <div
-                        class="absolute -top-12 -left-12 w-40 h-40 bg-brand/10 rounded-full blur-2xl pointer-events-none">
-                    </div>
-
-                    <div class="flex items-center justify-between gap-3 mb-5 relative z-10">
-                        <div class="flex items-center gap-2.5">
-                            <div
-                                class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-md">
-                                <i class="fa-solid fa-crown text-base"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-black text-base md:text-lg text-primary leading-tight">أفضل 3 لاعبين
-                                </h3>
-                                <p class="text-[11px] font-bold text-secondary">أبطال الصدارة في برو أرينا</p>
-                            </div>
-                        </div>
-
-                        <!-- زر المزيد لإظهار بقية التوب 10 -->
-                        <button id="toggle-top10-btn" onclick="toggleTop10Drawer()"
-                            class="px-3.5 py-2 rounded-2xl bg-orange-50 dark:bg-slate-800 hover:bg-orange-100 text-brand font-black text-xs flex items-center gap-1.5 transition-all active:scale-95 border border-orange-100 dark:border-slate-700">
-                            <span id="toggle-top10-text">المزيد</span>
-                            <i id="toggle-top10-icon"
-                                class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300"></i>
-                        </button>
-                    </div>
-
-                    <!-- مستطيل عرض التوب 3 -->
-                    <div id="top3-podium-container"
-                        class="rounded-3xl bg-gradient-to-br from-orange-50/90 via-amber-50/60 to-white dark:from-slate-800/90 dark:via-slate-800/60 dark:to-slate-900/70 border border-orange-100/80 dark:border-slate-700/80 p-4 pt-8 pb-5 relative z-10">
-                        <div class="py-6 text-center">
-                            <i class="fas fa-spinner fa-spin text-brand text-2xl"></i>
-                        </div>
-                    </div>
-
-                    <!-- قائمة التوب 10 البقية (تفتح عند الضغط على زر المزيد) -->
-                    <div id="top10-drawer" class="top10-drawer relative z-10">
-                        <div class="flex items-center justify-between mb-3 px-1">
-                            <span class="text-xs font-black text-secondary flex items-center gap-1.5">
-                                <i class="fa-solid fa-ranking-star text-brand"></i>
-                                بقية قائمة أفضل 10 لاعبين
-                            </span>
-                            <span
-                                class="text-[11px] font-bold text-brand bg-orange-50 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
-                                نقاطك: <span id="home-points-display">0</span>
-                            </span>
-                        </div>
-                        <div id="top10-rest-list" class="space-y-2.5">
-                            <!-- تعبأ تلقائياً بالمراكز من 4 إلى 10 -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ==================== 2. صفحة الألعاب ==================== -->
-            <div id="games-page" class="page-section active max-w-5xl mx-auto space-y-6 flex-col">
-                <!-- البانر الترحيبي والبحث والفلترة -->
-                <div id="games-hero-banner"
-                    class="stagger-item flex flex-col md:flex-row gap-4 items-center justify-between card-ui bg-gradient-to-br from-brand-gradientStart to-brand-gradientEnd p-5 relative overflow-hidden text-white shadow-3d border-0">
-                    <div class="absolute right-0 top-0 opacity-20 pointer-events-none">
-                        <i class="fa-solid fa-gamepad text-8xl absolute -top-6 -right-6 transform rotate-12"></i>
-                    </div>
-                    <div class="relative z-10 flex items-center gap-4 w-full md:w-auto">
+                    <!-- أولاً: قسم الألعاب المقترحة ببطاقات زجاجية ناعمة ورسومات مخصصة لكل لعبة -->
+                    <div class="stagger-item card-ui p-4 sm:p-5 relative overflow-hidden">
                         <div
-                            class="w-14 h-14 bg-white/25 backdrop-blur-sm rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
-                            <i
-                                class="fa-solid fa-trophy text-2xl text-yellow-200 drop-shadow-md transform -rotate-12"></i>
+                            class="absolute -top-12 -left-12 w-44 h-44 bg-brand/10 rounded-full blur-3xl pointer-events-none">
                         </div>
-                        <div>
-                            <div class="flex items-center gap-2 mb-1">
-                                <span
-                                    class="bg-white/30 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">ساحة
-                                    الأبطال</span>
-                                <h1 class="text-xl font-black drop-shadow-sm">هيا نلعب ونتحدى!</h1>
-                            </div>
-                            <p class="text-white/95 font-bold text-xs">العب أي لعبة واكسب نقطة تلقائياً كل دقيقة لعب.
-                            </p>
-                        </div>
-                    </div>
 
-                    <!-- حقل البحث وزر الفلتر -->
-                    <div class="relative w-full md:w-[360px] lg:w-[410px] z-10">
-                        <i
-                            class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"></i>
-                        <input type="text" id="game-search-input" oninput="handleGameSearch(this.value)"
-                            placeholder="ابحث عن لعبتك المفضلة..."
-                            class="w-full pl-[105px] pr-11 py-3.5 font-bold text-sm shadow-sm relative rounded-full border-0 text-primary focus:ring-4 focus:ring-white/30 focus:outline-none bg-white">
-                        <div class="absolute left-1.5 top-1/2 -translate-y-1/2 z-10">
-                            <button id="category-cycle-btn" onclick="cycleCategory()"
-                                class="btn-3d px-3.5 py-2 min-w-[88px] flex justify-center items-center gap-1.5 select-none text-xs !rounded-full shadow-sm">
-                                <i class="fa-solid fa-filter text-[10px] opacity-90"></i>
-                                <span id="category-cycle-text">الكل</span>
+                        <div class="flex items-center justify-between gap-3 mb-4 relative z-10">
+                            <div class="flex items-center gap-2.5">
+                                <div
+                                    class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-gradientStart to-brand-gradientEnd text-white flex items-center justify-center shadow-md">
+                                    <i class="fa-solid fa-fire-flame-curved text-base"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-black text-base md:text-lg text-primary leading-tight">ألعاب مقترحة
+                                    </h3>
+                                    <p class="text-[11px] font-bold text-secondary">تحديات سريعة جاهزة للعب الآن</p>
+                                </div>
+                            </div>
+
+                            <button type="button" onclick="switchPage('games')"
+                                class="px-3.5 py-2 rounded-2xl bg-orange-50 dark:bg-slate-800 hover:bg-orange-100 text-brand font-black text-xs flex items-center gap-1.5 transition-all active:scale-95 border border-orange-100 dark:border-slate-700 shrink-0">
+                                <span>الكل</span>
+                                <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                            </button>
+                        </div>
+
+                        <!-- شبكة Bento المتناسقة: بطاقة رئيسية عريضة + لعبتان متجاورتان + شريط استكشاف -->
+                        <div class="grid grid-cols-2 gap-3 sm:gap-3.5 relative z-10">
+                            <!-- 1. البطاقة المميزة العريضة: لعبة XO -->
+                            <button type="button" onclick="openGameSheet('اكس_او.html', 'لعبة XO')"
+                                class="game-glass-card is-most-played col-span-2 cursor-pointer group">
+                                <div class="game-art-banner art-xo">
+                                    <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                        aria-hidden="true">
+                                        <g opacity="0.35" stroke="#60A5FA" stroke-width="1">
+                                            <line x1="0" y1="24" x2="220" y2="24" />
+                                            <line x1="0" y1="48" x2="220" y2="48" />
+                                            <line x1="0" y1="72" x2="220" y2="72" />
+                                            <line x1="0" y1="96" x2="220" y2="96" />
+                                        </g>
+                                        <rect x="44" y="14" width="132" height="96" rx="14" fill="#FFFFFF"
+                                            fill-opacity="0.92" stroke="#93C5FD" stroke-width="2" />
+                                        <line x1="88" y1="24" x2="88" y2="100" stroke="#CBD5E1" stroke-width="2.6"
+                                            stroke-linecap="round" />
+                                        <line x1="132" y1="24" x2="132" y2="100" stroke="#CBD5E1" stroke-width="2.6"
+                                            stroke-linecap="round" />
+                                        <line x1="56" y1="49" x2="164" y2="49" stroke="#CBD5E1" stroke-width="2.6"
+                                            stroke-linecap="round" />
+                                        <line x1="56" y1="75" x2="164" y2="75" stroke="#CBD5E1" stroke-width="2.6"
+                                            stroke-linecap="round" />
+                                        <g stroke="#2563EB" stroke-width="4" stroke-linecap="round">
+                                            <line x1="65" y1="30" x2="79" y2="43" />
+                                            <line x1="79" y1="30" x2="65" y2="43" />
+                                            <line x1="103" y1="56" x2="117" y2="69" />
+                                            <line x1="117" y1="56" x2="103" y2="69" />
+                                            <line x1="141" y1="81" x2="155" y2="94" />
+                                            <line x1="155" y1="81" x2="141" y2="94" />
+                                        </g>
+                                        <circle cx="148" cy="36" r="8" fill="none" stroke="#EF4444"
+                                            stroke-width="3.8" />
+                                        <circle cx="72" cy="87" r="8" fill="none" stroke="#EF4444" stroke-width="3.8" />
+                                        <line x1="60" y1="26" x2="160" y2="98" stroke="#FF9800" stroke-width="4.2"
+                                            stroke-linecap="round" opacity="0.88" />
+                                        <circle cx="30" cy="30" r="4" fill="#3B82F6" opacity="0.45" />
+                                        <circle cx="192" cy="94" r="5" fill="#FF9800" opacity="0.5" />
+                                    </svg>
+                                </div>
+                                <div class="game-card-body">
+                                    <div class="game-card-badges">
+                                        <span class="most-played-pill"><i class="fa-solid fa-star"></i> مقترحة لك</span>
+                                        <span class="game-inline-cat">1 ضد 1</span>
+                                    </div>
+                                    <h4 class="game-card-title">لعبة XO</h4>
+                                    <p class="game-card-desc">إصدار الكراسة الكلاسيكي واللانهائي</p>
+                                    <div class="game-featured-play-row">
+                                        <span class="game-play-chip">
+                                            <span>العب الآن</span>
+                                            <i class="fa-solid fa-play rotate-180 text-[9px]"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- 2. لعبة المافيا -->
+                            <button type="button" onclick="openGameSheet('لعبة_المافيا.html', 'لعبة المافيا')"
+                                class="game-glass-card cursor-pointer group">
+                                <div class="game-art-banner art-mafia">
+                                    <span class="game-banner-pill">جماعية</span>
+                                    <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                        aria-hidden="true">
+                                        <path d="M174 17 A15 15 0 1 0 174 43 A12 12 0 1 1 174 17 Z" fill="#FDE68A"
+                                            opacity="0.92" />
+                                        <g fill="#4C1D95" opacity="0.22">
+                                            <rect x="14" y="68" width="24" height="56" rx="4" />
+                                            <rect x="42" y="54" width="22" height="70" rx="4" />
+                                            <rect x="156" y="58" width="24" height="66" rx="4" />
+                                            <rect x="184" y="72" width="22" height="52" rx="4" />
+                                        </g>
+                                        <ellipse cx="110" cy="68" rx="48" ry="11" fill="#1E1B4B" />
+                                        <path d="M77 65 L86 35 Q110 26 134 35 L143 65 Z" fill="#312E81" />
+                                        <path d="M81 55 Q110 61 139 55 L141 63 Q110 69 79 63 Z" fill="#EF4444" />
+                                        <rect x="86" y="77" width="48" height="24" rx="12" fill="#1E1B4B"
+                                            opacity="0.9" />
+                                        <circle cx="99" cy="89" r="4.5" fill="#F87171" />
+                                        <circle cx="121" cy="89" r="4.5" fill="#F87171" />
+                                        <circle cx="48" cy="28" r="2.5" fill="#C084FC" />
+                                        <circle cx="136" cy="20" r="2" fill="#F43F5E" />
+                                    </svg>
+                                </div>
+                                <div class="game-card-body">
+                                    <h4 class="game-card-title">لعبة المافيا</h4>
+                                    <p class="game-card-desc">اكشف الخائن بينكم</p>
+                                </div>
+                            </button>
+
+                            <!-- 3. برا السالفة -->
+                            <button type="button" onclick="openGameSheet('برا.السالفة.html', 'برا السالفة')"
+                                class="game-glass-card cursor-pointer group">
+                                <div class="game-art-banner art-salfa">
+                                    <span class="game-banner-pill">جماعية</span>
+                                    <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                        aria-hidden="true">
+                                        <circle cx="52" cy="30" r="12" fill="#FFFFFF" fill-opacity="0.75" />
+                                        <text x="52" y="35" text-anchor="middle" font-size="14" font-weight="900"
+                                            fill="#0D9488">؟</text>
+                                        <circle cx="172" cy="36" r="11" fill="#FFFFFF" fill-opacity="0.75" />
+                                        <text x="172" y="41" text-anchor="middle" font-size="13" font-weight="900"
+                                            fill="#4F46E5">؟</text>
+                                        <g transform="translate(64,34) rotate(-8)">
+                                            <path d="M4 12 Q28 0 52 12 L48 48 Q28 66 8 48 Z" fill="#10B981"
+                                                stroke="#FFFFFF" stroke-width="2.5" />
+                                            <circle cx="19" cy="28" r="3.8" fill="#FFFFFF" />
+                                            <circle cx="37" cy="28" r="3.8" fill="#FFFFFF" />
+                                            <path d="M18 42 Q28 50 38 42" fill="none" stroke="#FFFFFF" stroke-width="3"
+                                                stroke-linecap="round" />
+                                        </g>
+                                        <g transform="translate(106,42) rotate(9)">
+                                            <path d="M4 12 Q28 0 52 12 L48 48 Q28 66 8 48 Z" fill="#6366F1"
+                                                stroke="#FFFFFF" stroke-width="2.5" />
+                                            <line x1="15" y1="26" x2="24" y2="29" stroke="#FFFFFF" stroke-width="3"
+                                                stroke-linecap="round" />
+                                            <circle cx="37" cy="28" r="3.6" fill="#FFFFFF" />
+                                            <path d="M20 45 Q28 39 36 45" fill="none" stroke="#FFFFFF" stroke-width="3"
+                                                stroke-linecap="round" />
+                                        </g>
+                                        <circle cx="36" cy="90" r="4" fill="#10B981" opacity="0.5" />
+                                        <circle cx="186" cy="86" r="5" fill="#6366F1" opacity="0.4" />
+                                    </svg>
+                                </div>
+                                <div class="game-card-body">
+                                    <h4 class="game-card-title">برا السالفة</h4>
+                                    <p class="game-card-desc">مين برا السالفة؟</p>
+                                </div>
+                            </button>
+
+                            <!-- 4. شريط استكشاف باقي الألعاب -->
+                            <button type="button" onclick="switchPage('games')"
+                                class="arena-discovery-bar col-span-2 px-3.5 py-3 sm:px-4 sm:py-3.5 flex items-center justify-between gap-3 text-right cursor-pointer group active:scale-[0.99]">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div class="flex items-center -space-x-2 space-x-reverse shrink-0">
+                                        <span
+                                            class="mini-art-dot bg-emerald-100 text-emerald-600 dark:bg-emerald-900/70 dark:text-emerald-300">
+                                            <i class="fa-solid fa-futbol"></i>
+                                        </span>
+                                        <span
+                                            class="mini-art-dot bg-lime-100 text-green-600 dark:bg-green-900/70 dark:text-lime-300">
+                                            <i class="fa-solid fa-worm"></i>
+                                        </span>
+                                        <span
+                                            class="mini-art-dot bg-orange-100 text-orange-500 dark:bg-orange-900/70 dark:text-orange-300">
+                                            <i class="fa-solid fa-shirt"></i>
+                                        </span>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <span class="block font-black text-xs sm:text-sm text-primary truncate">استكشف
+                                            جميع
+                                            الألعاب</span>
+                                        <span
+                                            class="block text-[10px] sm:text-[11px] font-bold text-secondary truncate">كرة
+                                            القدم، الثعبان، خمن اللاعب والمزيد...</span>
+                                        البلياردو، كرة القدم، الثعبان، خمن اللاعب والمزيد...</span>
+                                    </div>
+                                </div>
+                                <span class="btn-3d px-3.5 py-2 text-[11px] sm:text-xs gap-1.5 shrink-0">
+                                    <span>دخول</span>
+                                    <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                                </span>
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <!-- أزرار التصنيف السريعة -->
-                <div class="stagger-item flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-                    <button onclick="setCategoryFilter('all')" data-cat-pill="all"
-                        class="cat-pill bg-brand text-white font-black text-xs px-4 py-2.5 rounded-2xl shadow-sm transition-all shrink-0">
-                        <i class="fa-solid fa-border-all ml-1"></i> جميع الألعاب
-                    </button>
-                    <button onclick="setCategoryFilter('group')" data-cat-pill="group"
-                        class="cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
-                        <i class="fa-solid fa-users ml-1 text-purple-500"></i> ألعاب جماعية
-                    </button>
-                    <button onclick="setCategoryFilter('1v1')" data-cat-pill="1v1"
-                        class="cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
-                        <i class="fa-solid fa-bolt ml-1 text-blue-500"></i> تحدي 1 ضد 1
-                    </button>
-                    <button onclick="setCategoryFilter('classic')" data-cat-pill="classic"
-                        class="cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
-                        <i class="fa-solid fa-star ml-1 text-amber-500"></i> كلاسيكيات
-                    </button>
-                </div>
+                    <!-- ثانياً: قسم الأخبار والإعلانات المنشورة من الإدارة -->
+                    <div class="stagger-item space-y-4">
+                        <div class="flex items-center justify-between px-1">
+                            <div class="flex items-center gap-2.5">
+                                <div
+                                    class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/15 text-nav flex items-center justify-center">
+                                    <i class="fa-solid fa-bullhorn text-base"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-black text-lg text-primary leading-tight">آخر الأخبار والإعلانات
+                                    </h3>
+                                    <p class="text-[11px] font-bold text-secondary">تحديثات وبطولات الإدارة المباشرة</p>
+                                </div>
+                            </div>
 
-                <!-- شبكة الألعاب (Games Grid) -->
-                <div id="games-grid-container"
-                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 pt-1">
-
-                    <!-- Game Card: XO -->
-                    <div onclick="openGameSheet('اكس_او.html', 'لعبة XO')" data-title="لعبة XO اكس او تحدى ذكاء خصمك"
-                        data-category="1v1 classic"
-                        class="game-card-item stagger-item card-ui p-5 cursor-pointer flex flex-col items-center text-center group hover:-translate-y-1.5 transition-all duration-300">
-                        <div class="w-24 h-24 game-icon-bg mb-4 relative">
-                            <i
-                                class="fa-solid fa-hashtag text-5xl text-blue-500 drop-shadow-md group-hover:scale-110 transition-transform"></i>
-                            <div
-                                class="absolute -bottom-2 bg-brand text-white text-[10px] font-black px-3 py-0.5 rounded-full border-2 border-white shadow-sm">
-                                1 ضد 1</div>
+                            <!-- زر نشر خبر (يظهر للأدمن فقط) -->
+                            <button id="admin-publish-news-btn" onclick="toggleAdminNewsModal()"
+                                class="hidden btn-3d px-4 py-2 text-xs gap-1.5">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>نشر خبر</span>
+                            </button>
                         </div>
-                        <h3 class="font-black text-base md:text-lg mb-1">لعبة XO</h3>
-                        <p class="text-[11px] font-bold text-secondary">تحدى ذكاء خصمك</p>
-                    </div>
 
-                    <!-- Game Card: Mafia -->
-                    <div onclick="openGameSheet('لعبة_المافيا.html', 'لعبة المافيا')"
-                        data-title="لعبة المافيا من هو القاتل جماعية" data-category="group"
-                        class="game-card-item stagger-item card-ui p-5 cursor-pointer flex flex-col items-center text-center group hover:-translate-y-1.5 transition-all duration-300">
-                        <div class="w-24 h-24 game-icon-bg mb-4 relative">
-                            <i
-                                class="fa-solid fa-user-secret text-5xl text-purple-600 drop-shadow-md group-hover:scale-110 transition-transform"></i>
-                            <div
-                                class="absolute -bottom-2 bg-red-500 text-white text-[10px] font-black px-3 py-0.5 rounded-full border-2 border-white shadow-sm">
-                                جماعية</div>
+                        <div id="admin-news-list" class="space-y-4">
+                            <div class="card-ui p-10 text-center">
+                                <i class="fas fa-spinner fa-spin text-brand text-2xl"></i>
+                            </div>
                         </div>
-                        <h3 class="font-black text-base md:text-lg mb-1">لعبة المافيا</h3>
-                        <p class="text-[11px] font-bold text-secondary">اكشف المافيا قبل فوات الأوان</p>
                     </div>
 
-                    <!-- Game Card: Bara Salfa -->
-                    <div onclick="openGameSheet('برا.السالفة.html', 'برا السالفة')"
-                        data-title="برا السالفة من هو الجاسوس جماعية" data-category="group"
-                        class="game-card-item stagger-item card-ui p-5 cursor-pointer flex flex-col items-center text-center group hover:-translate-y-1.5 transition-all duration-300">
-                        <div class="w-24 h-24 game-icon-bg mb-4 relative">
-                            <i
-                                class="fa-solid fa-masks-theater text-5xl text-emerald-500 drop-shadow-md group-hover:scale-110 transition-transform"></i>
-                            <div
-                                class="absolute -bottom-2 bg-emerald-500 text-white text-[10px] font-black px-3 py-0.5 rounded-full border-2 border-white shadow-sm">
-                                جماعية</div>
-                        </div>
-                        <h3 class="font-black text-base md:text-lg mb-1">برا السالفة</h3>
-                        <p class="text-[11px] font-bold text-secondary">من هو الجاسوس بينكم؟</p>
-                    </div>
-
-                    <!-- Game Card: Guess Player -->
-                    <div onclick="openGameSheet('خمن.الاعب.html', 'خمن اللاعب')"
-                        data-title="خمن اللاعب كرة قدم تحدى أصدقاءك" data-category="group 1v1"
-                        class="game-card-item stagger-item card-ui p-5 cursor-pointer flex flex-col items-center text-center group hover:-translate-y-1.5 transition-all duration-300">
-                        <div class="w-24 h-24 game-icon-bg mb-4 relative">
-                            <i
-                                class="fa-solid fa-shirt text-5xl text-orange-500 drop-shadow-md group-hover:scale-110 transition-transform"></i>
-                            <div
-                                class="absolute -bottom-2 bg-orange-500 text-white text-[10px] font-black px-3 py-0.5 rounded-full border-2 border-white shadow-sm">
-                                رياضة</div>
-                        </div>
-                        <h3 class="font-black text-base md:text-lg mb-1">خمن اللاعب</h3>
-                        <p class="text-[11px] font-bold text-secondary">اختبر معلوماتك الكروية</p>
-                    </div>
-
-                    <!-- Game Card: Snake -->
-                    <div onclick="openGameSheet('لعبة.الثعبان.html', 'لعبة الثعبان')"
-                        data-title="الثعبان الحية كلاسيكيات الزمن الجميل" data-category="classic"
-                        class="game-card-item stagger-item card-ui p-5 cursor-pointer flex flex-col items-center text-center group hover:-translate-y-1.5 transition-all duration-300">
-                        <div class="w-24 h-24 game-icon-bg mb-4 relative">
-                            <i
-                                class="fa-solid fa-worm text-5xl text-green-600 drop-shadow-md group-hover:scale-110 transition-transform"></i>
-                            <div
-                                class="absolute -bottom-2 bg-green-600 text-white text-[10px] font-black px-3 py-0.5 rounded-full border-2 border-white shadow-sm">
-                                كلاسيك</div>
-                        </div>
-                        <h3 class="font-black text-base md:text-lg mb-1">الثعبان</h3>
-                        <p class="text-[11px] font-bold text-secondary">كلاسيكيات الزمن الجميل</p>
-                    </div>
-
-                    <!-- Game Card: Football -->
-                    <div onclick="openGameSheet('كرة قدم.html', 'كرة القدم')" data-title="كرة القدم ديربي الأبطال فيفا"
-                        data-category="1v1"
-                        class="game-card-item stagger-item card-ui p-5 cursor-pointer flex flex-col items-center text-center group hover:-translate-y-1.5 transition-all duration-300">
-                        <div class="w-24 h-24 game-icon-bg mb-4 relative">
-                            <i
-                                class="fa-solid fa-futbol text-5xl text-blue-600 drop-shadow-md group-hover:scale-110 transition-transform"></i>
-                            <div
-                                class="absolute -bottom-2 bg-blue-600 text-white text-[10px] font-black px-3 py-0.5 rounded-full border-2 border-white shadow-sm">
-                                1 ضد 1</div>
-                        </div>
-                        <h3 class="font-black text-base md:text-lg mb-1">كرة القدم</h3>
-                        <p class="text-[11px] font-bold text-secondary">ديربي الأبطال السريع</p>
-                    </div>
-
-                    <!-- Coming Soon -->
-                    <div onclick="showToastNotification('قريباً جداً!', 'يجري العمل على تطوير لعبة التخمين لتكون متاحة في التحديث القادم.', 'info')"
-                        data-title="لعبة التخمين قريبا" data-category="group classic"
-                        class="game-card-item stagger-item card-ui p-5 flex flex-col items-center text-center opacity-75 cursor-pointer hover:opacity-95 transition-opacity">
-                        <div class="w-24 h-24 bg-gray-100 rounded-[24px] mb-4 flex items-center justify-center">
-                            <i class="fa-solid fa-lock text-3xl text-gray-400"></i>
-                        </div>
-                        <h3 class="font-black text-base md:text-lg mb-1 text-secondary">لعبة التخمين</h3>
-                        <span
-                            class="bg-gray-200 dark:bg-slate-700 text-secondary text-[10px] font-black px-2.5 py-0.5 rounded-full mt-1">قريباً</span>
-                    </div>
-                </div>
-
-                <!-- رسالة عدم وجود نتائج بحث -->
-                <div id="no-games-found" class="hidden card-ui p-10 text-center my-4">
-                    <div
-                        class="w-16 h-16 bg-orange-50 text-brand rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-                    <h3 class="font-black text-lg mb-1">لا توجد لعبة مطابقة لبحثك</h3>
-                    <p class="text-xs text-secondary font-bold mb-4">جرب البحث بكلمة أخرى أو استعرض جميع التصنيفات</p>
-                    <button onclick="resetGameFilters()" class="btn-3d px-6 py-2.5 text-xs">إظهار الكل</button>
-                </div>
-            </div>
-
-            <!-- ==================== 3. صفحة الأصدقاء والدردشة ==================== -->
-            <div id="messages-page" class="page-section max-w-4xl mx-auto space-y-6 flex-col">
-                <!-- شريط كود المستخدم وأزرار الصداقة والطلبات -->
-                <div class="stagger-item card-ui p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div class="flex items-center gap-3.5 w-full sm:w-auto">
+                    <!-- ثالثاً: مستطيل توب 3 لأفضل اللاعبين مع زر المزيد لعرض التوب 10 -->
+                    <div class="stagger-item card-ui p-5 md:p-6 relative overflow-hidden">
+                        <!-- خلفية جمالية ناعمة -->
                         <div
-                            class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/15 text-nav flex items-center justify-center text-xl shrink-0">
-                            <i class="fa-solid fa-id-badge"></i>
+                            class="absolute -top-12 -left-12 w-40 h-40 bg-brand/10 rounded-full blur-2xl pointer-events-none">
                         </div>
-                        <div>
-                            <p class="text-xs font-bold text-secondary">معرفك الخاص لمشاركته مع أصدقائك</p>
-                            <div class="flex items-center gap-2 mt-0.5">
-                                <span id="my-friend-code"
-                                    class="font-black text-lg text-primary tracking-wider">#------</span>
-                                <button onclick="copyMyId()"
-                                    class="text-xs bg-orange-50 dark:bg-slate-800 text-brand font-black px-2.5 py-1 rounded-lg hover:bg-orange-100 transition">
-                                    <i class="fa-regular fa-copy ml-1"></i> نسخ
+
+                        <div class="flex items-center justify-between gap-3 mb-5 relative z-10">
+                            <div class="flex items-center gap-2.5">
+                                <div
+                                    class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-md">
+                                    <i class="fa-solid fa-crown text-base"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-black text-base md:text-lg text-primary leading-tight">أفضل 3 لاعبين
+                                    </h3>
+                                    <p class="text-[11px] font-bold text-secondary">أبطال الصدارة في برو أرينا</p>
+                                </div>
+                            </div>
+
+                            <!-- زر المزيد لإظهار بقية التوب 10 -->
+                            <button id="toggle-top10-btn" onclick="toggleTop10Drawer()"
+                                class="px-3.5 py-2 rounded-2xl bg-orange-50 dark:bg-slate-800 hover:bg-orange-100 text-brand font-black text-xs flex items-center gap-1.5 transition-all active:scale-95 border border-orange-100 dark:border-slate-700">
+                                <span id="toggle-top10-text">المزيد</span>
+                                <i id="toggle-top10-icon"
+                                    class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300"></i>
+                            </button>
+                        </div>
+
+                        <!-- مستطيل عرض التوب 3 -->
+                        <div id="top3-podium-container"
+                            class="rounded-3xl bg-gradient-to-br from-orange-50/90 via-amber-50/60 to-white dark:from-slate-800/90 dark:via-slate-800/60 dark:to-slate-900/70 border border-orange-100/80 dark:border-slate-700/80 p-4 pt-8 pb-5 relative z-10">
+                            <div class="py-6 text-center">
+                                <i class="fas fa-spinner fa-spin text-brand text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- قائمة التوب 10 البقية (تفتح عند الضغط على زر المزيد) -->
+                        <div id="top10-drawer" class="top10-drawer relative z-10">
+                            <div class="flex items-center justify-between mb-3 px-1">
+                                <span class="text-xs font-black text-secondary flex items-center gap-1.5">
+                                    <i class="fa-solid fa-ranking-star text-brand"></i>
+                                    بقية قائمة أفضل 10 لاعبين
+                                </span>
+                                <span
+                                    class="text-[11px] font-bold text-brand bg-orange-50 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                                    نقاطك: <span id="home-points-display">0</span>
+                                </span>
+                            </div>
+                            <div id="top10-rest-list" class="space-y-2.5">
+                                <!-- تعبأ تلقائياً بالمراكز من 4 إلى 10 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== 2. صفحة الألعاب ==================== -->
+                <div id="games-page" class="page-section active max-w-5xl mx-auto space-y-6 flex-col">
+                    <!-- البانر الترحيبي والبحث والفلترة -->
+                    <div id="games-hero-banner"
+                        class="stagger-item flex flex-col md:flex-row gap-4 items-center justify-between card-ui bg-gradient-to-br from-brand-gradientStart to-brand-gradientEnd p-5 relative overflow-hidden text-white shadow-3d border-0">
+                        <div class="absolute right-0 top-0 opacity-20 pointer-events-none">
+                            <i class="fa-solid fa-gamepad text-8xl absolute -top-6 -right-6 transform rotate-12"></i>
+                        </div>
+                        <div class="relative z-10 flex items-center gap-4 w-full md:w-auto">
+                            <div
+                                class="w-14 h-14 bg-white/25 backdrop-blur-sm rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
+                                <i
+                                    class="fa-solid fa-trophy text-2xl text-yellow-200 drop-shadow-md transform -rotate-12"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span
+                                        class="bg-white/30 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">ساحة
+                                        الأبطال</span>
+                                    <h1 class="text-xl font-black drop-shadow-sm">هيا نلعب ونتحدى!</h1>
+                                </div>
+                                <p class="text-white/95 font-bold text-xs">العب أي لعبة واكسب نقطة تلقائياً كل دقيقة
+                                    لعب.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- حقل البحث وزر الفلتر -->
+                        <div class="relative w-full md:w-[360px] lg:w-[410px] z-10">
+                            <i
+                                class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"></i>
+                            <input type="text" id="game-search-input" oninput="handleGameSearch(this.value)"
+                                placeholder="ابحث عن لعبتك المفضلة..."
+                                class="w-full pl-[105px] pr-11 py-3.5 font-bold text-sm shadow-sm relative rounded-full border-0 text-primary focus:ring-4 focus:ring-white/30 focus:outline-none bg-white">
+                            <div class="absolute left-1.5 top-1/2 -translate-y-1/2 z-10">
+                                <button id="category-cycle-btn" onclick="cycleCategory()"
+                                    class="btn-3d px-3.5 py-2 min-w-[88px] flex justify-center items-center gap-1.5 select-none text-xs !rounded-full shadow-sm">
+                                    <i class="fa-solid fa-filter text-[10px] opacity-90"></i>
+                                    <span id="category-cycle-text">الكل</span>
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-2.5 w-full sm:w-auto">
-                        <button onclick="toggleFriendRequestsModal()"
-                            class="flex-1 sm:flex-initial px-4 py-3 bg-gray-100 hover:bg-gray-200 text-primary font-black text-xs rounded-2xl flex items-center justify-center gap-2 transition relative">
-                            <i class="fa-solid fa-user-clock text-nav"></i>
-                            <span>الطلبات</span>
-                            <span id="requests-count-badge"
-                                class="hidden bg-red-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[20px] text-center">0</span>
+                    <!-- أزرار التصنيف السريعة -->
+                    <div class="stagger-item flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                        <button onclick="setCategoryFilter('all')" data-cat-pill="all"
+                            class="cat-pill bg-brand text-white font-black text-xs px-4 py-2.5 rounded-2xl shadow-sm transition-all shrink-0">
+                            <i class="fa-solid fa-border-all ml-1"></i> جميع الألعاب
                         </button>
-                        <button onclick="toggleAddFriendModal()"
-                            class="flex-1 sm:flex-initial px-5 py-3 btn-3d text-xs flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-user-plus"></i>
-                            <span>إضافة صديق</span>
+                        <button onclick="setCategoryFilter('group')" data-cat-pill="group"
+                            class="cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
+                            <i class="fa-solid fa-users ml-1 text-purple-500"></i> ألعاب جماعية
+                        </button>
+                        <button onclick="setCategoryFilter('1v1')" data-cat-pill="1v1"
+                            class="cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
+                            <i class="fa-solid fa-bolt ml-1 text-blue-500"></i> تحدي 1 ضد 1
+                        </button>
+                        <button onclick="setCategoryFilter('classic')" data-cat-pill="classic"
+                            class="cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
+                            <i class="fa-solid fa-star ml-1 text-amber-500"></i> كلاسيكيات
                         </button>
                     </div>
-                </div>
 
-                <!-- قائمة الأصدقاء -->
-                <div class="stagger-item card-ui p-6 flex-1">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="font-black text-lg flex items-center gap-2">
-                            <i class="fa-solid fa-comments text-brand"></i>
-                            <span>قائمة الأصدقاء والمحادثات</span>
-                        </h3>
-                        <span id="friends-total-count"
-                            class="text-xs font-black text-secondary bg-gray-100 px-3 py-1 rounded-full">0 صديق</span>
-                    </div>
-                    <div id="friends-list-container" class="space-y-3">
-                        <div class="text-center py-12">
-                            <div
-                                class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-400 text-2xl">
-                                <i class="fa-solid fa-user-group"></i>
+                    <!-- شبكة الألعاب (الأكثر لعباً أولاً بعرض لعبتين + بطاقات زجاجية برسومات علوية) -->
+                    <div id="games-grid-container"
+                        class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-4 md:gap-5 pt-1">
+
+                        <!-- Game Card: XO (التلقائية الأكثر لعباً بعرض لعبتين) -->
+                        <div onclick="openGameSheet('اكس_او.html', 'لعبة XO')" data-game-id="اكس_او.html"
+                            data-title="لعبة XO اكس او تحدى ذكاء خصمك" data-category="1v1 classic"
+                            class="game-card-item game-glass-card is-most-played col-span-2 cursor-pointer group">
+                            <div class="game-art-banner art-xo">
+                                <span class="game-banner-pill">1 ضد 1</span>
+                                <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                    aria-hidden="true">
+                                    <g opacity="0.35" stroke="#60A5FA" stroke-width="1">
+                                        <line x1="0" y1="24" x2="220" y2="24" />
+                                        <line x1="0" y1="48" x2="220" y2="48" />
+                                        <line x1="0" y1="72" x2="220" y2="72" />
+                                        <line x1="0" y1="96" x2="220" y2="96" />
+                                    </g>
+                                    <rect x="44" y="14" width="132" height="96" rx="14" fill="#FFFFFF"
+                                        fill-opacity="0.92" stroke="#93C5FD" stroke-width="2" />
+                                    <line x1="88" y1="24" x2="88" y2="100" stroke="#CBD5E1" stroke-width="2.6"
+                                        stroke-linecap="round" />
+                                    <line x1="132" y1="24" x2="132" y2="100" stroke="#CBD5E1" stroke-width="2.6"
+                                        stroke-linecap="round" />
+                                    <line x1="56" y1="49" x2="164" y2="49" stroke="#CBD5E1" stroke-width="2.6"
+                                        stroke-linecap="round" />
+                                    <line x1="56" y1="75" x2="164" y2="75" stroke="#CBD5E1" stroke-width="2.6"
+                                        stroke-linecap="round" />
+                                    <g stroke="#2563EB" stroke-width="4" stroke-linecap="round">
+                                        <line x1="65" y1="30" x2="79" y2="43" />
+                                        <line x1="79" y1="30" x2="65" y2="43" />
+                                        <line x1="103" y1="56" x2="117" y2="69" />
+                                        <line x1="117" y1="56" x2="103" y2="69" />
+                                        <line x1="141" y1="81" x2="155" y2="94" />
+                                        <line x1="155" y1="81" x2="141" y2="94" />
+                                    </g>
+                                    <circle cx="148" cy="36" r="8" fill="none" stroke="#EF4444" stroke-width="3.8" />
+                                    <circle cx="72" cy="87" r="8" fill="none" stroke="#EF4444" stroke-width="3.8" />
+                                    <line x1="60" y1="26" x2="160" y2="98" stroke="#FF9800" stroke-width="4.2"
+                                        stroke-linecap="round" opacity="0.88" />
+                                    <circle cx="30" cy="30" r="4" fill="#3B82F6" opacity="0.45" />
+                                    <circle cx="192" cy="94" r="5" fill="#FF9800" opacity="0.5" />
+                                </svg>
                             </div>
-                            <p class="font-black text-secondary text-sm">لا يوجد أصدقاء مضافون حتى الآن</p>
-                            <p class="text-xs text-secondary font-bold mt-1">أرسل طلب صداقة عبر الـ ID وانتظر موافقة
-                                صديقك</p>
+                            <div class="game-card-body">
+                                <div class="game-card-badges">
+                                    <span class="most-played-pill"><i class="fa-solid fa-fire-flame-curved"></i> الأكثر
+                                        لعباً</span>
+                                    <span class="game-inline-cat">1 ضد 1</span>
+                                </div>
+                                <h3 class="game-card-title">لعبة XO</h3>
+                                <p class="game-card-desc">تحدى ذكاء خصمك بإصدار الكراسة</p>
+                                <div class="game-featured-play-row">
+                                    <span class="game-play-chip">
+                                        <span>العب الآن</span>
+                                        <i class="fa-solid fa-play rotate-180 text-[9px]"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Game Card: Mafia -->
+                        <div onclick="openGameSheet('لعبة_المافيا.html', 'لعبة المافيا')"
+                            data-game-id="لعبة_المافيا.html" data-title="لعبة المافيا من هو القاتل جماعية"
+                            data-category="group" class="game-card-item game-glass-card cursor-pointer group">
+                            <div class="game-art-banner art-mafia">
+                                <span class="game-banner-pill">جماعية</span>
+                                <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                    aria-hidden="true">
+                                    <path d="M174 17 A15 15 0 1 0 174 43 A12 12 0 1 1 174 17 Z" fill="#FDE68A"
+                                        opacity="0.92" />
+                                    <g fill="#4C1D95" opacity="0.22">
+                                        <rect x="14" y="68" width="24" height="56" rx="4" />
+                                        <rect x="42" y="54" width="22" height="70" rx="4" />
+                                        <rect x="156" y="58" width="24" height="66" rx="4" />
+                                        <rect x="184" y="72" width="22" height="52" rx="4" />
+                                    </g>
+                                    <ellipse cx="110" cy="68" rx="48" ry="11" fill="#1E1B4B" />
+                                    <path d="M77 65 L86 35 Q110 26 134 35 L143 65 Z" fill="#312E81" />
+                                    <path d="M81 55 Q110 61 139 55 L141 63 Q110 69 79 63 Z" fill="#EF4444" />
+                                    <rect x="86" y="77" width="48" height="24" rx="12" fill="#1E1B4B" opacity="0.9" />
+                                    <circle cx="99" cy="89" r="4.5" fill="#F87171" />
+                                    <circle cx="121" cy="89" r="4.5" fill="#F87171" />
+                                    <circle cx="48" cy="28" r="2.5" fill="#C084FC" />
+                                    <circle cx="136" cy="20" r="2" fill="#F43F5E" />
+                                </svg>
+                            </div>
+                            <div class="game-card-body">
+                                <div class="game-card-badges">
+                                    <span class="most-played-pill"><i class="fa-solid fa-fire-flame-curved"></i> الأكثر
+                                        لعباً</span>
+                                    <span class="game-inline-cat">جماعية</span>
+                                </div>
+                                <h3 class="game-card-title">لعبة المافيا</h3>
+                                <p class="game-card-desc">اكشف المافيا قبل فوات الأوان</p>
+                                <div class="game-featured-play-row">
+                                    <span class="game-play-chip">
+                                        <span>العب الآن</span>
+                                        <i class="fa-solid fa-play rotate-180 text-[9px]"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Game Card: Bara Salfa -->
+                        <div onclick="openGameSheet('برا.السالفة.html', 'برا السالفة')" data-game-id="برا.السالفة.html"
+                            data-title="برا السالفة من هو الجاسوس جماعية" data-category="group"
+                            class="game-card-item game-glass-card cursor-pointer group">
+                            <div class="game-art-banner art-salfa">
+                                <span class="game-banner-pill">جماعية</span>
+                                <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                    aria-hidden="true">
+                                    <circle cx="52" cy="30" r="12" fill="#FFFFFF" fill-opacity="0.75" />
+                                    <text x="52" y="35" text-anchor="middle" font-size="14" font-weight="900"
+                                        fill="#0D9488">؟</text>
+                                    <circle cx="172" cy="36" r="11" fill="#FFFFFF" fill-opacity="0.75" />
+                                    <text x="172" y="41" text-anchor="middle" font-size="13" font-weight="900"
+                                        fill="#4F46E5">؟</text>
+                                    <g transform="translate(64,34) rotate(-8)">
+                                        <path d="M4 12 Q28 0 52 12 L48 48 Q28 66 8 48 Z" fill="#10B981" stroke="#FFFFFF"
+                                            stroke-width="2.5" />
+                                        <circle cx="19" cy="28" r="3.8" fill="#FFFFFF" />
+                                        <circle cx="37" cy="28" r="3.8" fill="#FFFFFF" />
+                                        <path d="M18 42 Q28 50 38 42" fill="none" stroke="#FFFFFF" stroke-width="3"
+                                            stroke-linecap="round" />
+                                    </g>
+                                    <g transform="translate(106,42) rotate(9)">
+                                        <path d="M4 12 Q28 0 52 12 L48 48 Q28 66 8 48 Z" fill="#6366F1" stroke="#FFFFFF"
+                                            stroke-width="2.5" />
+                                        <line x1="15" y1="26" x2="24" y2="29" stroke="#FFFFFF" stroke-width="3"
+                                            stroke-linecap="round" />
+                                        <circle cx="37" cy="28" r="3.6" fill="#FFFFFF" />
+                                        <path d="M20 45 Q28 39 36 45" fill="none" stroke="#FFFFFF" stroke-width="3"
+                                            stroke-linecap="round" />
+                                    </g>
+                                    <circle cx="36" cy="90" r="4" fill="#10B981" opacity="0.5" />
+                                    <circle cx="186" cy="86" r="5" fill="#6366F1" opacity="0.4" />
+                                </svg>
+                            </div>
+                            <div class="game-card-body">
+                                <div class="game-card-badges">
+                                    <span class="most-played-pill"><i class="fa-solid fa-fire-flame-curved"></i> الأكثر
+                                        لعباً</span>
+                                    <span class="game-inline-cat">جماعية</span>
+                                </div>
+                                <h3 class="game-card-title">برا السالفة</h3>
+                                <p class="game-card-desc">من هو الجاسوس بينكم؟</p>
+                                <div class="game-featured-play-row">
+                                    <span class="game-play-chip">
+                                        <span>العب الآن</span>
+                                        <i class="fa-solid fa-play rotate-180 text-[9px]"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Game Card: Guess Player -->
+                        <div onclick="openGameSheet('خمن.الاعب.html', 'خمن اللاعب')" data-game-id="خمن.الاعب.html"
+                            data-title="خمن اللاعب كرة قدم تحدى أصدقاءك" data-category="group 1v1"
+                            class="game-card-item game-glass-card cursor-pointer group">
+                            <div class="game-art-banner art-guess">
+                                <span class="game-banner-pill">رياضة</span>
+                                <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                    aria-hidden="true">
+                                    <polygon points="35,0 82,124 22,124" fill="#FFFFFF" opacity="0.32" />
+                                    <polygon points="185,0 198,124 138,124" fill="#FFFFFF" opacity="0.32" />
+                                    <path
+                                        d="M74 28 L92 22 Q110 34 128 22 L146 28 L162 48 L145 60 L138 50 L138 104 Q110 110 82 104 L82 50 L75 60 L58 48 Z"
+                                        fill="#F97316" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round" />
+                                    <path d="M93 23 Q110 36 127 23" fill="none" stroke="#FFFFFF" stroke-width="3.5"
+                                        stroke-linecap="round" />
+                                    <circle cx="110" cy="68" r="18" fill="#FFFFFF" fill-opacity="0.22" />
+                                    <text x="110" y="76" text-anchor="middle" font-size="24" font-weight="900"
+                                        fill="#FFFFFF">؟</text>
+                                    <circle cx="44" cy="40" r="4" fill="#F59E0B" opacity="0.65" />
+                                    <circle cx="176" cy="42" r="5" fill="#FB923C" opacity="0.55" />
+                                </svg>
+                            </div>
+                            <div class="game-card-body">
+                                <div class="game-card-badges">
+                                    <span class="most-played-pill"><i class="fa-solid fa-fire-flame-curved"></i> الأكثر
+                                        لعباً</span>
+                                    <span class="game-inline-cat">رياضة</span>
+                                </div>
+                                <h3 class="game-card-title">خمن اللاعب</h3>
+                                <p class="game-card-desc">اختبر معلوماتك الكروية</p>
+                                <div class="game-featured-play-row">
+                                    <span class="game-play-chip">
+                                        <span>العب الآن</span>
+                                        <i class="fa-solid fa-play rotate-180 text-[9px]"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Game Card: Snake -->
+                        <div onclick="openGameSheet('لعبة.الثعبان.html', 'لعبة الثعبان')"
+                            data-game-id="لعبة.الثعبان.html" data-title="الثعبان الحية كلاسيكيات الزمن الجميل"
+                            data-category="classic" class="game-card-item game-glass-card cursor-pointer group">
+                            <div class="game-art-banner art-snake">
+                                <span class="game-banner-pill">كلاسيك</span>
+                                <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                    aria-hidden="true">
+                                    <g opacity="0.24" stroke="#16A34A" stroke-width="1">
+                                        <line x1="0" y1="31" x2="220" y2="31" />
+                                        <line x1="0" y1="62" x2="220" y2="62" />
+                                        <line x1="0" y1="93" x2="220" y2="93" />
+                                        <line x1="44" y1="0" x2="44" y2="124" />
+                                        <line x1="88" y1="0" x2="88" y2="124" />
+                                        <line x1="132" y1="0" x2="132" y2="124" />
+                                        <line x1="176" y1="0" x2="176" y2="124" />
+                                    </g>
+                                    <!-- جسم الثعبان المكعبي -->
+                                    <rect x="34" y="76" width="22" height="22" rx="5" fill="#4ADE80" stroke="#15803D"
+                                        stroke-width="2" />
+                                    <rect x="56" y="76" width="22" height="22" rx="5" fill="#22C55E" stroke="#15803D"
+                                        stroke-width="2" />
+                                    <rect x="56" y="54" width="22" height="22" rx="5" fill="#4ADE80" stroke="#15803D"
+                                        stroke-width="2" />
+                                    <rect x="78" y="54" width="22" height="22" rx="5" fill="#22C55E" stroke="#15803D"
+                                        stroke-width="2" />
+                                    <rect x="100" y="54" width="24" height="24" rx="6" fill="#16A34A" stroke="#14532D"
+                                        stroke-width="2.2" />
+                                    <rect x="114" y="58" width="5" height="5" rx="1.5" fill="#FFFFFF" />
+                                    <rect x="114" y="68" width="5" height="5" rx="1.5" fill="#FFFFFF" />
+                                    <rect x="116" y="60" width="2.5" height="2.5" fill="#0F172A" />
+                                    <rect x="116" y="70" width="2.5" height="2.5" fill="#0F172A" />
+                                    <line x1="125" y1="66" x2="133" y2="66" stroke="#EF4444" stroke-width="2.4"
+                                        stroke-linecap="round" />
+                                    <!-- التفاحة الحمراء -->
+                                    <rect x="152" y="52" width="24" height="24" rx="7" fill="#EF4444" stroke="#B91C1C"
+                                        stroke-width="2" />
+                                    <rect x="157" y="56" width="5" height="5" rx="1.5" fill="#FFFFFF" opacity="0.7" />
+                                    <rect x="162" y="45" width="4" height="8" rx="1.5" fill="#78350F" />
+                                    <ellipse cx="171" cy="48" rx="6" ry="3.5" fill="#22C55E" />
+                                </svg>
+                            </div>
+                            <div class="game-card-body">
+                                <div class="game-card-badges">
+                                    <span class="most-played-pill"><i class="fa-solid fa-fire-flame-curved"></i> الأكثر
+                                        لعباً</span>
+                                    <span class="game-inline-cat">كلاسيك</span>
+                                </div>
+                                <h3 class="game-card-title">الثعبان</h3>
+                                <p class="game-card-desc">كلاسيكيات الزمن الجميل</p>
+                                <div class="game-featured-play-row">
+                                    <span class="game-play-chip">
+                                        <span>العب الآن</span>
+                                        <i class="fa-solid fa-play rotate-180 text-[9px]"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Game Card: Football -->
+                        <div onclick="openGameSheet('كرة قدم.html', 'كرة القدم')" data-game-id="كرة قدم.html"
+                            data-title="كرة القدم ديربي الأبطال فيفا" data-category="1v1"
+                            class="game-card-item game-glass-card cursor-pointer group">
+                            <div class="game-art-banner art-football">
+                                <span class="game-banner-pill">1 ضد 1</span>
+                                <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                    aria-hidden="true">
+                                    <rect x="24" y="14" width="172" height="96" rx="14" fill="#10B981" stroke="#FFFFFF"
+                                        stroke-width="2.8" />
+                                    <g fill="#059669" opacity="0.45">
+                                        <rect x="46" y="16" width="22" height="92" />
+                                        <rect x="90" y="16" width="22" height="92" />
+                                        <rect x="134" y="16" width="22" height="92" />
+                                    </g>
+                                    <line x1="110" y1="15" x2="110" y2="109" stroke="#FFFFFF" stroke-width="2.2"
+                                        opacity="0.9" />
+                                    <circle cx="110" cy="62" r="21" fill="none" stroke="#FFFFFF" stroke-width="2.2"
+                                        opacity="0.9" />
+                                    <rect x="25" y="40" width="22" height="44" fill="none" stroke="#FFFFFF"
+                                        stroke-width="2" opacity="0.85" />
+                                    <rect x="173" y="40" width="22" height="44" fill="none" stroke="#FFFFFF"
+                                        stroke-width="2" opacity="0.85" />
+                                    <!-- الكرة -->
+                                    <circle cx="110" cy="62" r="15" fill="#FFFFFF" stroke="#0F172A"
+                                        stroke-width="2.2" />
+                                    <polygon points="110,54 117,59 114,67 106,67 103,59" fill="#0F172A" />
+                                    <line x1="110" y1="54" x2="110" y2="48" stroke="#0F172A" stroke-width="1.6" />
+                                    <line x1="117" y1="59" x2="123" y2="56" stroke="#0F172A" stroke-width="1.6" />
+                                    <line x1="103" y1="59" x2="97" y2="56" stroke="#0F172A" stroke-width="1.6" />
+                                    <line x1="114" y1="67" x2="119" y2="73" stroke="#0F172A" stroke-width="1.6" />
+                                    <line x1="106" y1="67" x2="101" y2="73" stroke="#0F172A" stroke-width="1.6" />
+                                </svg>
+                            </div>
+                            <div class="game-card-body">
+                                <div class="game-card-badges">
+                                    <span class="most-played-pill"><i class="fa-solid fa-fire-flame-curved"></i> الأكثر
+                                        لعباً</span>
+                                    <span class="game-inline-cat">1 ضد 1</span>
+                                </div>
+                                <h3 class="game-card-title">كرة القدم</h3>
+                                <p class="game-card-desc">ديربي الأبطال السريع</p>
+                                <div class="game-featured-play-row">
+                                    <span class="game-play-chip">
+                                        <span>العب الآن</span>
+                                        <i class="fa-solid fa-play rotate-180 text-[9px]"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Game Card: Billiards 8-Ball -->
+                        <div onclick="openGameSheet('كرة بلياردو.html', 'كرة البلياردو')"
+                            data-game-id="كرة بلياردو.html"
+                            data-title="كرة البلياردو بلياردو 8-Ball 8 بول تحدي مهارة كلاسيك"
+                            data-category="1v1 classic" class="game-card-item game-glass-card cursor-pointer group">
+                            <div class="game-art-banner art-billiards">
+                                <span class="game-banner-pill">1 ضد 1</span>
+                                <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                    aria-hidden="true">
+                                    <rect x="20" y="14" width="180" height="96" rx="14" fill="#15803D" stroke="#78350F"
+                                        stroke-width="6.5" />
+                                    <rect x="25" y="19" width="170" height="86" rx="10" fill="none" stroke="#166534"
+                                        stroke-width="3" />
+                                    <g fill="#090E1A">
+                                        <circle cx="27" cy="21" r="6.5" />
+                                        <circle cx="110" cy="17" r="6" />
+                                        <circle cx="193" cy="21" r="6.5" />
+                                        <circle cx="27" cy="103" r="6.5" />
+                                        <circle cx="110" cy="107" r="6" />
+                                        <circle cx="193" cy="103" r="6.5" />
+                                    </g>
+                                    <g fill="#FBBF24" opacity="0.85">
+                                        <circle cx="68" cy="14" r="1.8" />
+                                        <circle cx="152" cy="14" r="1.8" />
+                                        <circle cx="68" cy="110" r="1.8" />
+                                        <circle cx="152" cy="110" r="1.8" />
+                                    </g>
+                                    <!-- عصا البلياردو والكرة البيضاء -->
+                                    <line x1="36" y1="88" x2="77" y2="71" stroke="#FDE68A" stroke-width="4.2"
+                                        stroke-linecap="round" />
+                                    <line x1="36" y1="88" x2="57" y2="79.5" stroke="#92400E" stroke-width="5"
+                                        stroke-linecap="round" />
+                                    <circle cx="77" cy="71" r="2" fill="#38BDF8" />
+                                    <circle cx="91" cy="65" r="8.5" fill="#F8FAFC" stroke="#CBD5E1"
+                                        stroke-width="1.3" />
+                                    <!-- الكرة 8 والكرات الملونة -->
+                                    <circle cx="122" cy="60" r="12.5" fill="#0F172A" stroke="#334155"
+                                        stroke-width="1.5" />
+                                    <circle cx="122" cy="60" r="6" fill="#FFFFFF" />
+                                    <text x="122" y="63.5" text-anchor="middle" font-size="9.5" font-weight="900"
+                                        fill="#0F172A">8</text>
+                                    <circle cx="145" cy="48" r="9.5" fill="#FACC15" stroke="#CA8A04"
+                                        stroke-width="1.3" />
+                                    <circle cx="145" cy="72" r="9.5" fill="#EF4444" stroke="#B91C1C"
+                                        stroke-width="1.3" />
+                                    <circle cx="164" cy="60" r="9.5" fill="#3B82F6" stroke="#1D4ED8"
+                                        stroke-width="1.3" />
+                                </svg>
+                            </div>
+                            <div class="game-card-body">
+                                <div class="game-card-badges">
+                                    <span class="most-played-pill"><i class="fa-solid fa-fire-flame-curved"></i> الأكثر
+                                        لعباً</span>
+                                    <span class="game-inline-cat">1 ضد 1</span>
+                                </div>
+                                <h3 class="game-card-title">كرة البلياردو</h3>
+                                <p class="game-card-desc">تحدي 8-Ball بفيزياء واقعية</p>
+                                <div class="game-featured-play-row">
+                                    <span class="game-play-chip">
+                                        <span>العب الآن</span>
+                                        <i class="fa-solid fa-play rotate-180 text-[9px]"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Coming Soon -->
+                        <div onclick="showToastNotification('قريباً جداً!', 'يجري العمل على تطوير لعبة التخمين لتكون متاحة في التحديث القادم.', 'info')"
+                            data-coming-soon="true" data-title="لعبة التخمين قريبا" data-category="group classic"
+                            class="game-card-item game-glass-card cursor-pointer opacity-85 hover:opacity-100 group">
+                            <div class="game-art-banner art-soon">
+                                <span class="game-banner-pill">قريباً</span>
+                                <svg class="game-art-svg" viewBox="0 0 220 124" preserveAspectRatio="xMidYMid meet"
+                                    aria-hidden="true">
+                                    <circle cx="110" cy="62" r="40" fill="#94A3B8" opacity="0.14" />
+                                    <circle cx="110" cy="62" r="27" fill="#94A3B8" opacity="0.18" />
+                                    <path d="M97 56 V47 A13 13 0 0 1 123 47 V56" fill="none" stroke="#64748B"
+                                        stroke-width="5" stroke-linecap="round" />
+                                    <rect x="89" y="55" width="42" height="34" rx="10" fill="#64748B" />
+                                    <circle cx="110" cy="70" r="4" fill="#FFFFFF" />
+                                    <rect x="108.5" y="72" width="3" height="8" rx="1.5" fill="#FFFFFF" />
+                                </svg>
+                            </div>
+                            <div class="game-card-body">
+                                <h3 class="game-card-title text-secondary">لعبة التخمين</h3>
+                                <p class="game-card-desc">قيد التطوير حالياً</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- ==================== 4. صفحة الإشعارات ==================== -->
-            <div id="notifications-page" class="page-section max-w-4xl mx-auto space-y-6 flex-col">
-                <div class="stagger-item card-ui p-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center gap-2.5">
+                    <!-- رسالة عدم وجود نتائج بحث -->
+                    <div id="no-games-found" class="hidden card-ui p-10 text-center my-4">
+                        <div
+                            class="w-16 h-16 bg-orange-50 text-brand rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <h3 class="font-black text-lg mb-1">لا توجد لعبة مطابقة لبحثك</h3>
+                        <p class="text-xs text-secondary font-bold mb-4">جرب البحث بكلمة أخرى أو استعرض جميع التصنيفات
+                        </p>
+                        <button onclick="resetGameFilters()" class="btn-3d px-6 py-2.5 text-xs">إظهار الكل</button>
+                    </div>
+                </div>
+
+                <!-- ==================== 3. صفحة الأصدقاء والدردشة ==================== -->
+                <div id="messages-page" class="page-section max-w-4xl mx-auto space-y-6 flex-col">
+                    <!-- شريط كود المستخدم وأزرار الصداقة والطلبات -->
+                    <div class="stagger-item card-ui p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3.5 w-full sm:w-auto">
                             <div
-                                class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-500/20 text-brand flex items-center justify-center">
-                                <i class="fa-solid fa-bell"></i>
+                                class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/15 text-nav flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-id-badge"></i>
                             </div>
                             <div>
-                                <h3 class="font-black text-lg">مركز الإشعارات</h3>
-                                <p class="text-xs text-secondary font-bold">أخبار الإدارة، طلبات الصداقة، والرسائل</p>
+                                <p class="text-xs font-bold text-secondary">معرفك الخاص لمشاركته مع أصدقائك</p>
+                                <div class="flex items-center gap-2 mt-0.5">
+                                    <span id="my-friend-code"
+                                        class="font-black text-lg text-primary tracking-wider">#------</span>
+                                    <button onclick="copyMyId()"
+                                        class="text-xs bg-orange-50 dark:bg-slate-800 text-brand font-black px-2.5 py-1 rounded-lg hover:bg-orange-100 transition">
+                                        <i class="fa-regular fa-copy ml-1"></i>
+                                        نسخ
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <button onclick="clearAllNotifications()"
-                            class="text-xs font-bold text-secondary hover:text-brand transition px-3 py-1.5 rounded-xl bg-gray-50">
-                            <i class="fa-solid fa-check-double ml-1"></i> قراءة الكل
-                        </button>
+
+                        <div class="flex items-center gap-2.5 w-full sm:w-auto">
+                            <button onclick="toggleFriendRequestsModal()"
+                                class="flex-1 sm:flex-initial px-4 py-3 bg-gray-100 hover:bg-gray-200 text-primary font-black text-xs rounded-2xl flex items-center justify-center gap-2 transition relative">
+                                <i class="fa-solid fa-user-clock text-nav"></i>
+                                <span>الطلبات</span>
+                                <span id="requests-count-badge"
+                                    class="hidden bg-red-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[20px] text-center">0</span>
+                            </button>
+                            <button onclick="toggleAddFriendModal()"
+                                class="flex-1 sm:flex-initial px-5 py-3 btn-3d text-xs flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-user-plus"></i>
+                                <span>إضافة صديق</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div id="notifications-list-container" class="space-y-3">
-                        <div class="py-10 text-center">
-                            <i class="fas fa-spinner fa-spin text-brand text-2xl"></i>
+                    <!-- قائمة الأصدقاء -->
+                    <div class="stagger-item card-ui p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-black text-lg flex items-center gap-2">
+                                <i class="fa-solid fa-comments text-brand"></i>
+                                <span>قائمة الأصدقاء والمحادثات</span>
+                            </h3>
+                            <span id="friends-total-count"
+                                class="text-xs font-black text-secondary bg-gray-100 px-3 py-1 rounded-full">0
+                                صديق</span>
+                        </div>
+                        <div id="friends-list-container" class="space-y-3">
+                            <div class="text-center py-12">
+                                <div
+                                    class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-400 text-2xl">
+                                    <i class="fa-solid fa-user-group"></i>
+                                </div>
+                                <p class="font-black text-secondary text-sm">لا يوجد أصدقاء مضافون حتى الآن</p>
+                                <p class="text-xs text-secondary font-bold mt-1">أرسل طلب صداقة عبر الـ ID وانتظر موافقة
+                                    صديقك</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
+                <!-- ==================== 4. صفحة الإشعارات ==================== -->
+                <div id="notifications-page" class="page-section max-w-4xl mx-auto space-y-6 flex-col">
+                    <div class="stagger-item card-ui p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-2.5">
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-500/20 text-brand flex items-center justify-center">
+                                    <i class="fa-solid fa-bell"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-black text-lg">مركز الإشعارات</h3>
+                                    <p class="text-xs text-secondary font-bold">أخبار الإدارة، طلبات الصداقة، والرسائل
+                                    </p>
+                                </div>
+                            </div>
+                            <button onclick="clearAllNotifications()"
+                                class="text-xs font-bold text-secondary hover:text-brand transition px-3 py-1.5 rounded-xl bg-gray-50">
+                                <i class="fa-solid fa-check-double ml-1"></i>
+                                قراءة الكل
+                            </button>
+                        </div>
 
-        <!-- ==================== الشريط السفلي الزجاجي بنمط إنستجرام مع الفقاعة التفاعلية ==================== -->
-        <div class="lg:hidden ig-glass-dock-wrapper">
-            <nav id="ig-glass-nav" class="ig-glass-nav" aria-label="التنقل السفلي">
-                <!-- الفقاعة الزجاجية المنزلقة مع حركة الإصبع -->
-                <div id="ig-nav-bubble" class="ig-nav-bubble" aria-hidden="true"></div>
-
-                <!-- 1. صفحة 𝖆𝖗𝖊𝖓𝖆 -->
-                <button type="button" data-target="news" class="nav-item-mobile" aria-label="𝖆𝖗𝖊𝖓𝖆">
-                    <div class="nav-icon-wrap">
-                        <i class="fa-solid fa-newspaper"></i>
-                        <span id="mobile-news-badge"
-                            class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-brand rounded-full ring-2 ring-white dark:ring-slate-900"></span>
-                    </div>
-                </button>
-
-                <!-- 2. الألعاب -->
-                <button type="button" data-target="games" class="nav-item-mobile active"
-                    aria-label="الألعاب">
-                    <div class="nav-icon-wrap">
-                        <i class="fa-solid fa-gamepad"></i>
-                    </div>
-                </button>
-
-                <!-- 3. الأصدقاء -->
-                <button type="button" data-target="messages" class="nav-item-mobile"
-                    aria-label="الأصدقاء">
-                    <div class="nav-icon-wrap">
-                        <i class="fa-solid fa-user-group"></i>
-                        <span id="mobile-friends-badge"
-                            class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
-                    </div>
-                </button>
-
-                <!-- 4. حسابي (يفتح الإعدادات مباشرة بنمط صورة إنستجرام) -->
-                <button type="button" data-target="account" class="nav-item-mobile"
-                    aria-label="حسابي">
-                    <div class="nav-icon-wrap">
-                        <div class="ig-avatar-ring">
-                            <img id="bottom-nav-avatar"
-                                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sniper&backgroundColor=FF9800"
-                                alt="حسابي" class="w-full h-full rounded-full bg-white object-cover">
+                        <div id="notifications-list-container" class="space-y-3">
+                            <div class="py-10 text-center">
+                                <i class="fas fa-spinner fa-spin text-brand text-2xl"></i>
+                            </div>
                         </div>
                     </div>
-                </button>
-            </nav>
-        </div>
+                </div>
+
+            </div>
+
+            <!-- ==================== الشريط السفلي الزجاجي بنمط إنستجرام مع الفقاعة التفاعلية ==================== -->
+            <div class="lg:hidden ig-glass-dock-wrapper">
+                <nav id="ig-glass-nav" class="ig-glass-nav" aria-label="التنقل السفلي">
+                    <!-- الفقاعة الزجاجية المنزلقة مع حركة الإصبع -->
+                    <div id="ig-nav-bubble" class="ig-nav-bubble" aria-hidden="true"></div>
+
+                    <!-- 1. صفحة 𝖆𝖗𝖊𝖓𝖆 -->
+                    <button type="button" data-target="news" class="nav-item-mobile" aria-label="𝖆𝖗𝖊𝖓𝖆">
+                        <div class="nav-icon-wrap">
+                            <i class="fa-solid fa-newspaper"></i>
+                            <span id="mobile-news-badge"
+                                class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-brand rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+                        </div>
+                    </button>
+
+                    <!-- 2. الألعاب -->
+                    <button type="button" data-target="games" class="nav-item-mobile active" aria-label="الألعاب">
+                        <div class="nav-icon-wrap">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                    </button>
+
+                    <!-- 3. الأصدقاء -->
+                    <button type="button" data-target="messages" class="nav-item-mobile" aria-label="الأصدقاء">
+                        <div class="nav-icon-wrap">
+                            <i class="fa-solid fa-user-group"></i>
+                            <span id="mobile-friends-badge"
+                                class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+                        </div>
+                    </button>
+
+                    <!-- 4. حسابي (يفتح الإعدادات مباشرة بنمط صورة إنستجرام) -->
+                    <button type="button" data-target="account" class="nav-item-mobile" aria-label="حسابي">
+                        <div class="nav-icon-wrap">
+                            <div class="ig-avatar-ring">
+                                <img id="bottom-nav-avatar"
+                                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sniper&backgroundColor=FF9800"
+                                    alt="حسابي" class="w-full h-full rounded-full bg-white object-cover">
+                            </div>
+                        </div>
+                    </button>
+                </nav>
+            </div>
     </main>
 
     <!-- ==================== نافذة تشغيل الألعاب (Game Sheet) ==================== -->
@@ -2051,6 +2841,13 @@
 
             const scrollArea = document.getElementById('main-scroll-area');
             if (scrollArea) scrollArea.scrollTop = 0;
+            if (scrollArea) {
+                if (typeof scrollArea._resetSmoothScroll === 'function') {
+                    scrollArea._resetSmoothScroll();
+                } else {
+                    scrollArea.scrollTop = 0;
+                }
+            }
 
             if (pageId === 'news') {
                 fetchLeaderboard();
@@ -2459,6 +3256,70 @@
             if (searchInput) searchInput.value = '';
             currentSearchQuery = '';
             setCategoryFilter('all');
+        }
+
+        // تتبع أكثر لعبة يتم لعبها وجعلها الأولى بعرض لعبتين (الافتراضية: لعبة XO)
+        const GAME_PLAYS_STORAGE_KEY = 'pro-arena-game-plays';
+        const DEFAULT_MOST_PLAYED_GAME = 'اكس_او.html';
+
+        function getGamePlayCounts() {
+            try {
+                const raw = localStorage.getItem(GAME_PLAYS_STORAGE_KEY);
+                const parsed = raw ? JSON.parse(raw) : {};
+                return parsed && typeof parsed === 'object' ? parsed : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function getMostPlayedGameId() {
+            const counts = getGamePlayCounts();
+            const cards = Array.from(document.querySelectorAll('#games-grid-container .game-card-item[data-game-id]'));
+            let bestId = DEFAULT_MOST_PLAYED_GAME;
+            let bestCount = Number(counts[DEFAULT_MOST_PLAYED_GAME] || 0);
+
+            cards.forEach(card => {
+                const id = card.getAttribute('data-game-id');
+                if (!id) return;
+                const count = Number(counts[id] || 0);
+                if (count > bestCount) {
+                    bestCount = count;
+                    bestId = id;
+                }
+            });
+
+            return bestId;
+        }
+
+        function applyMostPlayedGameOrder() {
+            const grid = document.getElementById('games-grid-container');
+            if (!grid) return;
+
+            const allCards = Array.from(grid.querySelectorAll('.game-card-item'));
+            const mostPlayedId = getMostPlayedGameId();
+            const featuredCard = allCards.find(c => c.getAttribute('data-game-id') === mostPlayedId)
+                || allCards.find(c => c.getAttribute('data-game-id') === DEFAULT_MOST_PLAYED_GAME);
+
+            allCards.forEach(card => {
+                card.classList.remove('is-most-played', 'col-span-2');
+            });
+
+            if (featuredCard) {
+                featuredCard.classList.add('is-most-played', 'col-span-2');
+                grid.prepend(featuredCard);
+            }
+        }
+
+        function recordGamePlay(url) {
+            if (!url) return;
+            const gameId = String(url).split('?')[0].trim();
+            if (!gameId) return;
+            try {
+                const counts = getGamePlayCounts();
+                counts[gameId] = Number(counts[gameId] || 0) + 1;
+                localStorage.setItem(GAME_PLAYS_STORAGE_KEY, JSON.stringify(counts));
+            } catch (e) { }
+            applyMostPlayedGameOrder();
         }
 
         // ============================================================
@@ -3650,6 +4511,7 @@
         // ============================================================
         function openGameSheet(url) {
             playUiSound('click');
+            recordGamePlay(url);
             const isDark = document.documentElement.classList.contains('dark');
             const sep = url.includes('?') ? '&' : '?';
             const params = `paTheme=${isDark ? 'dark' : 'light'}&theme=${isDark ? 'dark' : 'light'}&paSound=${soundEnabled ? '1' : '0'}`;
@@ -3873,6 +4735,112 @@
             } catch (e) { }
         }
 
+        // التمرير السلس والمتوازن (يمنع الحركة السريعة أو القفز المفاجئ بعجلة الماوس ويحافظ على السلاسة الطبيعية للمس)
+        function initSmoothBalancedScroll(scrollEl) {
+            if (!scrollEl || scrollEl._smoothScrollBound) return;
+            scrollEl._smoothScrollBound = true;
+
+            let rafId = null;
+            let currentY = scrollEl.scrollTop;
+            let targetY = scrollEl.scrollTop;
+            let lastTime = 0;
+
+            function stopScrollAnim() {
+                if (rafId) {
+                    cancelAnimationFrame(rafId);
+                    rafId = null;
+                }
+                lastTime = 0;
+                currentY = scrollEl.scrollTop;
+                targetY = scrollEl.scrollTop;
+            }
+
+            scrollEl._resetSmoothScroll = function () {
+                stopScrollAnim();
+                scrollEl.scrollTop = 0;
+                currentY = 0;
+                targetY = 0;
+            };
+
+            function hasScrollableParent(node) {
+                let el = node;
+                while (el && el !== scrollEl && el !== document.body) {
+                    const style = window.getComputedStyle(el);
+                    const oy = style.overflowY;
+                    if ((oy === 'auto' || oy === 'scroll') && el.scrollHeight > el.clientHeight + 2) {
+                        return true;
+                    }
+                    el = el.parentElement;
+                }
+                return false;
+            }
+
+            function step(now) {
+                const dt = lastTime ? Math.min(Math.max((now - lastTime) / 1000, 0.001), 0.04) : 0.016;
+                lastTime = now;
+
+                const maxScroll = Math.max(0, scrollEl.scrollHeight - scrollEl.clientHeight);
+                targetY = Math.max(0, Math.min(maxScroll, targetY));
+
+                const alpha = 1 - Math.exp(-13 * dt);
+                currentY += (targetY - currentY) * alpha;
+
+                if (Math.abs(targetY - currentY) < 0.4) {
+                    currentY = targetY;
+                    scrollEl.scrollTop = currentY;
+                    rafId = null;
+                    lastTime = 0;
+                } else {
+                    scrollEl.scrollTop = currentY;
+                    rafId = requestAnimationFrame(step);
+                }
+            }
+
+            scrollEl.addEventListener('wheel', (e) => {
+                if (e.ctrlKey || e.metaKey) return;
+                if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+                if (hasScrollableParent(e.target)) return;
+
+                const maxScroll = Math.max(0, scrollEl.scrollHeight - scrollEl.clientHeight);
+                if (maxScroll <= 0) return;
+
+                e.preventDefault();
+
+                let rawDelta = e.deltaY;
+                if (e.deltaMode === 1) rawDelta *= 26;
+                else if (e.deltaMode === 2) rawDelta *= scrollEl.clientHeight * 0.65;
+
+                const absDelta = Math.abs(rawDelta);
+                const adjusted = absDelta >= 55
+                    ? Math.sign(rawDelta) * Math.min(absDelta * 0.56, 76)
+                    : rawDelta * 0.78;
+
+                if (!rafId) {
+                    currentY = scrollEl.scrollTop;
+                    targetY = currentY;
+                }
+
+                targetY = Math.max(0, Math.min(maxScroll, targetY + adjusted));
+                // منع تراكم سرعة زائدة عند التمرير السريع المتكرر
+                const maxLead = 240;
+                if (targetY - currentY > maxLead) targetY = currentY + maxLead;
+                else if (currentY - targetY > maxLead) targetY = currentY - maxLead;
+
+                if (!rafId) {
+                    lastTime = 0;
+                    rafId = requestAnimationFrame(step);
+                }
+            }, { passive: false });
+
+            scrollEl.addEventListener('touchstart', stopScrollAnim, { passive: true });
+            scrollEl.addEventListener('pointerdown', stopScrollAnim, { passive: true });
+            window.addEventListener('keydown', (e) => {
+                if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(e.key)) {
+                    stopScrollAnim();
+                }
+            }, { passive: true });
+        }
+
         // ============================================================
         // 15. تهيئة التطبيق عند التحميل
         // ============================================================
@@ -3887,11 +4855,14 @@
             const soundToggle = document.getElementById('sound-effects-toggle');
             if (soundToggle) soundToggle.checked = soundEnabled;
 
+            applyMostPlayedGameOrder();
             initInstagramBubbleNav();
 
             // تأثير السكرول الزجاجي للهيدر
+            // تأثير السكرول الزجاجي للهيدر + التمرير السلس المتوازن
             const scrollArea = document.getElementById('main-scroll-area');
             const mainHeader = document.getElementById('main-header');
+            initSmoothBalancedScroll(scrollArea);
             let isScrolled = false;
             let ticking = false;
 
