@@ -152,23 +152,16 @@
 
         .page-section.active {
             display: flex;
-            animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .page-section.exiting {
-            display: flex;
-            animation: fadeOutDown 0.18s ease-in forwards;
         }
 
         .stagger-item {
-            opacity: 0;
-            transform: translateY(12px);
-            transition: opacity 0.38s ease-out, transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 1;
+            transform: none;
         }
 
         .stagger-item.show {
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
         }
 
         /* أزرار ثلاثية الأبعاد وعصرية */
@@ -342,7 +335,7 @@
             box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
         }
 
-        /* الشريط السفلي الزجاجي بنمط إنستجرام */
+        /* الشريط السفلي الزجاجي بنمط إنستجرام مع الفقاعة الزجاجية السائلة */
         .ig-glass-dock-wrapper {
             position: fixed;
             bottom: max(12px, env(safe-area-inset-bottom, 12px));
@@ -355,15 +348,16 @@
         }
 
         .ig-glass-nav {
+            position: relative;
             pointer-events: auto;
             width: 100%;
             max-width: 420px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.68);
+            height: 62px;
+            background: rgba(255, 255, 255, 0.72);
             backdrop-filter: blur(26px) saturate(200%);
             -webkit-backdrop-filter: blur(26px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.78);
-            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            border-radius: 31px;
             box-shadow:
                 0 14px 36px rgba(15, 23, 42, 0.12),
                 0 4px 12px rgba(15, 23, 42, 0.05),
@@ -371,28 +365,72 @@
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 0 8px;
-            transition: all 0.3s ease;
+            padding: 0 7px;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.28s ease;
+        }
+
+        .ig-glass-nav.is-interacting {
+            box-shadow:
+                0 16px 40px rgba(15, 23, 42, 0.15),
+                0 4px 14px rgba(255, 138, 0, 0.09),
+                inset 0 1px 1px rgba(255, 255, 255, 0.98);
+        }
+
+        /* الفقاعة الزجاجية المنزلقة بنمط إنستجرام (سلسة ومتناسقة بدون تشويه) */
+        .ig-nav-bubble {
+            position: absolute;
+            left: 0;
+            top: 8px;
+            height: 46px;
+            border-radius: 23px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transform-origin: center center;
+            will-change: transform, opacity;
+            background: linear-gradient(180deg, rgba(255, 165, 38, 0.16) 0%, rgba(255, 123, 0, 0.1) 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.85),
+                inset 0 0 0 1px rgba(255, 152, 0, 0.22);
+            transition:
+                opacity 0.2s ease,
+                background 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .ig-nav-bubble.is-visible {
+            opacity: 1;
+        }
+
+        .ig-nav-bubble.is-liquid {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 246, 234, 0.78) 100%);
+            box-shadow:
+                0 6px 18px rgba(15, 23, 42, 0.11),
+                0 2px 8px rgba(255, 138, 0, 0.16),
+                inset 0 1.5px 1px rgba(255, 255, 255, 1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.92);
         }
 
         .nav-item-mobile {
             position: relative;
+            z-index: 2;
             flex: 1;
-            height: 46px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 22px;
+            border-radius: 24px;
             color: #64748B;
-            transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: color 0.22s ease, transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
             background: transparent;
             border: none;
             outline: none;
-        }
-
-        .nav-item-mobile:active {
-            transform: scale(0.9);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .nav-item-mobile .nav-icon-wrap {
@@ -402,23 +440,37 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .nav-item-mobile i {
             font-size: 1.38rem;
-            transition: all 0.25s ease;
+            transition: color 0.22s ease, transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .nav-item-mobile.active {
             color: #0F172A;
-            background: rgba(255, 152, 0, 0.13);
-            box-shadow: inset 0 0 0 1px rgba(255, 152, 0, 0.18);
         }
 
         .nav-item-mobile.active i {
             color: #FF8A00;
-            transform: scale(1.12);
+            transform: scale(1.1);
+        }
+
+        /* أثناء التمرير بالإصبع يتبع التمييز الأيقونة الموجودة تحت الفقاعة فقط */
+        .ig-glass-nav.is-interacting .nav-item-mobile.active:not(.is-hovered) i {
+            color: #64748B;
+            transform: scale(1);
+        }
+
+        .nav-item-mobile.is-hovered i {
+            color: #FF8A00 !important;
+            transform: scale(1.22) translateY(-1px) !important;
+        }
+
+        .nav-item-mobile.is-hovered .ig-avatar-ring {
+            transform: scale(1.18) translateY(-1px);
+            box-shadow: 0 5px 14px rgba(255, 123, 0, 0.36);
         }
 
         .nav-item-mobile::after {
@@ -431,12 +483,17 @@
             background: #FF8A00;
             opacity: 0;
             transform: scale(0);
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: opacity 0.2s ease, transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .nav-item-mobile.active::after {
             opacity: 1;
             transform: scale(1);
+        }
+
+        .ig-glass-nav.is-interacting .nav-item-mobile::after {
+            opacity: 0;
+            transform: scale(0);
         }
 
         /* حلقة صورة حسابي بنمط إنستجرام */
@@ -447,7 +504,7 @@
             border-radius: 9999px;
             background: linear-gradient(135deg, #FFB347, #FF7B00, #EC4899);
             box-shadow: 0 2px 8px rgba(255, 123, 0, 0.25);
-            transition: transform 0.25s ease;
+            transition: transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.24s ease;
         }
 
         .nav-item-mobile:hover .ig-avatar-ring {
@@ -742,7 +799,7 @@
             box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05), 0 8px 16px rgba(0, 0, 0, 0.3) !important;
         }
 
-        /* الشريط السفلي الزجاجي في الوضع الداكن */
+        /* الشريط السفلي الزجاجي والفقاعة في الوضع الداكن */
         html.dark .ig-glass-nav {
             background: rgba(15, 23, 42, 0.72);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -751,18 +808,41 @@
                 inset 0 1px 1px rgba(255, 255, 255, 0.1);
         }
 
+        html.dark .ig-glass-nav.is-interacting {
+            box-shadow:
+                0 20px 46px rgba(0, 0, 0, 0.62),
+                0 0 20px rgba(255, 152, 0, 0.12),
+                inset 0 1px 1.5px rgba(255, 255, 255, 0.16);
+        }
+
+        html.dark .ig-nav-bubble {
+            background: linear-gradient(180deg, rgba(255, 167, 38, 0.22) 0%, rgba(255, 123, 0, 0.12) 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.18),
+                inset 0 0 0 1px rgba(255, 167, 38, 0.28);
+        }
+
+        html.dark .ig-nav-bubble.is-liquid {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 152, 0, 0.2) 100%);
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.42),
+                0 0 14px rgba(255, 152, 0, 0.18),
+                inset 0 1.5px 1px rgba(255, 255, 255, 0.36),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.26);
+        }
+
         html.dark .nav-item-mobile {
             color: #94A3B8;
         }
 
-        html.dark .nav-item-mobile.active {
-            background: rgba(255, 152, 0, 0.18);
-            box-shadow: inset 0 0 0 1px rgba(255, 152, 0, 0.28);
+        html.dark .ig-glass-nav.is-interacting .nav-item-mobile.active:not(.is-hovered) i {
+            color: #94A3B8;
         }
 
         html.dark .nav-item-mobile.active i,
+        html.dark .nav-item-mobile.is-hovered i,
         html.dark .nav-item-mobile.active span.nav-label {
-            color: #FFB74D;
+            color: #FFB74D !important;
         }
     </style>
 </head>
@@ -1349,12 +1429,14 @@
 
         </div>
 
-        <!-- ==================== الشريط السفلي الزجاجي بنمط إنستجرام (Mobile & Tablet) ==================== -->
-        <!-- ==================== الشريط السفلي الزجاجي بنمط إنستجرام بدون نصوص (Mobile & Tablet) ==================== -->
+        <!-- ==================== الشريط السفلي الزجاجي بنمط إنستجرام مع الفقاعة التفاعلية ==================== -->
         <div class="lg:hidden ig-glass-dock-wrapper">
-            <nav class="ig-glass-nav" aria-label="التنقل السفلي">
+            <nav id="ig-glass-nav" class="ig-glass-nav" aria-label="التنقل السفلي">
+                <!-- الفقاعة الزجاجية المنزلقة مع حركة الإصبع -->
+                <div id="ig-nav-bubble" class="ig-nav-bubble" aria-hidden="true"></div>
+
                 <!-- 1. صفحة 𝖆𝖗𝖊𝖓𝖆 -->
-                <button onclick="switchPage('news')" data-target="news" class="nav-item-mobile" aria-label="𝖆𝖗𝖊𝖓𝖆">
+                <button type="button" data-target="news" class="nav-item-mobile" aria-label="𝖆𝖗𝖊𝖓𝖆">
                     <div class="nav-icon-wrap">
                         <i class="fa-solid fa-newspaper"></i>
                         <span id="mobile-news-badge"
@@ -1363,7 +1445,7 @@
                 </button>
 
                 <!-- 2. الألعاب -->
-                <button onclick="switchPage('games')" data-target="games" class="nav-item-mobile active"
+                <button type="button" data-target="games" class="nav-item-mobile active"
                     aria-label="الألعاب">
                     <div class="nav-icon-wrap">
                         <i class="fa-solid fa-gamepad"></i>
@@ -1371,7 +1453,7 @@
                 </button>
 
                 <!-- 3. الأصدقاء -->
-                <button onclick="switchPage('messages')" data-target="messages" class="nav-item-mobile"
+                <button type="button" data-target="messages" class="nav-item-mobile"
                     aria-label="الأصدقاء">
                     <div class="nav-icon-wrap">
                         <i class="fa-solid fa-user-group"></i>
@@ -1381,7 +1463,7 @@
                 </button>
 
                 <!-- 4. حسابي (يفتح الإعدادات مباشرة بنمط صورة إنستجرام) -->
-                <button onclick="toggleSettingsModal()" data-target="account" class="nav-item-mobile"
+                <button type="button" data-target="account" class="nav-item-mobile"
                     aria-label="حسابي">
                     <div class="nav-icon-wrap">
                         <div class="ig-avatar-ring">
@@ -1901,6 +1983,14 @@
                     gain.gain.linearRampToValueAtTime(0.01, now + 0.06);
                     osc.start(now);
                     osc.stop(now + 0.06);
+                } else if (type === 'nav-tick') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(700, now);
+                    osc.frequency.exponentialRampToValueAtTime(480, now + 0.035);
+                    gain.gain.setValueAtTime(0.038, now);
+                    gain.gain.linearRampToValueAtTime(0.005, now + 0.035);
+                    osc.start(now);
+                    osc.stop(now + 0.035);
                 } else if (type === 'success') {
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(440, now);
@@ -1927,9 +2017,8 @@
         }
 
         // ============================================================
-        // 3. التنقل السلس بين الصفحات (Navigation)
+        // 3. التنقل الفوري بين الصفحات بدون أنميشن + فقاعة الشريط السفلي
         // ============================================================
-        let isAnimating = false;
         let isTop10Expanded = false;
 
         function switchPage(pageId) {
@@ -1938,10 +2027,8 @@
 
             const currentPage = document.querySelector('.page-section.active');
             if (currentPage && currentPage.id === targetPage.id) return;
-            if (isAnimating) return;
 
             playUiSound('click');
-            isAnimating = true;
             updateNavigationUI(pageId);
 
             const titles = {
@@ -1956,35 +2043,27 @@
 
             if (currentPage) {
                 currentPage.classList.remove('active');
-                currentPage.classList.add('exiting');
-                resetStaggerItems(currentPage);
+                currentPage.style.display = 'none';
             }
 
-            setTimeout(() => {
-                if (currentPage) {
-                    currentPage.classList.remove('exiting');
-                    currentPage.style.display = 'none';
-                }
-                targetPage.style.display = 'flex';
-                targetPage.classList.add('active');
-                document.getElementById('main-scroll-area').scrollTo({ top: 0, behavior: 'smooth' });
-                playStaggerAnimation(targetPage);
+            targetPage.style.display = 'flex';
+            targetPage.classList.add('active');
 
-                if (pageId === 'news') {
-                    fetchLeaderboard();
-                    renderAdminNewsList();
-                    markNewsAsSeen();
-                }
-                if (pageId === 'notifications') {
-                    renderNotificationsFeed();
-                    markAllNotificationsAsRead();
-                }
-                if (pageId === 'messages') {
-                    renderFriendsList();
-                }
+            const scrollArea = document.getElementById('main-scroll-area');
+            if (scrollArea) scrollArea.scrollTop = 0;
 
-                setTimeout(() => { isAnimating = false; }, 260);
-            }, currentPage ? 150 : 0);
+            if (pageId === 'news') {
+                fetchLeaderboard();
+                renderAdminNewsList();
+                markNewsAsSeen();
+            }
+            if (pageId === 'notifications') {
+                renderNotificationsFeed();
+                markAllNotificationsAsRead();
+            }
+            if (pageId === 'messages') {
+                renderFriendsList();
+            }
         }
 
         function updateNavigationUI(pageId) {
@@ -2016,16 +2095,293 @@
                     btn.classList.remove('active');
                 }
             });
+
+            if (typeof window.syncIgNavBubble === 'function') {
+                window.syncIgNavBubble(false);
+            }
         }
 
-        function resetStaggerItems(page) {
-            page.querySelectorAll('.stagger-item').forEach(item => item.classList.remove('show'));
-        }
+        function resetStaggerItems() { }
 
-        function playStaggerAnimation(page) {
-            page.querySelectorAll('.stagger-item').forEach((item, i) => {
-                setTimeout(() => item.classList.add('show'), 25 + i * 35);
+        function playStaggerAnimation() { }
+
+        function initInstagramBubbleNav() {
+            const nav = document.getElementById('ig-glass-nav');
+            const bubble = document.getElementById('ig-nav-bubble');
+            if (!nav || !bubble) return;
+
+            const buttons = Array.from(nav.querySelectorAll('.nav-item-mobile'));
+            if (!buttons.length) return;
+
+            let isPointerDown = false;
+            let activePointerId = null;
+            let isLiquid = false;
+            let hasDragged = false;
+            let startClientX = 0;
+            let hoveredBtn = null;
+            let settleTimer = null;
+            let rafId = null;
+            let lastTime = 0;
+            let hasPositioned = false;
+
+            let bubbleW = 72;
+            let currentX = 0;
+            let targetX = 0;
+            let velX = 0;
+            let currentScale = 1;
+
+            function measureBubbleWidth() {
+                if (!nav.offsetWidth || !buttons[0].offsetWidth) return;
+                bubbleW = Math.min(Math.round(buttons[0].offsetWidth - 8), 76);
+                bubble.style.width = `${bubbleW}px`;
+            }
+
+            function getBtnBubbleLeft(btn) {
+                return btn.offsetLeft + (btn.offsetWidth - bubbleW) / 2;
+            }
+
+            function getEdgeBounds() {
+                let minLeft = Infinity;
+                let maxLeft = -Infinity;
+                buttons.forEach(btn => {
+                    const left = getBtnBubbleLeft(btn);
+                    if (left < minLeft) minLeft = left;
+                    if (left > maxLeft) maxLeft = left;
+                });
+                return { minLeft, maxLeft };
+            }
+
+            function getLocalPointerX(clientX) {
+                const navRect = nav.getBoundingClientRect();
+                return clientX - navRect.left;
+            }
+
+            function getTabAtClientX(clientX) {
+                const localX = getLocalPointerX(clientX);
+                let closest = buttons[0];
+                let minDist = Infinity;
+                buttons.forEach(btn => {
+                    const center = btn.offsetLeft + btn.offsetWidth / 2;
+                    const dist = Math.abs(localX - center);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        closest = btn;
+                    }
+                });
+                return closest;
+            }
+
+            function setHoveredButton(btn) {
+                if (hoveredBtn === btn) return;
+                const hadPrev = hoveredBtn !== null;
+                hoveredBtn = btn;
+                buttons.forEach(b => b.classList.toggle('is-hovered', b === btn));
+                if (hadPrev && btn) {
+                    playUiSound('nav-tick');
+                    if (navigator.vibrate) {
+                        try { navigator.vibrate(7); } catch (e) { }
+                    }
+                }
+            }
+
+            function renderBubble() {
+                bubble.style.transform = `translate3d(${currentX.toFixed(2)}px, 0, 0) scale(${currentScale.toFixed(4)})`;
+            }
+
+            function stepAnimation(now) {
+                const dt = lastTime ? Math.min(Math.max((now - lastTime) / 1000, 0.001), 0.04) : 0.016;
+                lastTime = now;
+
+                if (isPointerDown && hasDragged) {
+                    const followAlpha = 1 - Math.exp(-30 * dt);
+                    const nextX = currentX + (targetX - currentX) * followAlpha;
+                    velX = (nextX - currentX) / dt;
+                    currentX = nextX;
+                } else {
+                    const omega = 22;
+                    const zeta = 0.94;
+                    const accel = (targetX - currentX) * (omega * omega) - velX * (2 * zeta * omega);
+                    velX += accel * dt;
+                    currentX += velX * dt;
+                }
+
+                const desiredScale = isLiquid ? 1.07 : 1;
+                const scaleAlpha = 1 - Math.exp(-24 * dt);
+                currentScale += (desiredScale - currentScale) * scaleAlpha;
+
+                renderBubble();
+
+                const isSettled =
+                    !isPointerDown &&
+                    Math.abs(targetX - currentX) < 0.08 &&
+                    Math.abs(velX) < 0.8 &&
+                    Math.abs(desiredScale - currentScale) < 0.002;
+
+                if (isSettled) {
+                    currentX = targetX;
+                    currentScale = desiredScale;
+                    velX = 0;
+                    renderBubble();
+                    rafId = null;
+                    lastTime = 0;
+                } else {
+                    rafId = requestAnimationFrame(stepAnimation);
+                }
+            }
+
+            function ensureLoop() {
+                if (!rafId) {
+                    lastTime = 0;
+                    rafId = requestAnimationFrame(stepAnimation);
+                }
+            }
+
+            function syncToActive(immediate = false) {
+                if (nav.offsetWidth === 0) return;
+                measureBubbleWidth();
+                const activeBtn = nav.querySelector('.nav-item-mobile.active');
+                if (!activeBtn) {
+                    if (!isPointerDown) bubble.classList.remove('is-visible');
+                    return;
+                }
+                targetX = getBtnBubbleLeft(activeBtn);
+                bubble.classList.add('is-visible');
+
+                if (immediate || !hasPositioned) {
+                    currentX = targetX;
+                    currentScale = 1;
+                    velX = 0;
+                    hasPositioned = true;
+                    renderBubble();
+                } else {
+                    ensureLoop();
+                }
+            }
+
+            window.syncIgNavBubble = syncToActive;
+
+            function activateTarget(btn) {
+                if (!btn) return;
+                const target = btn.getAttribute('data-target');
+                if (target === 'account') {
+                    toggleSettingsModal();
+                    if (settleTimer) clearTimeout(settleTimer);
+                    settleTimer = setTimeout(() => {
+                        isLiquid = false;
+                        bubble.classList.remove('is-liquid');
+                        syncToActive(false);
+                    }, 160);
+                } else if (target) {
+                    switchPage(target);
+                    targetX = getBtnBubbleLeft(btn);
+                    ensureLoop();
+                    if (settleTimer) clearTimeout(settleTimer);
+                    settleTimer = setTimeout(() => {
+                        isLiquid = false;
+                        bubble.classList.remove('is-liquid');
+                        ensureLoop();
+                    }, 160);
+                }
+            }
+
+            nav.addEventListener('pointerdown', (e) => {
+                if (e.pointerType === 'mouse' && e.button !== 0) return;
+                if (settleTimer) {
+                    clearTimeout(settleTimer);
+                    settleTimer = null;
+                }
+
+                measureBubbleWidth();
+                isPointerDown = true;
+                activePointerId = e.pointerId;
+                hasDragged = false;
+                startClientX = e.clientX;
+                isLiquid = true;
+
+                try { nav.setPointerCapture(e.pointerId); } catch (err) { }
+
+                const wasVisible = bubble.classList.contains('is-visible');
+                nav.classList.add('is-interacting');
+                bubble.classList.add('is-visible', 'is-liquid');
+
+                const btn = getTabAtClientX(e.clientX);
+                targetX = getBtnBubbleLeft(btn);
+
+                if (!hasPositioned || !wasVisible) {
+                    currentX = targetX;
+                    velX = 0;
+                    hasPositioned = true;
+                    renderBubble();
+                }
+
+                hoveredBtn = null;
+                setHoveredButton(btn);
+                ensureLoop();
             });
+
+            nav.addEventListener('pointermove', (e) => {
+                if (!isPointerDown || e.pointerId !== activePointerId) return;
+                if (Math.abs(e.clientX - startClientX) > 6) hasDragged = true;
+
+                const { minLeft, maxLeft } = getEdgeBounds();
+                const btn = getTabAtClientX(e.clientX);
+
+                if (hasDragged) {
+                    let desiredX = getLocalPointerX(e.clientX) - bubbleW / 2;
+                    if (desiredX < minLeft) desiredX = minLeft + (desiredX - minLeft) * 0.16;
+                    else if (desiredX > maxLeft) desiredX = maxLeft + (desiredX - maxLeft) * 0.16;
+                    targetX = desiredX;
+                } else {
+                    targetX = getBtnBubbleLeft(btn);
+                }
+
+                setHoveredButton(btn);
+                ensureLoop();
+            });
+
+            function finishPointer(e, shouldActivate) {
+                if (!isPointerDown || e.pointerId !== activePointerId) return;
+                isPointerDown = false;
+                activePointerId = null;
+
+                try {
+                    if (nav.hasPointerCapture(e.pointerId)) nav.releasePointerCapture(e.pointerId);
+                } catch (err) { }
+
+                const finalBtn = hoveredBtn || getTabAtClientX(e.clientX);
+                hoveredBtn = null;
+                buttons.forEach(b => b.classList.remove('is-hovered'));
+                nav.classList.remove('is-interacting');
+
+                if (shouldActivate && finalBtn) {
+                    targetX = getBtnBubbleLeft(finalBtn);
+                    hasDragged = false;
+                    ensureLoop();
+                    activateTarget(finalBtn);
+                } else {
+                    isLiquid = false;
+                    bubble.classList.remove('is-liquid');
+                    syncToActive(false);
+                }
+            }
+
+            nav.addEventListener('pointerup', (e) => finishPointer(e, true));
+            nav.addEventListener('pointercancel', (e) => finishPointer(e, false));
+
+            // دعم لوحة المفاتيح للوصولية
+            buttons.forEach(btn => {
+                btn.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        isLiquid = true;
+                        bubble.classList.add('is-visible', 'is-liquid');
+                        activateTarget(btn);
+                    }
+                });
+            });
+
+            window.addEventListener('resize', () => syncToActive(true), { passive: true });
+            requestAnimationFrame(() => syncToActive(true));
         }
 
         // ============================================================
@@ -3531,7 +3887,7 @@
             const soundToggle = document.getElementById('sound-effects-toggle');
             if (soundToggle) soundToggle.checked = soundEnabled;
 
-            playStaggerAnimation(document.getElementById('games-page'));
+            initInstagramBubbleNav();
 
             // تأثير السكرول الزجاجي للهيدر
             const scrollArea = document.getElementById('main-scroll-area');
