@@ -5,7 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="theme-color" id="status-bar-color" content="#FFF6E5">
+    <script>
+        (function () {
+            try {
+                if (window.navigator.standalone === true || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)) {
+                    document.documentElement.classList.add('is-standalone');
+                }
+            } catch (e) { }
+        })();
+    </script>
     <title>برو أرينا | Pro Arena</title>
     <link rel="icon" type="image/png" href="./صورة التطبيق.png"
         onerror="this.href='https://placehold.co/128x128/FF9800/FFFFFF?text=PA'">
@@ -64,6 +76,32 @@
     </script>
 
     <style>
+        html {
+            height: 100%;
+            background-color: #FFF7EB;
+        }
+
+        html.dark {
+            background-color: #0B1120;
+        }
+
+        /* ضمان ملء الشاشة بالكامل بدون فراغ سفلي عند إضافة التطبيق إلى الشاشة الرئيسية للهاتف */
+        @media (display-mode: standalone) {
+            html,
+            body {
+                height: 100% !important;
+                min-height: 100vh !important;
+                min-height: -webkit-fill-available !important;
+            }
+        }
+
+        html.is-standalone,
+        html.is-standalone body {
+            height: 100% !important;
+            min-height: 100vh !important;
+            min-height: -webkit-fill-available !important;
+        }
+
         body {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -335,16 +373,27 @@
             box-shadow: 0 5px 16px rgba(15, 23, 42, 0.06);
         }
 
-        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass (حجم أوسع ومتناسب وموضع سفلي مريح 120fps) */
+        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass (حجم أوسع وموضع سفلي متوازن في المتصفح وعند التثبيت على الشاشة الرئيسية) */
         .ig-glass-dock-wrapper {
             position: fixed;
-            bottom: max(4px, env(safe-area-inset-bottom, 4px));
+            bottom: clamp(12px, calc(12px + env(safe-area-inset-bottom, 0px) * 0.21), 19px);
             left: 10px;
             right: 10px;
             z-index: 45;
             display: flex;
             justify-content: center;
             pointer-events: none;
+        }
+
+        /* توازن دقيق عند فتح التطبيق من الشاشة الرئيسية (Standalone PWA) دون رفعه بشكل مبالغ فيه */
+        @media (display-mode: standalone) {
+            .ig-glass-dock-wrapper {
+                bottom: clamp(12px, calc(12px + env(safe-area-inset-bottom, 0px) * 0.21), 19px);
+            }
+        }
+
+        html.is-standalone .ig-glass-dock-wrapper {
+            bottom: clamp(12px, calc(12px + env(safe-area-inset-bottom, 0px) * 0.21), 19px);
         }
 
         .ig-glass-nav {
@@ -1253,6 +1302,12 @@
             -webkit-overflow-scrolling: touch;
             overscroll-behavior-y: contain;
             touch-action: pan-y;
+        }
+
+        @media (max-width: 1023px) {
+            #main-scroll-area {
+                padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px) * 0.21);
+            }
         }
 
         /* الهيدر العلوي الأنيق والزجاجي (ثابت الارتفاع لمنع الاهتزاز أثناء التمرير) */
