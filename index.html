@@ -354,6 +354,77 @@
             color: #22c55e;
         }
 
+        /* مفتاح تفعيل وإيقاف خلفية الألعاب المزخرفة */
+        .wallpaper-toggle-wrapper {
+            position: relative;
+            width: 70px;
+            height: 34px;
+            border-radius: 36px;
+            background: #1e293b;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.45);
+            transition: background 0.4s, border-color 0.4s;
+            cursor: pointer;
+            border: 2px solid #334155;
+        }
+
+        input:checked+.wallpaper-toggle-wrapper {
+            background: linear-gradient(135deg, #FFB03A, #FF7B00);
+            border-color: #ffedd5;
+        }
+
+        .wallpaper-toggle-handle {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e293b;
+            font-size: 11px;
+        }
+
+        input:checked+.wallpaper-toggle-wrapper .wallpaper-toggle-handle {
+            transform: translateX(-36px);
+            background: #ffffff;
+            color: #ea580c;
+        }
+
+        /* طبقة خلفية رسومات الألعاب المتكررة لصفحات التطبيق (تتكيف بسلاسة مع الوضعين الفاتح والداكن) */
+        .pa-bg-wallpaper {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: url('./خلفية_الالعاب.jpg');
+            background-repeat: repeat;
+            background-size: 360px auto;
+            background-position: center top;
+            mix-blend-mode: multiply;
+            opacity: 0;
+            transition: opacity 0.38s ease, filter 0.35s ease;
+        }
+
+        html.has-doodle-bg .pa-bg-wallpaper {
+            opacity: 0.11;
+        }
+
+        html.dark .pa-bg-wallpaper {
+            filter: invert(1);
+            mix-blend-mode: screen;
+        }
+
+        html.dark.has-doodle-bg .pa-bg-wallpaper {
+            opacity: 0.085;
+        }
+
         /* البطاقات الزجاجية العصرية */
         .card-ui {
             background: rgba(255, 255, 255, 0.88);
@@ -1545,11 +1616,268 @@
         html.dark .nav-item-mobile.is-hovered .pa-nav-icon {
             color: #FFA726 !important;
         }
+
+        /* ============================================================
+           الجولة التعريفية التفاعلية للهاتف (Liquid Glass Onboarding Tour)
+           ============================================================ */
+        #pa-tour-root {
+            position: fixed;
+            inset: 0;
+            z-index: 9500;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.38s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.38s ease;
+        }
+
+        #pa-tour-root.is-active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #pa-tour-root.is-fading-out {
+            opacity: 0;
+            pointer-events: none !important;
+        }
+
+        /* طبقة التغبيش الخلفية مع فتحة Spotlight عبر clip-path */
+        .pa-tour-backdrop {
+            position: fixed;
+            inset: 0;
+            pointer-events: auto;
+            background: rgba(15, 23, 42, 0.34);
+            backdrop-filter: blur(10px) saturate(140%);
+            -webkit-backdrop-filter: blur(10px) saturate(140%);
+            transition: opacity 0.34s ease, backdrop-filter 0.34s ease, -webkit-backdrop-filter 0.34s ease, background-color 0.34s ease;
+        }
+
+        html.dark .pa-tour-backdrop {
+            background: rgba(2, 6, 23, 0.54);
+        }
+
+        .pa-tour-backdrop.is-soft-blur {
+            background: rgba(15, 23, 42, 0.22);
+            backdrop-filter: blur(6px) saturate(135%);
+            -webkit-backdrop-filter: blur(6px) saturate(135%);
+        }
+
+        html.dark .pa-tour-backdrop.is-soft-blur {
+            background: rgba(2, 6, 23, 0.42);
+        }
+
+        /* وضع العرض الواضح أثناء التمرير التلقائي (بدون تغبيش للصفحة نفسها) */
+        .pa-tour-backdrop.is-clear-pass {
+            background: rgba(15, 23, 42, 0.04);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        /* حلقة الإبراز المضيئة حول العنصر المستهدف */
+        .pa-tour-ring {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0;
+            border: 2px solid rgba(255, 255, 255, 0.92);
+            box-shadow:
+                0 0 0 4px rgba(255, 152, 0, 0.32),
+                0 0 28px rgba(255, 152, 0, 0.45),
+                inset 0 0 12px rgba(255, 255, 255, 0.45);
+            transition: opacity 0.28s ease, left 0.3s cubic-bezier(0.22, 1, 0.36, 1), top 0.3s cubic-bezier(0.22, 1, 0.36, 1), width 0.3s cubic-bezier(0.22, 1, 0.36, 1), height 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-radius 0.3s ease;
+            z-index: 9502;
+        }
+
+        .pa-tour-ring.is-visible {
+            opacity: 1;
+            animation: paTourRingPulse 1.9s ease-in-out infinite;
+        }
+
+        @keyframes paTourRingPulse {
+            0%, 100% {
+                box-shadow:
+                    0 0 0 3px rgba(255, 152, 0, 0.32),
+                    0 0 24px rgba(255, 152, 0, 0.42),
+                    inset 0 0 10px rgba(255, 255, 255, 0.42);
+            }
+            50% {
+                box-shadow:
+                    0 0 0 8px rgba(255, 152, 0, 0.18),
+                    0 0 34px rgba(255, 152, 0, 0.62),
+                    inset 0 0 14px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        /* منطقة التقاط النقرة الدقيقة فوق العنصر داخل Spotlight */
+        .pa-tour-hit-zone {
+            position: fixed;
+            z-index: 9503;
+            pointer-events: none;
+            background: transparent;
+            border: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .pa-tour-hit-zone.is-clickable {
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .pa-tour-hit-zone.is-blocker {
+            pointer-events: auto;
+            cursor: default;
+        }
+
+        /* أزرار وبطاقات الزجاج السائل المطابقة تماماً لـ .ig-glass-surface */
+        .pa-tour-glass-card {
+            background: rgba(255, 255, 255, 0.48);
+            backdrop-filter: blur(22px) saturate(185%);
+            -webkit-backdrop-filter: blur(22px) saturate(185%);
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            box-shadow:
+                0 16px 38px rgba(15, 23, 42, 0.16),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.94),
+                inset 0 -1px 0.5px rgba(255, 255, 255, 0.34);
+            color: #0F172A;
+            border-radius: 26px;
+        }
+
+        html.dark .pa-tour-glass-card {
+            background: rgba(28, 31, 40, 0.54);
+            backdrop-filter: blur(24px) saturate(190%);
+            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow:
+                0 18px 42px rgba(0, 0, 0, 0.54),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.26),
+                inset 0 -1px 0.5px rgba(255, 255, 255, 0.08);
+            color: #F8FAFC;
+        }
+
+        .pa-tour-glass-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border-radius: 9999px;
+            font-weight: 900;
+            cursor: pointer;
+            pointer-events: auto;
+            background: rgba(255, 255, 255, 0.40);
+            backdrop-filter: blur(22px) saturate(185%);
+            -webkit-backdrop-filter: blur(22px) saturate(185%);
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            box-shadow:
+                0 10px 26px rgba(15, 23, 42, 0.12),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.94),
+                inset 0 -1px 0.5px rgba(255, 255, 255, 0.32);
+            color: #0F172A;
+            transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .pa-tour-glass-btn:active {
+            transform: scale(0.94);
+        }
+
+        .pa-tour-glass-btn.is-primary {
+            background: rgba(255, 148, 26, 0.24);
+            border-color: rgba(255, 183, 77, 0.85);
+            color: #9A3412;
+            box-shadow:
+                0 10px 26px rgba(255, 123, 0, 0.22),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.92),
+                inset 0 -1px 0.5px rgba(255, 152, 0, 0.24);
+        }
+
+        html.dark .pa-tour-glass-btn {
+            background: rgba(28, 31, 40, 0.48);
+            backdrop-filter: blur(24px) saturate(190%);
+            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.48),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.24),
+                inset 0 -1px 0.5px rgba(255, 255, 255, 0.08);
+            color: #F8FAFC;
+        }
+
+        html.dark .pa-tour-glass-btn.is-primary {
+            background: rgba(255, 152, 0, 0.26);
+            border-color: rgba(255, 183, 77, 0.52);
+            color: #FFEDD5;
+            box-shadow:
+                0 12px 30px rgba(255, 123, 0, 0.24),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.30),
+                inset 0 -1px 0.5px rgba(255, 152, 0, 0.16);
+        }
+
+        /* زر التخطي الدائم في الزاوية العلوية اليسرى */
+        .pa-tour-skip-btn {
+            position: fixed;
+            top: max(14px, env(safe-area-inset-top, 14px));
+            left: 14px;
+            z-index: 9520;
+            padding: 8px 18px;
+            font-size: 13px;
+            opacity: 0;
+            transform: translateY(-8px);
+            pointer-events: none;
+            transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease;
+        }
+
+        .pa-tour-skip-btn.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* بطاقة المحتوى الوسطية (الترحيب / شريط الشرح الوسطي / الختام) */
+        .pa-tour-center-stage {
+            position: fixed;
+            inset: 0;
+            z-index: 9510;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0.95) translateY(8px);
+            transition: opacity 0.3s ease, transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .pa-tour-center-stage.is-visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .pa-tour-center-stage.is-visible > * {
+            pointer-events: auto;
+        }
+
+        /* بطاقة التلميح العائمة فوق أو أسفل العنصر المبرز */
+        .pa-tour-tooltip {
+            position: fixed;
+            z-index: 9512;
+            max-width: calc(100vw - 28px);
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(6px) scale(0.96);
+            transition: opacity 0.28s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .pa-tour-tooltip.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
     </style>
 </head>
 
 <body
     class="h-[100dvh] flex flex-col lg:flex-row overflow-hidden selection:bg-brand/30 selection:text-primary overscroll-none text-primary">
+    <!-- طبقة خلفية رسومات الألعاب القابلة للتفعيل والإيقاف من الإعدادات -->
+    <div id="pa-bg-wallpaper" class="pa-bg-wallpaper" aria-hidden="true"></div>
 
     <!-- ==================== القائمة الجانبية لسطح المكتب (Desktop Glass Sidebar) ==================== -->
     <aside
@@ -2497,14 +2825,14 @@
                         </div>
 
                         <div class="flex items-center gap-2 w-full sm:w-auto">
-                            <button onclick="toggleFriendRequestsModal()"
+                            <button id="friends-requests-btn" onclick="toggleFriendRequestsModal()"
                                 class="flex-1 sm:flex-initial px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-primary font-black text-[11px] rounded-xl flex items-center justify-center gap-1.5 transition relative">
                                 <i class="fa-solid fa-user-clock text-nav"></i>
                                 <span>الطلبات</span>
                                 <span id="requests-count-badge"
                                     class="hidden bg-red-500 text-white text-[9.5px] font-black px-1.5 py-0.5 rounded-full min-w-[18px] text-center">0</span>
                             </button>
-                            <button onclick="toggleAddFriendModal()"
+                            <button id="friends-add-btn" onclick="toggleAddFriendModal()"
                                 class="flex-1 sm:flex-initial px-4 py-2 btn-3d text-[11px] flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-user-plus"></i>
                                 <span>إضافة صديق</span>
@@ -2513,7 +2841,7 @@
                     </div>
 
                     <!-- قائمة الأصدقاء -->
-                    <div class="stagger-item card-ui p-4 sm:p-5 flex-1">
+                    <div id="friends-list-card" class="stagger-item card-ui p-4 sm:p-5 flex-1">
                         <div class="flex items-center justify-between mb-3">
                             <h3 class="font-black text-base flex items-center gap-2">
                                 <i class="fa-solid fa-comments text-brand"></i>
@@ -2952,6 +3280,27 @@
                             </label>
                         </div>
 
+                        <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-9 h-9 rounded-xl border border-orange-200 dark:border-slate-700 overflow-hidden bg-orange-50 dark:bg-slate-800 shrink-0 relative flex items-center justify-center">
+                                    <img src="./خلفية_الالعاب.jpg" alt="خلفية الألعاب"
+                                        class="w-full h-full object-cover opacity-80 dark:invert dark:opacity-75">
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-sm leading-tight">خلفية رسومات الألعاب</span>
+                                    <span class="text-[10px] font-bold text-secondary">تفعيل أو إيقاف خلفية صفحات التطبيق</span>
+                                </div>
+                            </div>
+                            <label class="relative inline-block cursor-pointer">
+                                <input type="checkbox" id="bg-pattern-toggle" class="sr-only" checked
+                                    onchange="toggleBgPattern(this.checked)">
+                                <div class="wallpaper-toggle-wrapper">
+                                    <div class="wallpaper-toggle-handle"><i class="fa-solid fa-image text-[10px]"></i></div>
+                                </div>
+                            </label>
+                        </div>
+
                         <div class="flex justify-between items-center py-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 rounded-xl px-2 -mx-2 transition"
                             onclick="toggleInstructionsModal()">
                             <div class="flex items-center gap-3">
@@ -3093,6 +3442,16 @@
                 <p id="toast-message" class="text-xs text-secondary font-bold mt-0.5"></p>
             </div>
         </div>
+    </div>
+
+    <!-- ==================== الجولة التعريفية التفاعلية للهاتف (Onboarding Tour) ==================== -->
+    <div id="pa-tour-root" dir="rtl" aria-modal="true" role="dialog" aria-label="جولة تعريفية في التطبيق">
+        <div id="pa-tour-backdrop" class="pa-tour-backdrop"></div>
+        <div id="pa-tour-ring" class="pa-tour-ring" aria-hidden="true"></div>
+        <button type="button" id="pa-tour-hit-zone" class="pa-tour-hit-zone" aria-label="العنصر المحدد"></button>
+        <button type="button" id="pa-tour-skip-btn" class="pa-tour-glass-btn pa-tour-skip-btn">تخطي</button>
+        <div id="pa-tour-center-stage" class="pa-tour-center-stage"></div>
+        <div id="pa-tour-tooltip" class="pa-tour-tooltip"></div>
     </div>
 
     <script>
@@ -4684,6 +5043,7 @@
         }
 
         function renderFriendsList(friendsArray) {
+            if (window.__PA_TOUR_FAKE_FRIENDS_ACTIVE && !friendsArray) return;
             const container = document.getElementById('friends-list-container');
             const countEl = document.getElementById('friends-total-count');
             if (!container) return;
@@ -5408,6 +5768,17 @@
             } catch (e) { }
         }
 
+        function toggleBgPattern(enabled, silent = false) {
+            if (!silent) playUiSound('click');
+            const isOn = !!enabled;
+            document.documentElement.classList.toggle('has-doodle-bg', isOn);
+            try {
+                localStorage.setItem('pro-arena-bg-pattern', isOn ? 'true' : 'false');
+            } catch (e) { }
+            const bgToggle = document.getElementById('bg-pattern-toggle');
+            if (bgToggle && bgToggle.checked !== isOn) bgToggle.checked = isOn;
+        }
+
         // التمرير السلس والمتوازن (يمنع الحركة السريعة أو القفز المفاجئ بعجلة الماوس ويحافظ على السلاسة الطبيعية للمس)
         function initSmoothBalancedScroll(scrollEl) {
             if (!scrollEl || scrollEl._smoothScrollBound) return;
@@ -5515,7 +5886,655 @@
         }
 
         // ============================================================
-        // 15. تهيئة التطبيق عند التحميل
+        // 15. الجولة التعريفية التفاعلية للهاتف (Mobile Onboarding Tour)
+        // ============================================================
+        const PA_TOUR_STORAGE_KEY = 'pro-arena-onboarding-done';
+
+        function initProArenaOnboardingTour(forceStart = false) {
+            const root = document.getElementById('pa-tour-root');
+            const backdrop = document.getElementById('pa-tour-backdrop');
+            const ring = document.getElementById('pa-tour-ring');
+            const hitZone = document.getElementById('pa-tour-hit-zone');
+            const skipBtn = document.getElementById('pa-tour-skip-btn');
+            const centerStage = document.getElementById('pa-tour-center-stage');
+            const tooltip = document.getElementById('pa-tour-tooltip');
+            const mobileNav = document.getElementById('ig-glass-nav');
+            if (!root || !backdrop || !ring || !hitZone || !skipBtn || !centerStage || !tooltip) return;
+
+            if (!forceStart) {
+                try {
+                    if (localStorage.getItem(PA_TOUR_STORAGE_KEY) === 'true') return;
+                } catch (e) { }
+                // تعمل تلقائياً على الهاتف فقط (حيث يظهر شريط التنقل السفلي)
+                const isMobileViewport = window.innerWidth < 1024 && mobileNav && mobileNav.offsetWidth > 0 && mobileNav.offsetHeight > 0;
+                if (!isMobileViewport) return;
+            }
+
+            if (window.__PA_TOUR_ACTIVE) return;
+            window.__PA_TOUR_ACTIVE = true;
+
+            let autoScrollRaf = null;
+            let activeResizeHandler = null;
+            let currentStepRef = null;
+            let currentTargetEl = null;
+            let currentShape = 'circle';
+            let currentPad = 10;
+            let currentRadius = 18;
+            let currentPlacement = 'top';
+
+            const FAKE_DEMO_FRIENDS = [
+                { uid: 'demo-1', username: 'أحمد المحترف', customId: '482910', avatarSeed: 'AhmedPro' },
+                { uid: 'demo-2', username: 'سارة الأسطورة', customId: '739104', avatarSeed: 'SaraHero' },
+                { uid: 'demo-3', username: 'خالد القناص', customId: '295618', avatarSeed: 'KhalidSniper' },
+                { uid: 'demo-4', username: 'نورة البطل', customId: '614820', avatarSeed: 'NouraChamp' }
+            ];
+
+            function stopAutoScroll() {
+                if (autoScrollRaf) {
+                    cancelAnimationFrame(autoScrollRaf);
+                    autoScrollRaf = null;
+                }
+            }
+
+            function startSlowScroll(el, durationMs = 3000) {
+                stopAutoScroll();
+                if (!el) return;
+                if (typeof el._resetSmoothScroll === 'function') {
+                    el._resetSmoothScroll();
+                } else {
+                    el.scrollTop = 0;
+                }
+
+                requestAnimationFrame(() => {
+                    if (!window.__PA_TOUR_ACTIVE) return;
+                    const maxScroll = Math.max(0, el.scrollHeight - el.clientHeight);
+                    if (maxScroll <= 4) return;
+                    const startY = el.scrollTop;
+                    const travel = Math.min(maxScroll - startY, Math.max(260, Math.round(maxScroll * 0.65)), 520);
+                    const startTime = performance.now();
+
+                    function tick(now) {
+                        if (!window.__PA_TOUR_ACTIVE) {
+                            autoScrollRaf = null;
+                            return;
+                        }
+                        const elapsed = now - startTime;
+                        const progress = Math.min(1, elapsed / durationMs);
+                        const eased = 0.5 - 0.5 * Math.cos(Math.PI * progress);
+                        el.scrollTop = startY + travel * eased;
+                        if (progress < 1) {
+                            autoScrollRaf = requestAnimationFrame(tick);
+                        } else {
+                            autoScrollRaf = null;
+                        }
+                    }
+                    autoScrollRaf = requestAnimationFrame(tick);
+                });
+            }
+
+            function injectFakeFriends() {
+                window.__PA_TOUR_FAKE_FRIENDS_ACTIVE = true;
+                const container = document.getElementById('friends-list-container');
+                const countEl = document.getElementById('friends-total-count');
+                if (countEl) countEl.textContent = `${FAKE_DEMO_FRIENDS.length} صديق`;
+                if (!container) return;
+                container.innerHTML = FAKE_DEMO_FRIENDS.map(f => `
+                    <div class="flex items-center justify-between gap-2.5 p-2.5 sm:p-3 bg-gray-50 rounded-xl border border-gray-100">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand to-amber-300 p-[2px] shrink-0">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(f.avatarSeed)}&backgroundColor=FF9800"
+                                    alt="${escapeHtml(f.username)}" class="w-full h-full rounded-full bg-white">
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="font-black text-xs sm:text-sm text-primary truncate">${escapeHtml(f.username)}</h4>
+                                <span class="text-[10px] font-bold text-secondary">ID: #${escapeHtml(f.customId)}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0 pointer-events-none">
+                            <span class="btn-3d px-3 py-1.5 text-[11px] gap-1">
+                                <i class="fa-solid fa-paper-plane"></i> مراسلة
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function cleanupFakeFriends() {
+                if (!window.__PA_TOUR_FAKE_FRIENDS_ACTIVE) return;
+                window.__PA_TOUR_FAKE_FRIENDS_ACTIVE = false;
+                renderFriendsList();
+            }
+
+            function buildCircleClip(cx, cy, r) {
+                const pts = ['0px 0px', '100% 0px', '100% 100%', '0px 100%', '0px 0px'];
+                const steps = 48;
+                for (let i = 0; i <= steps; i++) {
+                    const a = (i / steps) * Math.PI * 2;
+                    const x = cx + r * Math.cos(a);
+                    const y = cy + r * Math.sin(a);
+                    pts.push(`${x.toFixed(1)}px ${y.toFixed(1)}px`);
+                }
+                return `polygon(evenodd, ${pts.join(', ')})`;
+            }
+
+            function buildRoundedRectClip(x0, y0, x1, y1, rad) {
+                const r = Math.max(0, Math.min(rad, (x1 - x0) / 2, (y1 - y0) / 2));
+                const pts = ['0px 0px', '100% 0px', '100% 100%', '0px 100%', '0px 0px'];
+                const corners = [
+                    { cx: x1 - r, cy: y0 + r, start: -Math.PI / 2, end: 0 },
+                    { cx: x1 - r, cy: y1 - r, start: 0, end: Math.PI / 2 },
+                    { cx: x0 + r, cy: y1 - r, start: Math.PI / 2, end: Math.PI },
+                    { cx: x0 + r, cy: y0 + r, start: Math.PI, end: Math.PI * 1.5 }
+                ];
+                const segs = 8;
+                let firstPt = null;
+                corners.forEach(c => {
+                    for (let i = 0; i <= segs; i++) {
+                        const a = c.start + (c.end - c.start) * (i / segs);
+                        const px = `${(c.cx + r * Math.cos(a)).toFixed(1)}px ${(c.cy + r * Math.sin(a)).toFixed(1)}px`;
+                        if (!firstPt) firstPt = px;
+                        pts.push(px);
+                    }
+                });
+                if (firstPt) pts.push(firstPt);
+                return `polygon(evenodd, ${pts.join(', ')})`;
+            }
+
+            function clearSpotlightVisuals() {
+                backdrop.style.clipPath = '';
+                backdrop.style.webkitClipPath = '';
+                ring.classList.remove('is-visible');
+                hitZone.className = 'pa-tour-hit-zone';
+                hitZone.onclick = null;
+                tooltip.classList.remove('is-visible');
+                tooltip.innerHTML = '';
+                currentTargetEl = null;
+            }
+
+            function hideCenterStage() {
+                centerStage.classList.remove('is-visible');
+                centerStage.innerHTML = '';
+            }
+
+            function setBackdropMode(mode) {
+                backdrop.classList.remove('is-soft-blur', 'is-clear-pass');
+                if (mode === 'soft') backdrop.classList.add('is-soft-blur');
+                else if (mode === 'clear') backdrop.classList.add('is-clear-pass');
+            }
+
+            function positionSpotlightAndTooltip() {
+                if (!currentTargetEl || !window.__PA_TOUR_ACTIVE) return;
+                const rect = currentTargetEl.getBoundingClientRect();
+                if (!rect.width && !rect.height) return;
+                const vw = window.innerWidth;
+                const vh = window.innerHeight;
+
+                let holeLeft, holeTop, holeW, holeH, holeRadius;
+                if (currentShape === 'circle') {
+                    const cx = rect.left + rect.width / 2;
+                    const cy = rect.top + rect.height / 2;
+                    const r = Math.max(rect.width, rect.height) / 2 + currentPad;
+                    const clip = buildCircleClip(cx, cy, r);
+                    backdrop.style.clipPath = clip;
+                    backdrop.style.webkitClipPath = clip;
+                    holeLeft = cx - r;
+                    holeTop = cy - r;
+                    holeW = r * 2;
+                    holeH = r * 2;
+                    holeRadius = 9999;
+                } else {
+                    const x0 = Math.max(6, rect.left - currentPad);
+                    const y0 = Math.max(6, rect.top - currentPad);
+                    const x1 = Math.min(vw - 6, rect.right + currentPad);
+                    const y1 = Math.min(vh - 14, rect.bottom + currentPad);
+                    const clip = buildRoundedRectClip(x0, y0, x1, y1, currentRadius);
+                    backdrop.style.clipPath = clip;
+                    backdrop.style.webkitClipPath = clip;
+                    holeLeft = x0;
+                    holeTop = y0;
+                    holeW = Math.max(20, x1 - x0);
+                    holeH = Math.max(20, y1 - y0);
+                    holeRadius = currentRadius;
+                }
+
+                ring.style.left = `${holeLeft}px`;
+                ring.style.top = `${holeTop}px`;
+                ring.style.width = `${holeW}px`;
+                ring.style.height = `${holeH}px`;
+                ring.style.borderRadius = `${holeRadius}px`;
+                ring.classList.add('is-visible');
+
+                hitZone.style.left = `${holeLeft}px`;
+                hitZone.style.top = `${holeTop}px`;
+                hitZone.style.width = `${holeW}px`;
+                hitZone.style.height = `${holeH}px`;
+                hitZone.style.borderRadius = `${holeRadius}px`;
+
+                // ضبط موضع بطاقة التلميح العائمة فوق أو أسفل العنصر المبرز بدون خروج عن الشاشة
+                if (tooltip.innerHTML) {
+                    tooltip.style.left = '0px';
+                    tooltip.style.top = '0px';
+                    const tw = tooltip.offsetWidth;
+                    const th = tooltip.offsetHeight;
+                    const targetCenterX = holeLeft + holeW / 2;
+                    let left = targetCenterX - tw / 2;
+                    left = Math.max(14, Math.min(vw - tw - 14, left));
+
+                    const gap = 14;
+                    let top = currentPlacement === 'bottom'
+                        ? holeTop + holeH + gap
+                        : holeTop - th - gap;
+
+                    if (currentPlacement === 'bottom' && top + th > vh - 16) {
+                        top = holeTop - th - gap;
+                    } else if (currentPlacement === 'top' && top < 64) {
+                        top = Math.min(vh - th - 16, Math.max(62, holeTop - th - 10));
+                    }
+
+                    tooltip.style.left = `${Math.round(left)}px`;
+                    tooltip.style.top = `${Math.round(top)}px`;
+                }
+            }
+
+            function showSpotlightStep({ targetEl, shape = 'circle', pad = 10, radius = 18, placement = 'top', text, nextLabel = null, onTargetClick = null, onNextClick = null }) {
+                stopAutoScroll();
+                hideCenterStage();
+                setBackdropMode('full');
+                skipBtn.classList.add('is-visible');
+
+                currentTargetEl = targetEl;
+                currentShape = shape;
+                currentPad = pad;
+                currentRadius = radius;
+                currentPlacement = placement;
+
+                tooltip.classList.remove('is-visible');
+                tooltip.innerHTML = `
+                    <div class="pa-tour-glass-card px-4 py-3 flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+                        <span class="text-xs sm:text-sm font-black leading-relaxed">${escapeHtml(text)}</span>
+                        ${nextLabel ? `<button type="button" id="pa-tour-tooltip-next" class="pa-tour-glass-btn is-primary px-4 py-1.5 text-xs shrink-0">${escapeHtml(nextLabel)}</button>` : ''}
+                    </div>
+                `;
+
+                if (onTargetClick) {
+                    hitZone.className = 'pa-tour-hit-zone is-clickable';
+                    hitZone.onclick = (e) => {
+                        e.stopPropagation();
+                        playUiSound('click');
+                        onTargetClick();
+                    };
+                } else {
+                    hitZone.className = 'pa-tour-hit-zone is-blocker';
+                    hitZone.onclick = null;
+                }
+
+                if (nextLabel && onNextClick) {
+                    const nextBtn = document.getElementById('pa-tour-tooltip-next');
+                    if (nextBtn) {
+                        nextBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            playUiSound('click');
+                            onNextClick();
+                        };
+                    }
+                }
+
+                requestAnimationFrame(() => {
+                    positionSpotlightAndTooltip();
+                    requestAnimationFrame(() => {
+                        positionSpotlightAndTooltip();
+                        tooltip.classList.add('is-visible');
+                    });
+                });
+            }
+
+            function showCenterPreviewBar({ text, onNext }) {
+                clearSpotlightVisuals();
+                setBackdropMode('clear');
+                skipBtn.classList.add('is-visible');
+
+                centerStage.innerHTML = `
+                    <div class="pa-tour-glass-card px-5 py-3.5 flex items-center justify-between gap-4 max-w-sm w-auto">
+                        <span class="text-sm sm:text-base font-black leading-snug">${escapeHtml(text)}</span>
+                        <button type="button" id="pa-tour-center-next" class="pa-tour-glass-btn is-primary px-5 py-2 text-xs sm:text-sm shrink-0">التالي</button>
+                    </div>
+                `;
+                requestAnimationFrame(() => centerStage.classList.add('is-visible'));
+
+                const nextBtn = document.getElementById('pa-tour-center-next');
+                if (nextBtn) {
+                    nextBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        playUiSound('click');
+                        stopAutoScroll();
+                        onNext();
+                    };
+                }
+            }
+
+            function finishTour(goToGames = false) {
+                if (!window.__PA_TOUR_ACTIVE) return;
+                stopAutoScroll();
+                cleanupFakeFriends();
+
+                const settingsModal = document.getElementById('settings-modal');
+                if (settingsModal && settingsModal.classList.contains('active')) {
+                    settingsModal.classList.remove('active');
+                    const modalScroll = settingsModal.querySelector('.overflow-y-auto');
+                    if (modalScroll) modalScroll.scrollTop = 0;
+                }
+
+                if (goToGames) {
+                    switchPage('games');
+                }
+
+                try {
+                    localStorage.setItem(PA_TOUR_STORAGE_KEY, 'true');
+                } catch (e) { }
+
+                if (activeResizeHandler) {
+                    window.removeEventListener('resize', activeResizeHandler);
+                    activeResizeHandler = null;
+                }
+
+                skipBtn.classList.remove('is-visible');
+                ring.classList.remove('is-visible');
+                tooltip.classList.remove('is-visible');
+                centerStage.classList.remove('is-visible');
+                root.classList.add('is-fading-out');
+
+                setTimeout(() => {
+                    root.classList.remove('is-active', 'is-fading-out');
+                    clearSpotlightVisuals();
+                    hideCenterStage();
+                    setBackdropMode('full');
+                    window.__PA_TOUR_ACTIVE = false;
+                }, 400);
+            }
+
+            skipBtn.onclick = () => {
+                playUiSound('click');
+                finishTour(false);
+            };
+
+            function getNavIconWrap(target) {
+                return document.querySelector(`#ig-glass-nav .nav-item-mobile[data-target="${target}"] .nav-icon-wrap`)
+                    || document.querySelector(`#ig-glass-nav .nav-item-mobile[data-target="${target}"]`);
+            }
+
+            // -------- خطوات الجولة التعريفية بالتسلسل --------
+
+            // 0. شاشة الترحيب
+            function runStep0Welcome() {
+                currentStepRef = runStep0Welcome;
+                stopAutoScroll();
+                clearSpotlightVisuals();
+                setBackdropMode('soft');
+                skipBtn.classList.remove('is-visible');
+
+                centerStage.innerHTML = `
+                    <div class="pa-tour-glass-card w-full max-w-xs p-6 text-center flex flex-col items-center gap-5">
+                        <div class="space-y-3.5">
+                            <h3 class="text-lg sm:text-xl font-black leading-relaxed">أهلاً فيك في تطبيق 𝔞𝔯𝔢𝔫𝔞</h3>
+                            <p class="text-sm font-bold opacity-85 leading-relaxed">خليني أعرفك على التطبيق</p>
+                        </div>
+                        <div class="flex items-center justify-center gap-3 w-full pt-1">
+                            <button type="button" id="pa-tour-welcome-ok" class="pa-tour-glass-btn is-primary flex-1 py-2.5 px-4 text-sm">حسناً</button>
+                            <button type="button" id="pa-tour-welcome-skip" class="pa-tour-glass-btn flex-1 py-2.5 px-4 text-sm">تخطي</button>
+                        </div>
+                    </div>
+                `;
+                requestAnimationFrame(() => centerStage.classList.add('is-visible'));
+
+                const okBtn = document.getElementById('pa-tour-welcome-ok');
+                const skipWelcomeBtn = document.getElementById('pa-tour-welcome-skip');
+                if (okBtn) {
+                    okBtn.onclick = () => {
+                        playUiSound('click');
+                        runStep1NewsIcon();
+                    };
+                }
+                if (skipWelcomeBtn) {
+                    skipWelcomeBtn.onclick = () => {
+                        playUiSound('click');
+                        finishTour(false);
+                    };
+                }
+            }
+
+            // 1. شرح الصفحة الرئيسية (news)
+            function runStep1NewsIcon() {
+                currentStepRef = runStep1NewsIcon;
+                const el = getNavIconWrap('news');
+                if (!el) return runStep1NewsPreview();
+                showSpotlightStep({
+                    targetEl: el,
+                    shape: 'circle',
+                    pad: 10,
+                    placement: 'top',
+                    text: 'هذه الصفحة الرئيسية، اضغط عليها',
+                    onTargetClick: () => {
+                        switchPage('news');
+                        runStep1NewsPreview();
+                    }
+                });
+            }
+
+            function runStep1NewsPreview() {
+                currentStepRef = runStep1NewsPreview;
+                showCenterPreviewBar({
+                    text: 'هذه الصفحة الرئيسية',
+                    onNext: () => runStep2GamesIcon()
+                });
+                startSlowScroll(document.getElementById('main-scroll-area'), 3000);
+            }
+
+            // 2. شرح صفحة الألعاب (games)
+            function runStep2GamesIcon() {
+                currentStepRef = runStep2GamesIcon;
+                const el = getNavIconWrap('games');
+                if (!el) return runStep2GamesPreview();
+                showSpotlightStep({
+                    targetEl: el,
+                    shape: 'circle',
+                    pad: 10,
+                    placement: 'top',
+                    text: 'هذه صفحة الألعاب، اضغط عليها',
+                    onTargetClick: () => {
+                        switchPage('games');
+                        runStep2GamesPreview();
+                    }
+                });
+            }
+
+            function runStep2GamesPreview() {
+                currentStepRef = runStep2GamesPreview;
+                showCenterPreviewBar({
+                    text: 'هذه صفحة الألعاب',
+                    onNext: () => runStep3FriendsIcon()
+                });
+                startSlowScroll(document.getElementById('main-scroll-area'), 3000);
+            }
+
+            // 3. شرح صفحة الأصدقاء (messages)
+            function runStep3FriendsIcon() {
+                currentStepRef = runStep3FriendsIcon;
+                const el = getNavIconWrap('messages');
+                if (!el) {
+                    switchPage('messages');
+                    return runStep3ARequests();
+                }
+                showSpotlightStep({
+                    targetEl: el,
+                    shape: 'circle',
+                    pad: 10,
+                    placement: 'top',
+                    text: 'هذه صفحة الأصدقاء، اضغط عليها',
+                    onTargetClick: () => {
+                        switchPage('messages');
+                        const scroller = document.getElementById('main-scroll-area');
+                        if (scroller) scroller.scrollTop = 0;
+                        requestAnimationFrame(() => runStep3ARequests());
+                    }
+                });
+            }
+
+            // 3-أ: زر الطلبات
+            function runStep3ARequests() {
+                currentStepRef = runStep3ARequests;
+                const el = document.getElementById('friends-requests-btn');
+                if (!el) return runStep3BAddFriend();
+                showSpotlightStep({
+                    targetEl: el,
+                    shape: 'rect',
+                    pad: 6,
+                    radius: 15,
+                    placement: 'bottom',
+                    text: 'هنا استلام الإضافات من الأصدقاء',
+                    nextLabel: 'التالي',
+                    onNextClick: () => runStep3BAddFriend()
+                });
+            }
+
+            // 3-ب: زر إضافة صديق
+            function runStep3BAddFriend() {
+                currentStepRef = runStep3BAddFriend;
+                const el = document.getElementById('friends-add-btn');
+                if (!el) return runStep3CFriendsList();
+                showSpotlightStep({
+                    targetEl: el,
+                    shape: 'rect',
+                    pad: 6,
+                    radius: 9999,
+                    placement: 'bottom',
+                    text: 'من هنا تضيف صديقك',
+                    nextLabel: 'التالي',
+                    onNextClick: () => runStep3CFriendsList()
+                });
+            }
+
+            // 3-ج: قائمة الأصدقاء (مع 4 أصدقاء وهميين مؤقتين)
+            function runStep3CFriendsList() {
+                currentStepRef = runStep3CFriendsList;
+                injectFakeFriends();
+                const card = document.getElementById('friends-list-card') || document.getElementById('friends-list-container');
+                const scroller = document.getElementById('main-scroll-area');
+                if (card && scroller) {
+                    const cardRect = card.getBoundingClientRect();
+                    const scrollerRect = scroller.getBoundingClientRect();
+                    const desiredTop = scrollerRect.top + 82;
+                    scroller.scrollTop = Math.max(0, scroller.scrollTop + (cardRect.top - desiredTop));
+                }
+                requestAnimationFrame(() => {
+                    if (!card) {
+                        cleanupFakeFriends();
+                        return runStep4AccountIcon();
+                    }
+                    showSpotlightStep({
+                        targetEl: card,
+                        shape: 'rect',
+                        pad: 6,
+                        radius: 24,
+                        placement: 'top',
+                        text: 'هنا قائمة الأصدقاء',
+                        nextLabel: 'التالي',
+                        onNextClick: () => {
+                            cleanupFakeFriends();
+                            runStep4AccountIcon();
+                        }
+                    });
+                });
+            }
+
+            // 4. شرح صفحة حسابي (account)
+            function runStep4AccountIcon() {
+                currentStepRef = runStep4AccountIcon;
+                const el = getNavIconWrap('account');
+                if (!el) return runStep4AccountPreview();
+                showSpotlightStep({
+                    targetEl: el,
+                    shape: 'circle',
+                    pad: 10,
+                    placement: 'top',
+                    text: 'هذه صفحة حسابك، اضغط عليها',
+                    onTargetClick: () => {
+                        const settingsModal = document.getElementById('settings-modal');
+                        if (settingsModal && !settingsModal.classList.contains('active')) {
+                            settingsModal.classList.add('active');
+                        }
+                        runStep4AccountPreview();
+                    }
+                });
+            }
+
+            function runStep4AccountPreview() {
+                currentStepRef = runStep4AccountPreview;
+                const settingsModal = document.getElementById('settings-modal');
+                const modalScroll = settingsModal ? settingsModal.querySelector('.overflow-y-auto') : null;
+                showCenterPreviewBar({
+                    text: 'هذه صفحة حسابك',
+                    onNext: () => {
+                        if (settingsModal) settingsModal.classList.remove('active');
+                        if (modalScroll) modalScroll.scrollTop = 0;
+                        runStep5Finale();
+                    }
+                });
+                // انتظار اكتمال ظهور النافذة ثم التمرير البطيء 3 ثوانٍ
+                setTimeout(() => {
+                    if (window.__PA_TOUR_ACTIVE && currentStepRef === runStep4AccountPreview) {
+                        startSlowScroll(modalScroll, 3000);
+                    }
+                }, 260);
+            }
+
+            // 5. شاشة الختام
+            function runStep5Finale() {
+                currentStepRef = runStep5Finale;
+                stopAutoScroll();
+                clearSpotlightVisuals();
+                switchPage('games');
+                const scroller = document.getElementById('main-scroll-area');
+                if (scroller) scroller.scrollTop = 0;
+
+                setBackdropMode('full');
+                skipBtn.classList.add('is-visible');
+
+                centerStage.innerHTML = `
+                    <div class="pa-tour-glass-card w-full max-w-xs p-6 text-center flex flex-col items-center gap-5">
+                        <h3 class="text-xl sm:text-2xl font-black leading-snug">الآن جرّب العب</h3>
+                        <button type="button" id="pa-tour-finish-btn" class="pa-tour-glass-btn is-primary px-9 py-2.5 text-sm sm:text-base">ابدأ</button>
+                    </div>
+                `;
+                requestAnimationFrame(() => centerStage.classList.add('is-visible'));
+
+                const startBtn = document.getElementById('pa-tour-finish-btn');
+                if (startBtn) {
+                    startBtn.onclick = () => {
+                        playUiSound('success');
+                        finishTour(false);
+                    };
+                }
+            }
+
+            activeResizeHandler = () => {
+                if (window.__PA_TOUR_ACTIVE && currentTargetEl) {
+                    positionSpotlightAndTooltip();
+                }
+            };
+            window.addEventListener('resize', activeResizeHandler, { passive: true });
+
+            root.classList.remove('is-fading-out');
+            root.classList.add('is-active');
+            runStep0Welcome();
+        }
+
+        window.restartOnboardingTour = function () {
+            try { localStorage.removeItem(PA_TOUR_STORAGE_KEY); } catch (e) { }
+            initProArenaOnboardingTour(true);
+        };
+
+        // ============================================================
+        // 16. تهيئة التطبيق عند التحميل
         // ============================================================
         document.addEventListener('DOMContentLoaded', () => {
             const isDark = localStorage.getItem('pro-arena-darkmode') === 'true';
@@ -5528,8 +6547,12 @@
             const soundToggle = document.getElementById('sound-effects-toggle');
             if (soundToggle) soundToggle.checked = soundEnabled;
 
+            const isBgPatternOn = localStorage.getItem('pro-arena-bg-pattern') !== 'false';
+            toggleBgPattern(isBgPatternOn, true);
+
             applyMostPlayedGameOrder();
             initInstagramBubbleNav();
+            setTimeout(() => initProArenaOnboardingTour(false), 450);
 
             // تأثير السكرول الزجاجي للهيدر
             // تأثير السكرول الزجاجي للهيدر + التمرير السلس المتوازن
