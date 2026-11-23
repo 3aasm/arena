@@ -718,7 +718,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform;
         }
 
@@ -750,7 +750,7 @@
             width: 100%;
             height: 100%;
             overflow: visible;
-            transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.14s ease;
+            transition: opacity 0.24s ease, transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
         }
 
         .pa-nav-icon .icon-outline {
@@ -777,7 +777,7 @@
 
         .nav-item-mobile i {
             font-size: 1.48rem;
-            transition: color 0.14s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: color 0.2s ease, transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .nav-item-mobile.active {
@@ -4008,6 +4008,11 @@
             if (!buttons.length) return;
             const iconWraps = buttons.map(btn => btn.querySelector('.nav-icon-wrap'));
             const lastHitState = buttons.map(() => false);
+            // فيزياء زنبرك ناعمة لكل أيقونة لمنع أي قفزة مفاجئة بين التكبير والتصغير
+            const iconScales = buttons.map(() => 1);
+            const iconVelScales = buttons.map(() => 0);
+            const iconShiftXs = buttons.map(() => 0);
+            const iconShiftYs = buttons.map(() => 0);
 
             // أبعاد مخزنة مسبقاً لمنع أي Reflow أثناء التحريك بـ 120fps
             let navLeft = 0;
@@ -4119,6 +4124,10 @@
                         buttons[i].classList.remove('is-lens-hit');
                         lastHitState[i] = false;
                     }
+                    iconScales[i] = 1;
+                    iconVelScales[i] = 0;
+                    iconShiftXs[i] = 0;
+                    iconShiftYs[i] = 0;
                     if (iconWraps[i]) iconWraps[i].style.transform = '';
                 }
                 nav.style.transform = '';
@@ -4186,23 +4195,10 @@
                 if (edgeLeft) edgeLeft.style.opacity = Math.min(1, leftGlow).toFixed(3);
                 if (edgeRight) edgeRight.style.opacity = Math.min(1, rightGlow).toFixed(3);
 
-                // تكبير وتموّج بصري ناعم للأيقونات الواقعة تحت العدسة الشفافة
-                if (isLiquid || isPointerDown || pendingSettle) {
-                    const lensRadius = bubbleW * 0.68;
-                    for (let i = 0; i < buttons.length; i++) {
-                        const dist = Math.abs(bubbleCenter - btnCenters[i]);
-                        const proximity = Math.max(0, 1 - dist / lensRadius);
-                        const hit = proximity > 0.24;
-                        if (lastHitState[i] !== hit) {
-                            buttons[i].classList.toggle('is-lens-hit', hit);
-                            lastHitState[i] = hit;
-                        }
-                        if (iconWraps[i]) {
-                            const shiftX = dirNorm * 5 * proximity;
-                            const shiftY = -1.6 * proximity;
-                            const iconScale = 1 + 0.20 * proximity;
-                            iconWraps[i].style.transform = `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 0) scale(${iconScale.toFixed(4)})`;
-                        }
+                // تطبيق التحويل الزنبركي السلس لكل أيقونة طوال مرحلتي التكبير والاستقرار
+                for (let i = 0; i < buttons.length; i++) {
+                    if (iconWraps[i]) {
+                        iconWraps[i].style.transform = `translate3d(${iconShiftXs[i].toFixed(2)}px, ${iconShiftYs[i].toFixed(2)}px, 0) scale(${iconScales[i].toFixed(4)})`;
                     }
                 }
             }
@@ -4287,12 +4283,50 @@
                 dockSY += (desiredDockSY - dockSY) * dockAlpha;
                 dockGlow += (desiredDockGlow - dockGlow) * dockAlpha;
 
+                // حركة زنبركية ناعمة لكل أيقونة (تكبير مرن عند اللمس/المرور + عودة سلسة متناغمة مع استقرار العدسة)
+                const lensRadius = bubbleW * 0.68;
+                const iconShiftAlpha = 1 - Math.exp(-16 * dt);
+                let iconsSettled = true;
+                for (let i = 0; i < buttons.length; i++) {
+                    const dist = Math.abs(bubbleCenter - btnCenters[i]);
+                    const proximity = Math.max(0, 1 - dist / lensRadius);
+                    const hit = proximity > 0.24;
+                    if (lastHitState[i] !== hit) {
+                        buttons[i].classList.toggle('is-lens-hit', hit);
+                        lastHitState[i] = hit;
+                    }
+
+                    const desiredScale = isBarActive ? (1 + 0.19 * proximity) : 1;
+                    const desiredShiftX = isBarActive ? (dirNorm * 4.8 * proximity) : 0;
+                    const desiredShiftY = isBarActive ? (-1.8 * proximity) : 0;
+
+                    const expanding = desiredScale > iconScales[i];
+                    const omegaI = expanding ? 21.5 : 16.5;
+                    const zetaI = expanding ? 0.72 : 0.80;
+                    const accelI = (desiredScale - iconScales[i]) * (omegaI * omegaI) - iconVelScales[i] * (2 * zetaI * omegaI);
+                    iconVelScales[i] += accelI * dt;
+                    iconScales[i] = Math.max(0.92, Math.min(1.28, iconScales[i] + iconVelScales[i] * dt));
+
+                    iconShiftXs[i] += (desiredShiftX - iconShiftXs[i]) * iconShiftAlpha;
+                    iconShiftYs[i] += (desiredShiftY - iconShiftYs[i]) * iconShiftAlpha;
+
+                    if (
+                        Math.abs(1 - iconScales[i]) > 0.0018 ||
+                        Math.abs(iconVelScales[i]) > 0.018 ||
+                        Math.abs(iconShiftXs[i]) > 0.04 ||
+                        Math.abs(iconShiftYs[i]) > 0.04
+                    ) {
+                        iconsSettled = false;
+                    }
+                }
+
                 renderFrame(dirNorm, speedMag);
 
                 const isSettled =
                     !isPointerDown &&
                     !pendingSettle &&
                     !isLiquid &&
+                    iconsSettled &&
                     Math.abs(targetX - currentX) < 0.08 &&
                     Math.abs(velX) < 0.8 &&
                     Math.abs(smoothVel) < 2 &&
@@ -4323,6 +4357,12 @@
                     dockSX = 1;
                     dockSY = 1;
                     dockGlow = 0;
+                    for (let i = 0; i < buttons.length; i++) {
+                        iconScales[i] = 1;
+                        iconVelScales[i] = 0;
+                        iconShiftXs[i] = 0;
+                        iconShiftYs[i] = 0;
+                    }
                     renderFrame(0, 0);
                     resetLensOptics();
                     nav.classList.remove('is-animating');
