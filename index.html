@@ -362,15 +362,18 @@
             user-select: none;
             -webkit-user-select: none;
             overflow: visible;
+            transform-origin: center center;
+            will-change: transform;
         }
 
-        /* السطح الزجاجي الشفاف للشريط */
+        /* السطح الزجاجي الشفاف للشريط (يتفاعل بمرونة وإضاءة ديناميكية مع حركة الفقاعة فوقه) */
         .ig-glass-surface {
             position: absolute;
             inset: 0;
             border-radius: 9999px;
             z-index: 0;
             pointer-events: none;
+            overflow: hidden;
             background: rgba(255, 255, 255, 0.34);
             backdrop-filter: blur(22px) saturate(185%);
             -webkit-backdrop-filter: blur(22px) saturate(185%);
@@ -379,10 +382,65 @@
                 0 12px 32px rgba(15, 23, 42, 0.10),
                 inset 0 1px 0.5px rgba(255, 255, 255, 0.92),
                 inset 0 -1px 0.5px rgba(255, 255, 255, 0.32);
-            transition: background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            transition: background-color 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
         }
 
-        /* الطبقة الخلفية للفقاعة (تحريك GPU خالص عبر transform فقط بدون أي reflow) */
+        .ig-glass-nav.is-animating .ig-glass-surface {
+            background: rgba(255, 255, 255, 0.42);
+            border-color: rgba(255, 255, 255, 0.88);
+            box-shadow:
+                0 16px 38px rgba(15, 23, 42, 0.14),
+                0 4px 14px rgba(255, 138, 0, 0.08),
+                inset 0 1px 1px rgba(255, 255, 255, 0.98),
+                inset 0 -1px 0.5px rgba(255, 255, 255, 0.45);
+        }
+
+        /* هالة ضوء ناعمة تتبع الفقاعة داخل جسم الشريط الزجاجي */
+        .ig-dock-spotlight {
+            position: absolute;
+            top: -12px;
+            bottom: -12px;
+            left: 0;
+            width: 140px;
+            border-radius: 9999px;
+            pointer-events: none;
+            opacity: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(255, 167, 38, 0.22) 0%, rgba(255, 255, 255, 0.26) 44%, transparent 74%);
+            will-change: transform, opacity;
+        }
+
+        /* بريق الحافة العلوية والسفلية للشريط الذي يضيء ديناميكياً في موقع الفقاعة */
+        .ig-dock-rim-glint {
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 118px;
+            pointer-events: none;
+            opacity: 0;
+            will-change: transform, opacity;
+        }
+
+        .ig-dock-rim-glint::before,
+        .ig-dock-rim-glint::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 35%, rgba(255, 183, 77, 0.9) 50%, rgba(255, 255, 255, 0.95) 65%, transparent 100%);
+            filter: blur(0.6px);
+        }
+
+        .ig-dock-rim-glint::before {
+            top: 0;
+        }
+
+        .ig-dock-rim-glint::after {
+            bottom: 0;
+            opacity: 0.65;
+        }
+
+        /* الطبقة الخلفية للفقاعة (شفافية كريستالية صافية + تحريك GPU خالص 120fps) */
         .ig-nav-bubble {
             position: absolute;
             left: 0;
@@ -395,9 +453,9 @@
             transform-origin: center center;
             will-change: transform, opacity;
             contain: layout style;
-            background: rgba(15, 23, 42, 0.08);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
-            transition: opacity 0.2s ease, background 0.22s ease, box-shadow 0.22s ease;
+            background: rgba(15, 23, 42, 0.075);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            transition: opacity 0.2s ease, background 0.18s ease, box-shadow 0.22s ease;
         }
 
         .ig-nav-bubble.is-visible {
@@ -405,15 +463,15 @@
         }
 
         .ig-nav-bubble.is-liquid {
-            background: radial-gradient(ellipse at 50% 24%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.05) 58%, rgba(255, 255, 255, 0.12) 100%);
-            backdrop-filter: blur(1.8px) brightness(1.08) contrast(1.06) saturate(165%);
-            -webkit-backdrop-filter: blur(1.8px) brightness(1.08) contrast(1.06) saturate(165%);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(0.6px) brightness(1.09) contrast(1.07) saturate(160%);
+            -webkit-backdrop-filter: blur(0.6px) brightness(1.09) contrast(1.07) saturate(160%);
             box-shadow:
-                0 10px 26px rgba(15, 23, 42, 0.16),
-                0 2px 8px rgba(15, 23, 42, 0.08);
+                0 12px 28px -4px rgba(15, 23, 42, 0.20),
+                0 3px 10px -2px rgba(15, 23, 42, 0.10);
         }
 
-        /* الحافة الزجاجية الطافية مع انكسار الضوء المنشوري ولمعة الاتجاه (يمين / يسار) */
+        /* الغلاف الزجاجي الكريستالي (وسط صافٍ 100% + انكسار Fresnel ومنشوري على الحافة فقط) */
         .ig-nav-bubble-rim {
             position: absolute;
             left: 0;
@@ -427,17 +485,18 @@
             transform-origin: center center;
             will-change: transform, opacity;
             contain: layout style;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.18s ease;
         }
 
         .ig-nav-bubble-rim.is-liquid {
             opacity: 1;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.01) 36%, rgba(255, 255, 255, 0.01) 70%, rgba(255, 255, 255, 0.12) 100%);
+            background: transparent;
             box-shadow:
-                inset 0 1.5px 1.5px rgba(255, 255, 255, 0.88),
-                inset 0 -1.5px 2px rgba(255, 255, 255, 0.42),
-                inset 2px 0 4px rgba(56, 189, 248, 0.28),
-                inset -2px 0 4px rgba(251, 146, 60, 0.28);
+                inset 0 1.8px 2px -0.5px rgba(255, 255, 255, 0.96),
+                inset 0 -1.8px 2.4px -0.5px rgba(255, 255, 255, 0.65),
+                inset 0 0 10px rgba(15, 23, 42, 0.08),
+                inset 2.5px 0 5px -1px rgba(56, 189, 248, 0.28),
+                inset -2.5px 0 5px -1px rgba(251, 146, 60, 0.28);
         }
 
         .ig-nav-bubble-rim::before {
@@ -445,54 +504,73 @@
             position: absolute;
             inset: 0;
             border-radius: inherit;
-            padding: 1.4px;
+            padding: 1.5px;
             background: conic-gradient(
-                from 200deg,
-                rgba(255, 255, 255, 0.92) 0deg,
-                rgba(56, 189, 248, 0.74) 55deg,
-                rgba(167, 139, 250, 0.56) 105deg,
-                rgba(255, 255, 255, 0.5) 160deg,
-                rgba(251, 146, 60, 0.68) 225deg,
-                rgba(56, 189, 248, 0.62) 290deg,
-                rgba(255, 255, 255, 0.94) 360deg
+                from 195deg,
+                rgba(255, 255, 255, 0.95) 0deg,
+                rgba(56, 189, 248, 0.78) 52deg,
+                rgba(167, 139, 250, 0.54) 104deg,
+                rgba(255, 255, 255, 0.55) 162deg,
+                rgba(251, 146, 60, 0.72) 224deg,
+                rgba(56, 189, 248, 0.68) 292deg,
+                rgba(255, 255, 255, 0.96) 360deg
             );
             -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             -webkit-mask-composite: xor;
             mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             mask-composite: exclude;
-            opacity: 0.88;
+            opacity: 0.92;
             pointer-events: none;
         }
 
-        /* لمعة الانعكاس الاتجاهي التي تنساب يميناً ويساراً حسب حركة الفقاعة */
+        /* بريق الحافة العلوية والسفلية الرفيع (ينزلق يميناً ويساراً بدون أي غباش في المنتصف) */
         .ig-lens-sheen {
             position: absolute;
-            inset: -4px;
-            border-radius: inherit;
+            top: 1.5px;
+            left: 26%;
+            width: 48%;
+            height: 3px;
+            border-radius: 9999px;
             pointer-events: none;
-            opacity: 0.45;
-            background: radial-gradient(ellipse 46% 78% at 50% 28%, rgba(255, 255, 255, 0.52) 0%, rgba(56, 189, 248, 0.14) 45%, transparent 74%);
+            opacity: 0.82;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.96) 50%, transparent 100%);
+            filter: blur(0.8px);
+            will-change: transform, opacity;
+        }
+
+        .ig-lens-caustic-bottom {
+            position: absolute;
+            bottom: 1.5px;
+            left: 30%;
+            width: 40%;
+            height: 2.5px;
+            border-radius: 9999px;
+            pointer-events: none;
+            opacity: 0.58;
+            background: linear-gradient(90deg, transparent 0%, rgba(186, 230, 253, 0.85) 50%, transparent 100%);
+            filter: blur(1px);
             will-change: transform, opacity;
         }
 
         .ig-lens-edge {
             position: absolute;
-            top: 4px;
-            bottom: 4px;
-            width: 24px;
+            top: 5px;
+            bottom: 5px;
+            width: 15px;
+            border-radius: 9999px;
             pointer-events: none;
             opacity: 0;
             will-change: opacity;
         }
 
         .ig-lens-edge-left {
-            left: 0;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(56, 189, 248, 0.34) 38%, transparent 100%);
+            left: 1px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.82) 0%, rgba(56, 189, 248, 0.42) 45%, transparent 100%);
         }
 
         .ig-lens-edge-right {
-            right: 0;
-            background: linear-gradient(270deg, rgba(255, 255, 255, 0.75) 0%, rgba(251, 146, 60, 0.34) 38%, transparent 100%);
+            right: 1px;
+            background: linear-gradient(270deg, rgba(255, 255, 255, 0.82) 0%, rgba(251, 146, 60, 0.40) 45%, transparent 100%);
         }
 
         .nav-item-mobile {
@@ -1242,43 +1320,67 @@
             box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05), 0 8px 16px rgba(0, 0, 0, 0.3) !important;
         }
 
-        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass في الوضع الداكن (مطابق للفيديو المرفق) */
+        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass في الوضع الداكن (شفافية كريستالية مطابقة للفيديو) */
         html.dark .ig-glass-surface {
-            background: rgba(34, 37, 46, 0.44);
-            backdrop-filter: blur(22px) saturate(185%);
-            -webkit-backdrop-filter: blur(22px) saturate(185%);
-            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(28, 31, 40, 0.42);
+            backdrop-filter: blur(24px) saturate(190%);
+            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.20);
             box-shadow:
-                0 14px 34px rgba(0, 0, 0, 0.45),
+                0 14px 36px rgba(0, 0, 0, 0.46),
                 inset 0 1px 0.5px rgba(255, 255, 255, 0.24),
-                inset 0 -1px 0.5px rgba(255, 255, 255, 0.08);
+                inset 0 -1px 0.5px rgba(255, 255, 255, 0.07);
+        }
+
+        html.dark .ig-glass-nav.is-animating .ig-glass-surface {
+            background: rgba(34, 38, 50, 0.50);
+            border-color: rgba(255, 255, 255, 0.30);
+            box-shadow:
+                0 18px 42px rgba(0, 0, 0, 0.58),
+                0 0 18px rgba(255, 167, 38, 0.10),
+                inset 0 1px 1px rgba(255, 255, 255, 0.34),
+                inset 0 -1px 0.5px rgba(255, 255, 255, 0.12);
+        }
+
+        html.dark .ig-dock-spotlight {
+            background: radial-gradient(ellipse at 50% 50%, rgba(255, 167, 38, 0.18) 0%, rgba(56, 189, 248, 0.12) 44%, transparent 74%);
+        }
+
+        html.dark .ig-dock-rim-glint::before,
+        html.dark .ig-dock-rim-glint::after {
+            background: linear-gradient(90deg, transparent 0%, rgba(125, 211, 252, 0.72) 32%, rgba(255, 255, 255, 0.92) 50%, rgba(251, 146, 60, 0.72) 68%, transparent 100%);
         }
 
         html.dark .ig-nav-bubble {
             background: rgba(0, 0, 0, 0.36);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
         }
 
         html.dark .ig-nav-bubble.is-liquid {
-            background: radial-gradient(ellipse at 50% 22%, rgba(255, 255, 255, 0.14) 0%, rgba(15, 23, 42, 0.05) 58%, rgba(255, 255, 255, 0.08) 100%);
-            backdrop-filter: blur(2px) brightness(1.16) contrast(1.08) saturate(175%);
-            -webkit-backdrop-filter: blur(2px) brightness(1.16) contrast(1.08) saturate(175%);
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(0.6px) brightness(1.18) contrast(1.08) saturate(175%);
+            -webkit-backdrop-filter: blur(0.6px) brightness(1.18) contrast(1.08) saturate(175%);
             box-shadow:
-                0 12px 28px rgba(0, 0, 0, 0.48),
-                0 2px 8px rgba(0, 0, 0, 0.26);
+                0 14px 32px -4px rgba(0, 0, 0, 0.54),
+                0 3px 10px -2px rgba(0, 0, 0, 0.30);
         }
 
         html.dark .ig-nav-bubble-rim.is-liquid {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.01) 34%, rgba(255, 255, 255, 0.01) 72%, rgba(255, 255, 255, 0.09) 100%);
+            background: transparent;
             box-shadow:
-                inset 0 1.5px 1.5px rgba(255, 255, 255, 0.65),
-                inset 0 -1.5px 2px rgba(255, 255, 255, 0.24),
-                inset 2px 0 4px rgba(56, 189, 248, 0.34),
-                inset -2px 0 4px rgba(251, 146, 60, 0.32);
+                inset 0 1.8px 2px -0.5px rgba(255, 255, 255, 0.78),
+                inset 0 -1.8px 2.4px -0.5px rgba(255, 255, 255, 0.34),
+                inset 0 0 12px rgba(0, 0, 0, 0.28),
+                inset 2.5px 0 6px -1px rgba(56, 189, 248, 0.38),
+                inset -2.5px 0 6px -1px rgba(251, 146, 60, 0.34);
         }
 
         html.dark .ig-lens-sheen {
-            background: radial-gradient(ellipse 46% 78% at 50% 28%, rgba(255, 255, 255, 0.36) 0%, rgba(56, 189, 248, 0.16) 45%, transparent 74%);
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
+        }
+
+        html.dark .ig-lens-caustic-bottom {
+            background: linear-gradient(90deg, transparent 0%, rgba(125, 211, 252, 0.65) 50%, transparent 100%);
         }
 
         html.dark .nav-item-mobile {
@@ -2286,8 +2388,11 @@
             <!-- ==================== الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass ==================== -->
             <div class="lg:hidden ig-glass-dock-wrapper">
                 <nav id="ig-glass-nav" class="ig-glass-nav" aria-label="التنقل السفلي">
-                    <!-- السطح الزجاجي الشفاف للشريط -->
-                    <div class="ig-glass-surface" aria-hidden="true"></div>
+                    <!-- السطح الزجاجي الشفاف للشريط (مع هالة الضوء وبريق الحافة المتفاعلين مع الفقاعة) -->
+                    <div class="ig-glass-surface" aria-hidden="true">
+                        <div id="ig-dock-spotlight" class="ig-dock-spotlight"></div>
+                        <div id="ig-dock-rim-glint" class="ig-dock-rim-glint"></div>
+                    </div>
 
                     <!-- الطبقة الخلفية للفقاعة / العدسة الزجاجية المنزلقة -->
                     <div id="ig-nav-bubble" class="ig-nav-bubble" aria-hidden="true"></div>
@@ -2328,9 +2433,10 @@
                         </div>
                     </button>
 
-                    <!-- الطبقة العلوية للعدسة الزجاجية ذات الانكسار المنشوري ولمعة الحركة لليمين واليسار -->
+                    <!-- الطبقة العلوية للعدسة الزجاجية الكريستالية ذات الانكسار المنشوري وبريق الحركة -->
                     <div id="ig-nav-bubble-rim" class="ig-nav-bubble-rim" aria-hidden="true">
                         <div id="ig-lens-sheen" class="ig-lens-sheen"></div>
+                        <div id="ig-lens-caustic-bottom" class="ig-lens-caustic-bottom"></div>
                         <div id="ig-lens-edge-left" class="ig-lens-edge ig-lens-edge-left"></div>
                         <div id="ig-lens-edge-right" class="ig-lens-edge ig-lens-edge-right"></div>
                     </div>
@@ -2977,8 +3083,11 @@
             const bubble = document.getElementById('ig-nav-bubble');
             const bubbleRim = document.getElementById('ig-nav-bubble-rim');
             const lensSheen = document.getElementById('ig-lens-sheen');
+            const causticBottom = document.getElementById('ig-lens-caustic-bottom');
             const edgeLeft = document.getElementById('ig-lens-edge-left');
             const edgeRight = document.getElementById('ig-lens-edge-right');
+            const dockSpotlight = document.getElementById('ig-dock-spotlight');
+            const dockRimGlint = document.getElementById('ig-dock-rim-glint');
             if (!nav || !bubble) return;
 
             const buttons = Array.from(nav.querySelectorAll('.nav-item-mobile'));
@@ -2986,9 +3095,11 @@
             const iconWraps = buttons.map(btn => btn.querySelector('.nav-icon-wrap'));
             const lastHitState = buttons.map(() => false);
 
-            // قيم الأبعاد المخزنة مؤقتاً (تمنع أي قراءة Layout داخل حركة الإطارات لـ 120fps خالصة)
+            // أبعاد مخزنة مسبقاً لمنع أي Reflow أثناء التحريك بـ 120fps
             let navLeft = 0;
+            let navWidth = 374;
             let bubbleW = 86;
+            let slotSpan = 88;
             let btnCenters = [];
             let btnLefts = [];
             let minLeft = 0;
@@ -2998,6 +3109,7 @@
             let activePointerId = null;
             let isLiquid = false;
             let pendingSettle = false;
+            let hasCushioned = false;
             let releaseTime = 0;
             let hasDragged = false;
             let startClientX = 0;
@@ -3006,12 +3118,26 @@
             let lastTime = 0;
             let hasPositioned = false;
 
+            // فيزياء الزنبرك الثلاثي للقطرة الزجاجية (موضع X + مرونة السائل SX/SY)
             let currentX = 0;
             let targetX = 0;
             let velX = 0;
             let smoothVel = 0;
+            let edgePush = 0;
+            let edgeDir = 0;
+
             let currentSX = 1;
             let currentSY = 1;
+            let velSX = 0;
+            let velSY = 0;
+
+            // تفاعل جسم الشريط نفسه مع حركة الفقاعة فوقه (انزياح مرن + تنفّس + تتبع الضوء)
+            let dockX = 0;
+            let velDockX = 0;
+            let dockY = 0;
+            let dockSX = 1;
+            let dockSY = 1;
+            let dockGlow = 0;
 
             function setLiquidMode(active) {
                 isLiquid = !!active;
@@ -3022,7 +3148,8 @@
 
             function measureLayout() {
                 if (!nav.offsetWidth || !buttons[0].offsetWidth) return false;
-                navLeft = nav.getBoundingClientRect().left;
+                navWidth = nav.offsetWidth;
+                navLeft = nav.getBoundingClientRect().left - dockX + (navWidth * (dockSX - 1)) / 2;
                 bubbleW = Math.min(Math.round(buttons[0].offsetWidth - 2), 90);
                 bubble.style.width = `${bubbleW}px`;
                 if (bubbleRim) bubbleRim.style.width = `${bubbleW}px`;
@@ -3036,6 +3163,7 @@
                     if (left > maxLeft) maxLeft = left;
                     return left;
                 });
+                slotSpan = btnCenters.length > 1 ? Math.abs(btnCenters[1] - btnCenters[0]) : bubbleW;
                 return true;
             }
 
@@ -3061,6 +3189,9 @@
                     buttons[i].classList.toggle('is-hovered', i === idx);
                 }
                 if (hadPrev && idx !== -1) {
+                    // نبضة لمس خفيفة جداً للعدسة عند عبور كل أيقونة
+                    velSX += 0.35;
+                    velSY -= 0.25;
                     playUiSound('nav-tick');
                     if (navigator.vibrate) {
                         try { navigator.vibrate(7); } catch (e) { }
@@ -3076,49 +3207,86 @@
                     }
                     if (iconWraps[i]) iconWraps[i].style.transform = '';
                 }
+                nav.style.transform = '';
+                if (dockSpotlight) dockSpotlight.style.opacity = '0';
+                if (dockRimGlint) dockRimGlint.style.opacity = '0';
                 if (lensSheen) {
                     lensSheen.style.transform = 'translate3d(0, 0, 0)';
-                    lensSheen.style.opacity = '0.45';
+                    lensSheen.style.opacity = '0.82';
+                }
+                if (causticBottom) {
+                    causticBottom.style.transform = 'translate3d(0, 0, 0)';
+                    causticBottom.style.opacity = '0.58';
                 }
                 if (edgeLeft) edgeLeft.style.opacity = '0';
                 if (edgeRight) edgeRight.style.opacity = '0';
             }
 
+            function launchToward(nextTarget) {
+                const targetChanged = Math.abs(nextTarget - targetX) > 4;
+                const delta = nextTarget - currentX;
+                targetX = nextTarget;
+                if (targetChanged && Math.abs(delta) > 8) {
+                    hasCushioned = false;
+                    const dir = Math.sign(delta);
+                    velX += dir * Math.min(Math.abs(delta) * 2.3, 300);
+                    velSX += 1.15;
+                    velSY -= 0.65;
+                    // دفعة مرنة خفيفة للشريط باتجاه حركة الفقاعة
+                    velDockX += dir * 24;
+                }
+            }
+
             function renderFrame(dirNorm, speedMag) {
+                const bubbleCenter = currentX + bubbleW / 2;
                 const tf = `translate3d(${currentX.toFixed(2)}px, 0, 0) scale(${currentSX.toFixed(4)}, ${currentSY.toFixed(4)})`;
                 bubble.style.transform = tf;
                 if (bubbleRim) bubbleRim.style.transform = tf;
 
-                // لمعة الضوء وحافة الانكسار التي تتحرك يميناً أو يساراً مع اتجاه السحب/الانتقال
-                if (lensSheen) {
-                    const sheenShift = dirNorm * 18;
-                    const sheenStretch = 1 + 0.16 * speedMag;
-                    lensSheen.style.transform = `translate3d(${sheenShift.toFixed(2)}px, 0, 0) scaleX(${sheenStretch.toFixed(3)})`;
-                    lensSheen.style.opacity = (0.42 + 0.54 * speedMag).toFixed(3);
+                // تفاعل الشريط نفسه (انزياح وتنفّس مرن + هالة ضوء وبريق حافة يتتبعان الفقاعة)
+                nav.style.transform = `translate3d(${dockX.toFixed(2)}px, ${dockY.toFixed(2)}px, 0) scale(${dockSX.toFixed(4)}, ${dockSY.toFixed(4)})`;
+                if (dockSpotlight) {
+                    dockSpotlight.style.transform = `translate3d(${(bubbleCenter - 70).toFixed(2)}px, 0, 0) scaleX(${(1 + 0.22 * speedMag).toFixed(3)})`;
+                    dockSpotlight.style.opacity = dockGlow.toFixed(3);
                 }
-                if (edgeLeft) {
-                    edgeLeft.style.opacity = dirNorm < -0.04 ? Math.min(1, -dirNorm * 1.2).toFixed(3) : '0';
-                }
-                if (edgeRight) {
-                    edgeRight.style.opacity = dirNorm > 0.04 ? Math.min(1, dirNorm * 1.2).toFixed(3) : '0';
+                if (dockRimGlint) {
+                    dockRimGlint.style.transform = `translate3d(${(bubbleCenter - 59).toFixed(2)}px, 0, 0) scaleX(${(1 + 0.24 * speedMag).toFixed(3)})`;
+                    dockRimGlint.style.opacity = dockGlow.toFixed(3);
                 }
 
-                // تموّج وتكبير اتجاهي ناعم للأيقونات تحت العدسة الزجاجية (بدون أي قراءة Layout)
+                // بريق الحافة العلوية والسفلية الرفيع يتحرك باتجاه الانسياب ليبرز عمق الزجاج الكريستالي
+                if (lensSheen) {
+                    const topShift = dirNorm * 22;
+                    lensSheen.style.transform = `translate3d(${topShift.toFixed(2)}px, 0, 0) scaleX(${(1 + 0.18 * speedMag).toFixed(3)})`;
+                    lensSheen.style.opacity = (0.76 + 0.24 * speedMag).toFixed(3);
+                }
+                if (causticBottom) {
+                    const botShift = -dirNorm * 14;
+                    causticBottom.style.transform = `translate3d(${botShift.toFixed(2)}px, 0, 0) scaleX(${(1 + 0.14 * speedMag).toFixed(3)})`;
+                    causticBottom.style.opacity = (0.52 + 0.36 * speedMag).toFixed(3);
+                }
+
+                // إضاءة الحافة الأمامية المنحنية عند الحركة يميناً أو يساراً أو الضغط على الأطراف
+                const leftGlow = Math.max(dirNorm < -0.04 ? -dirNorm * 1.25 : 0, edgeDir < 0 ? edgePush * 0.95 : 0);
+                const rightGlow = Math.max(dirNorm > 0.04 ? dirNorm * 1.25 : 0, edgeDir > 0 ? edgePush * 0.95 : 0);
+                if (edgeLeft) edgeLeft.style.opacity = Math.min(1, leftGlow).toFixed(3);
+                if (edgeRight) edgeRight.style.opacity = Math.min(1, rightGlow).toFixed(3);
+
+                // تكبير وتموّج بصري ناعم للأيقونات الواقعة تحت العدسة الشفافة
                 if (isLiquid || isPointerDown || pendingSettle) {
-                    const bubbleCenter = currentX + bubbleW / 2;
                     const lensRadius = bubbleW * 0.68;
                     for (let i = 0; i < buttons.length; i++) {
                         const dist = Math.abs(bubbleCenter - btnCenters[i]);
                         const proximity = Math.max(0, 1 - dist / lensRadius);
-                        const hit = proximity > 0.25;
+                        const hit = proximity > 0.24;
                         if (lastHitState[i] !== hit) {
                             buttons[i].classList.toggle('is-lens-hit', hit);
                             lastHitState[i] = hit;
                         }
                         if (iconWraps[i]) {
-                            const shiftX = dirNorm * 4.5 * proximity;
-                            const shiftY = -1.5 * proximity;
-                            const iconScale = 1 + 0.18 * proximity;
+                            const shiftX = dirNorm * 5 * proximity;
+                            const shiftY = -1.6 * proximity;
+                            const iconScale = 1 + 0.20 * proximity;
                             iconWraps[i].style.transform = `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 0) scale(${iconScale.toFixed(4)})`;
                         }
                     }
@@ -3130,44 +3298,80 @@
                 lastTime = now;
 
                 if (isPointerDown && hasDragged) {
-                    const followAlpha = 1 - Math.exp(-38 * dt);
+                    const followAlpha = 1 - Math.exp(-40 * dt);
                     const nextX = currentX + (targetX - currentX) * followAlpha;
                     const instVel = (nextX - currentX) / dt;
                     velX += (instVel - velX) * (1 - Math.exp(-26 * dt));
                     currentX = nextX;
                 } else {
-                    // زنبرك سائل سلس يبرز الانطلاقة لليمين واليسار مع استقرار ناعم عند الوصول
-                    const omega = 20.5;
-                    const zeta = 0.78;
-                    const accel = (targetX - currentX) * (omega * omega) - velX * (2 * zeta * omega);
-                    velX += accel * dt;
+                    edgePush *= Math.exp(-16 * dt);
+                    if (edgePush < 0.005) { edgePush = 0; edgeDir = 0; }
+
+                    const omegaX = 19.5;
+                    const zetaX = 0.76;
+                    const accelX = (targetX - currentX) * (omegaX * omegaX) - velX * (2 * zetaX * omegaX);
+                    velX += accelX * dt;
                     currentX += velX * dt;
                 }
 
-                // تنعيم السرعة لاستخلاص اتجاه الحركة لليمين (+1) أو اليسار (-1)
+                // تنعيم السرعة لاستخلاص اتجاه الحركة لليمين (+1) واليسار (-1)
                 smoothVel += (velX - smoothVel) * (1 - Math.exp(-18 * dt));
-                const dirNorm = Math.max(-1, Math.min(1, smoothVel / 620));
+                const dirNorm = Math.max(-1, Math.min(1, smoothVel / 600));
                 const speedMag = Math.abs(dirNorm);
 
-                // إغلاق العدسة تلقائياً لحظة وصولها السلس إلى الوجهة (بدون قطع الحركة مبكراً)
+                // امتصاص الصدمة بمرونة سائل خفيفة عند وصول القطرة إلى الأيقونة المستهدفة
                 if (!isPointerDown && pendingSettle) {
-                    const nearTarget = Math.abs(targetX - currentX) < 3.5 && Math.abs(velX) < 42;
-                    const heldLongEnough = (now - releaseTime) >= 115;
+                    const distToTarget = Math.abs(targetX - currentX);
+                    if (!hasCushioned && distToTarget < 10 && Math.abs(smoothVel) > 110) {
+                        hasCushioned = true;
+                        velSX -= 1.25;
+                        velSY += 1.05;
+                        velDockX += Math.sign(smoothVel) * 18;
+                    }
+                    const nearTarget = distToTarget < 3.2 && Math.abs(velX) < 40;
+                    const heldLongEnough = (now - releaseTime) >= 125;
                     if (nearTarget && heldLongEnough) {
                         pendingSettle = false;
                         setLiquidMode(false);
                     }
                 }
 
-                // تمدد هوائي سائل مع اتجاه الحركة (انسيابي ومحدود بدون تشويه)
+                // زنبرك حقيقي لحجم القطرة (انتفاخ سلس عند اللمس + تمدد هوائي مع الاتجاه + انضغاط لطيف عند الحافة)
                 const baseSX = isLiquid ? 1.18 : 1;
                 const baseSY = isLiquid ? 1.28 : 1;
-                const desiredSX = isLiquid ? baseSX * (1 + 0.14 * speedMag) : 1;
-                const desiredSY = isLiquid ? baseSY * (1 - 0.08 * speedMag) : 1;
+                const desiredSX = isLiquid ? baseSX * (1 + 0.15 * speedMag) * (1 - 0.08 * edgePush) : 1;
+                const desiredSY = isLiquid ? baseSY * (1 - 0.085 * speedMag) * (1 + 0.06 * edgePush) : 1;
 
-                const scaleAlpha = 1 - Math.exp(-22 * dt);
-                currentSX += (desiredSX - currentSX) * scaleAlpha;
-                currentSY += (desiredSY - currentSY) * scaleAlpha;
+                const omegaS = 24;
+                const zetaS = 0.68;
+                velSX += ((desiredSX - currentSX) * (omegaS * omegaS) - velSX * (2 * zetaS * omegaS)) * dt;
+                velSY += ((desiredSY - currentSY) * (omegaS * omegaS) - velSY * (2 * zetaS * omegaS)) * dt;
+                currentSX = Math.max(0.85, Math.min(1.5, currentSX + velSX * dt));
+                currentSY = Math.max(0.85, Math.min(1.5, currentSY + velSY * dt));
+
+                // فيزياء تفاعل شريط التنقل نفسه عند تحريك الفقاعة فوقه
+                const isBarActive = isPointerDown || isLiquid || pendingSettle;
+                const bubbleCenter = currentX + bubbleW / 2;
+                const centerNorm = navWidth > 0 ? Math.max(-1, Math.min(1, (bubbleCenter - navWidth / 2) / (navWidth / 2))) : 0;
+                const desiredDockX = isPointerDown && hasDragged
+                    ? (centerNorm * 2.5 + dirNorm * 3.0 + edgeDir * edgePush * 6.5)
+                    : (isBarActive ? dirNorm * 3.6 : 0);
+
+                const omegaD = 17.5;
+                const zetaD = 0.72;
+                velDockX += ((desiredDockX - dockX) * (omegaD * omegaD) - velDockX * (2 * zetaD * omegaD)) * dt;
+                dockX += velDockX * dt;
+
+                const desiredDockY = isBarActive ? -1.4 : 0;
+                const desiredDockSX = isBarActive ? (1.022 + edgePush * 0.026 + speedMag * 0.012) : 1;
+                const desiredDockSY = isBarActive ? (1.028 - edgePush * 0.016 - speedMag * 0.008) : 1;
+                const desiredDockGlow = isBarActive ? Math.min(1, 0.72 + speedMag * 0.28) : 0;
+
+                const dockAlpha = 1 - Math.exp(-18 * dt);
+                dockY += (desiredDockY - dockY) * dockAlpha;
+                dockSX += (desiredDockSX - dockSX) * dockAlpha;
+                dockSY += (desiredDockSY - dockSY) * dockAlpha;
+                dockGlow += (desiredDockGlow - dockGlow) * dockAlpha;
 
                 renderFrame(dirNorm, speedMag);
 
@@ -3179,7 +3383,15 @@
                     Math.abs(velX) < 0.8 &&
                     Math.abs(smoothVel) < 2 &&
                     Math.abs(1 - currentSX) < 0.002 &&
-                    Math.abs(1 - currentSY) < 0.002;
+                    Math.abs(1 - currentSY) < 0.002 &&
+                    Math.abs(velSX) < 0.02 &&
+                    Math.abs(velSY) < 0.02 &&
+                    Math.abs(dockX) < 0.06 &&
+                    Math.abs(velDockX) < 0.6 &&
+                    Math.abs(dockY) < 0.04 &&
+                    Math.abs(1 - dockSX) < 0.001 &&
+                    Math.abs(1 - dockSY) < 0.001 &&
+                    dockGlow < 0.01;
 
                 if (isSettled) {
                     currentX = targetX;
@@ -3187,6 +3399,16 @@
                     currentSY = 1;
                     velX = 0;
                     smoothVel = 0;
+                    velSX = 0;
+                    velSY = 0;
+                    edgePush = 0;
+                    edgeDir = 0;
+                    dockX = 0;
+                    velDockX = 0;
+                    dockY = 0;
+                    dockSX = 1;
+                    dockSY = 1;
+                    dockGlow = 0;
                     renderFrame(0, 0);
                     resetLensOptics();
                     nav.classList.remove('is-animating');
@@ -3216,12 +3438,27 @@
                 bubble.classList.add('is-visible');
 
                 if (immediate || !hasPositioned) {
+                    if (rafId) {
+                        cancelAnimationFrame(rafId);
+                        rafId = null;
+                        lastTime = 0;
+                    }
                     targetX = nextTarget;
                     currentX = nextTarget;
                     currentSX = 1;
                     currentSY = 1;
                     velX = 0;
                     smoothVel = 0;
+                    velSX = 0;
+                    velSY = 0;
+                    edgePush = 0;
+                    edgeDir = 0;
+                    dockX = 0;
+                    velDockX = 0;
+                    dockY = 0;
+                    dockSX = 1;
+                    dockSY = 1;
+                    dockGlow = 0;
                     hasPositioned = true;
                     pendingSettle = false;
                     setLiquidMode(false);
@@ -3230,11 +3467,13 @@
                     nav.classList.remove('is-animating');
                 } else {
                     const travelDist = Math.abs(nextTarget - currentX);
-                    targetX = nextTarget;
                     if (!isPointerDown && travelDist > 4) {
                         setLiquidMode(true);
                         pendingSettle = true;
                         releaseTime = performance.now();
+                        launchToward(nextTarget);
+                    } else {
+                        targetX = nextTarget;
                     }
                     ensureLoop();
                 }
@@ -3252,12 +3491,14 @@
                 if (target === 'account') {
                     toggleSettingsModal();
                     const activeIdx = buttons.findIndex(b => b.classList.contains('active'));
-                    if (activeIdx !== -1) targetX = btnLefts[activeIdx];
+                    if (activeIdx !== -1) launchToward(btnLefts[activeIdx]);
                     ensureLoop();
                 } else if (target) {
-                    targetX = btnLefts[idx];
+                    const destLeft = btnLefts[idx];
+                    setLiquidMode(true);
+                    launchToward(destLeft);
                     switchPage(target);
-                    targetX = btnLefts[idx];
+                    targetX = destLeft;
                     setLiquidMode(true);
                     pendingSettle = true;
                     releaseTime = performance.now();
@@ -3271,9 +3512,12 @@
 
                 isPointerDown = true;
                 pendingSettle = false;
+                hasCushioned = false;
                 activePointerId = e.pointerId;
                 hasDragged = false;
                 startClientX = e.clientX;
+                edgePush = 0;
+                edgeDir = 0;
 
                 try { nav.setPointerCapture(e.pointerId); } catch (err) { }
 
@@ -3282,15 +3526,22 @@
                 bubble.classList.add('is-visible');
                 setLiquidMode(true);
 
+                // نبضة استيقاظ سلسة للعدسة الزجاجية لحظة اللمس
+                velSX += 1.2;
+                velSY += 1.5;
+
                 const idx = getBtnIndexAtClientX(e.clientX);
-                targetX = btnLefts[idx];
+                const destLeft = btnLefts[idx];
 
                 if (!hasPositioned || !wasVisible) {
-                    currentX = targetX;
+                    targetX = destLeft;
+                    currentX = destLeft;
                     velX = 0;
                     smoothVel = 0;
                     hasPositioned = true;
                     renderFrame(0, 0);
+                } else {
+                    launchToward(destLeft);
                 }
 
                 hoveredIdx = -1;
@@ -3300,14 +3551,36 @@
 
             nav.addEventListener('pointermove', (e) => {
                 if (!isPointerDown || e.pointerId !== activePointerId) return;
-                if (Math.abs(e.clientX - startClientX) > 5) hasDragged = true;
+                if (Math.abs(e.clientX - startClientX) > 4) hasDragged = true;
 
                 const idx = getBtnIndexAtClientX(e.clientX);
 
                 if (hasDragged) {
                     let desiredX = (e.clientX - navLeft) - bubbleW / 2;
-                    if (desiredX < minLeft) desiredX = minLeft + (desiredX - minLeft) * 0.14;
-                    else if (desiredX > maxLeft) desiredX = maxLeft + (desiredX - maxLeft) * 0.14;
+
+                    // مقاومة مطاطية ناعمة + انضغاط زجاجي عند حواف الشريط اليسرى واليمنى
+                    if (desiredX < minLeft) {
+                        const over = minLeft - desiredX;
+                        edgePush = Math.min(1, over / 48);
+                        edgeDir = -1;
+                        desiredX = minLeft - Math.tanh(over / 34) * 10;
+                    } else if (desiredX > maxLeft) {
+                        const over = desiredX - maxLeft;
+                        edgePush = Math.min(1, over / 48);
+                        edgeDir = 1;
+                        desiredX = maxLeft + Math.tanh(over / 34) * 10;
+                    } else {
+                        edgePush = 0;
+                        edgeDir = 0;
+                        // جذب مغناطيسي خفيف جداً نحو مراكز الأيقونات يعطي إحساساً سلساً وملموساً
+                        const slotLeft = btnLefts[idx];
+                        const offset = desiredX - slotLeft;
+                        const norm = Math.abs(offset) / (slotSpan * 0.5);
+                        if (norm < 0.72) {
+                            desiredX -= offset * (1 - norm / 0.72) * 0.16;
+                        }
+                    }
+
                     targetX = desiredX;
                 } else {
                     targetX = btnLefts[idx];
@@ -3337,7 +3610,7 @@
                     releaseTime = performance.now();
                     pendingSettle = true;
                     const activeIdx = buttons.findIndex(b => b.classList.contains('active'));
-                    if (activeIdx !== -1) targetX = btnLefts[activeIdx];
+                    if (activeIdx !== -1) launchToward(btnLefts[activeIdx]);
                     ensureLoop();
                 }
             }
