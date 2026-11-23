@@ -1338,10 +1338,10 @@
             justify-content: center;
         }
 
-        /* Toast الإشعارات الفوري */
+        /* Toast الإشعارات الفوري (يدعم السحب للأعلى للإخفاء) */
         #global-toast {
             position: fixed;
-            top: 0.9rem;
+            top: max(0.9rem, env(safe-area-inset-top, 0.9rem));
             right: 1rem;
             left: 1rem;
             margin-left: auto;
@@ -1353,18 +1353,35 @@
             -webkit-backdrop-filter: blur(18px);
             border-radius: 18px;
             box-shadow: 0 16px 34px -8px rgba(15, 23, 42, 0.18);
-            padding: 0.72rem 0.92rem;
-            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform: translateY(-160%);
+            padding: 0.72rem 0.92rem 0.52rem;
+            transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.32s ease;
+            transform: translate3d(0, -160%, 0);
             opacity: 0;
             pointer-events: none;
             border: 1px solid rgba(255, 255, 255, 0.9);
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: grab;
+            will-change: transform, opacity;
         }
 
         #global-toast.show {
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
             opacity: 1;
             pointer-events: auto;
+        }
+
+        #global-toast.is-dragging {
+            transition: none !important;
+            cursor: grabbing;
+        }
+
+        #global-toast.is-dismissing-up {
+            transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease !important;
+            transform: translate3d(0, -180%, 0) scale(0.95) !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
 
         /* التمرير السلس والمتوازن لصفحات التطبيق */
@@ -3431,7 +3448,7 @@
         </div>
     </div>
 
-    <!-- إشعار Toast العائم -->
+    <!-- إشعار Toast العائم (قابل للسحب للأعلى للإخفاء) -->
     <div id="global-toast">
         <div class="flex gap-3.5 items-center">
             <div class="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0" id="toast-icon-bg">
@@ -3442,6 +3459,7 @@
                 <p id="toast-message" class="text-xs text-secondary font-bold mt-0.5"></p>
             </div>
         </div>
+        <div class="w-8 h-1 rounded-full bg-slate-300/75 dark:bg-slate-600/80 mx-auto mt-2" aria-hidden="true"></div>
     </div>
 
     <!-- ==================== الجولة التعريفية التفاعلية للهاتف (Onboarding Tour) ==================== -->
@@ -5585,8 +5603,108 @@
         // 14. الإشعار العائم (Toast) والمودالات المتنوعة
         // ============================================================
         let toastTimeout;
+        let toastCleanupTimeout;
+
+        function dismissToastUpwards() {
+            const toast = document.getElementById('global-toast');
+            if (!toast) return;
+            clearTimeout(toastTimeout);
+            clearTimeout(toastCleanupTimeout);
+            toast.classList.remove('is-dragging', 'show');
+            toast.classList.add('is-dismissing-up');
+            toast.style.transform = '';
+            toast.style.opacity = '';
+            toastCleanupTimeout = setTimeout(() => {
+                toast.classList.remove('is-dismissing-up');
+            }, 300);
+        }
+
+        function initSwipeableToast() {
+            const toast = document.getElementById('global-toast');
+            if (!toast || toast._swipeBound) return;
+            toast._swipeBound = true;
+
+            let isDragging = false;
+            let activePointerId = null;
+            let startY = 0;
+            let lastY = 0;
+            let lastT = 0;
+            let velY = 0;
+            let currentDY = 0;
+
+            toast.addEventListener('pointerdown', (e) => {
+                if (!toast.classList.contains('show')) return;
+                if (e.pointerType === 'mouse' && e.button !== 0) return;
+                isDragging = true;
+                activePointerId = e.pointerId;
+                startY = e.clientY;
+                lastY = e.clientY;
+                lastT = performance.now();
+                velY = 0;
+                currentDY = 0;
+
+                clearTimeout(toastTimeout);
+                clearTimeout(toastCleanupTimeout);
+                toast.classList.remove('is-dismissing-up');
+                toast.classList.add('is-dragging');
+                try { toast.setPointerCapture(e.pointerId); } catch (err) { }
+            });
+
+            toast.addEventListener('pointermove', (e) => {
+                if (!isDragging || e.pointerId !== activePointerId) return;
+                const now = performance.now();
+                const dt = Math.max(1, now - lastT);
+                const instVel = (e.clientY - lastY) / dt;
+                velY = velY * 0.55 + instVel * 0.45;
+                lastY = e.clientY;
+                lastT = now;
+
+                const rawDY = e.clientY - startY;
+                if (rawDY <= 0) {
+                    currentDY = rawDY;
+                    const prog = Math.min(1, Math.abs(currentDY) / 90);
+                    const scale = 1 - prog * 0.04;
+                    const opacity = 1 - prog * 0.65;
+                    toast.style.transform = `translate3d(0, ${currentDY.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`;
+                    toast.style.opacity = opacity.toFixed(3);
+                } else {
+                    currentDY = Math.tanh(rawDY / 42) * 14;
+                    toast.style.transform = `translate3d(0, ${currentDY.toFixed(1)}px, 0)`;
+                    toast.style.opacity = '1';
+                }
+            });
+
+            function finishToastDrag(e) {
+                if (!isDragging || e.pointerId !== activePointerId) return;
+                isDragging = false;
+                activePointerId = null;
+                try {
+                    if (toast.hasPointerCapture(e.pointerId)) toast.releasePointerCapture(e.pointerId);
+                } catch (err) { }
+
+                toast.classList.remove('is-dragging');
+
+                if (currentDY < -24 || (velY < -0.32 && currentDY < -6)) {
+                    dismissToastUpwards();
+                } else {
+                    toast.style.transform = '';
+                    toast.style.opacity = '';
+                    clearTimeout(toastTimeout);
+                    toastTimeout = setTimeout(() => dismissToastUpwards(), 2800);
+                }
+            }
+
+            toast.addEventListener('pointerup', finishToastDrag);
+            toast.addEventListener('pointercancel', finishToastDrag);
+            toast.addEventListener('touchmove', (e) => {
+                if (isDragging) e.preventDefault();
+            }, { passive: false });
+        }
+
         function showToastNotification(title, message, type = 'info') {
             const toast = document.getElementById('global-toast');
+            if (!toast) return;
+            initSwipeableToast();
             document.getElementById('toast-title').textContent = title;
             document.getElementById('toast-message').textContent = message;
             const bg = document.getElementById('toast-icon-bg');
@@ -5604,10 +5722,16 @@
                 icon.className = 'fa-solid fa-bell text-white text-lg';
             }
 
-            toast.classList.add('show');
             clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+            clearTimeout(toastCleanupTimeout);
+            toast.classList.remove('is-dragging', 'is-dismissing-up');
+            toast.style.transform = '';
+            toast.style.opacity = '';
+            toast.classList.add('show');
+            toastTimeout = setTimeout(() => dismissToastUpwards(), 4000);
         }
+
+        initSwipeableToast();
 
         function copyMyId() {
             const code = currentUserData?.customId || '849201';
