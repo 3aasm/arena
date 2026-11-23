@@ -335,12 +335,12 @@
             box-shadow: 0 5px 16px rgba(15, 23, 42, 0.06);
         }
 
-        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass (مطابق للفيديو المرفق) */
+        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass (حجم مريح وحركة سلسة 120fps) */
         .ig-glass-dock-wrapper {
             position: fixed;
-            bottom: max(7px, env(safe-area-inset-bottom, 7px));
-            left: 14px;
-            right: 14px;
+            bottom: max(9px, env(safe-area-inset-bottom, 9px));
+            left: 12px;
+            right: 12px;
             z-index: 45;
             display: flex;
             justify-content: center;
@@ -351,13 +351,13 @@
             position: relative;
             pointer-events: auto;
             width: 100%;
-            max-width: 326px;
-            height: 52px;
+            max-width: 374px;
+            height: 60px;
             border-radius: 9999px;
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 0 5px;
+            padding: 0 6px;
             touch-action: none;
             user-select: none;
             -webkit-user-select: none;
@@ -376,32 +376,28 @@
             -webkit-backdrop-filter: blur(22px) saturate(185%);
             border: 1px solid rgba(255, 255, 255, 0.72);
             box-shadow:
-                0 10px 28px rgba(15, 23, 42, 0.10),
+                0 12px 32px rgba(15, 23, 42, 0.10),
                 inset 0 1px 0.5px rgba(255, 255, 255, 0.92),
                 inset 0 -1px 0.5px rgba(255, 255, 255, 0.32);
             transition: background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
-        /* الطبقة الخلفية للفقاعة (كبسولة هادئة عند الثبات -> عدسة زجاجية شفافة بارزة عند السحب) */
+        /* الطبقة الخلفية للفقاعة (تحريك GPU خالص عبر transform فقط بدون أي reflow) */
         .ig-nav-bubble {
             position: absolute;
             left: 0;
             top: 4px;
-            height: 44px;
+            height: 52px;
             border-radius: 9999px;
             pointer-events: none;
             z-index: 1;
             opacity: 0;
             transform-origin: center center;
             will-change: transform, opacity;
+            contain: layout style;
             background: rgba(15, 23, 42, 0.08);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
-            transition:
-                opacity 0.2s ease,
-                top 0.24s cubic-bezier(0.22, 1, 0.36, 1),
-                height 0.24s cubic-bezier(0.22, 1, 0.36, 1),
-                background 0.22s ease,
-                box-shadow 0.22s ease;
+            transition: opacity 0.2s ease, background 0.22s ease, box-shadow 0.22s ease;
         }
 
         .ig-nav-bubble.is-visible {
@@ -409,37 +405,32 @@
         }
 
         .ig-nav-bubble.is-liquid {
-            top: -6px;
-            height: 64px;
             background: radial-gradient(ellipse at 50% 24%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.05) 58%, rgba(255, 255, 255, 0.12) 100%);
-            backdrop-filter: blur(2px) brightness(1.08) contrast(1.06) saturate(165%);
-            -webkit-backdrop-filter: blur(2px) brightness(1.08) contrast(1.06) saturate(165%);
+            backdrop-filter: blur(1.8px) brightness(1.08) contrast(1.06) saturate(165%);
+            -webkit-backdrop-filter: blur(1.8px) brightness(1.08) contrast(1.06) saturate(165%);
             box-shadow:
                 0 10px 26px rgba(15, 23, 42, 0.16),
                 0 2px 8px rgba(15, 23, 42, 0.08);
         }
 
-        /* الحافة الزجاجية الطافية مع انكسار الضوء المنشوري (تظهر فوق الأيقونات أثناء السحب) */
+        /* الحافة الزجاجية الطافية مع انكسار الضوء المنشوري ولمعة الاتجاه (يمين / يسار) */
         .ig-nav-bubble-rim {
             position: absolute;
             left: 0;
             top: 4px;
-            height: 44px;
+            height: 52px;
             border-radius: 9999px;
             pointer-events: none;
             z-index: 4;
             opacity: 0;
+            overflow: hidden;
             transform-origin: center center;
             will-change: transform, opacity;
-            transition:
-                opacity 0.2s ease,
-                top 0.24s cubic-bezier(0.22, 1, 0.36, 1),
-                height 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+            contain: layout style;
+            transition: opacity 0.2s ease;
         }
 
         .ig-nav-bubble-rim.is-liquid {
-            top: -6px;
-            height: 64px;
             opacity: 1;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.01) 36%, rgba(255, 255, 255, 0.01) 70%, rgba(255, 255, 255, 0.12) 100%);
             box-shadow:
@@ -454,36 +445,67 @@
             position: absolute;
             inset: 0;
             border-radius: inherit;
-            padding: 1.5px;
+            padding: 1.4px;
             background: conic-gradient(
                 from 200deg,
-                rgba(255, 255, 255, 0.9) 0deg,
-                rgba(56, 189, 248, 0.72) 55deg,
+                rgba(255, 255, 255, 0.92) 0deg,
+                rgba(56, 189, 248, 0.74) 55deg,
                 rgba(167, 139, 250, 0.56) 105deg,
-                rgba(255, 255, 255, 0.48) 160deg,
-                rgba(251, 146, 60, 0.66) 225deg,
+                rgba(255, 255, 255, 0.5) 160deg,
+                rgba(251, 146, 60, 0.68) 225deg,
                 rgba(56, 189, 248, 0.62) 290deg,
-                rgba(255, 255, 255, 0.92) 360deg
+                rgba(255, 255, 255, 0.94) 360deg
             );
             -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             -webkit-mask-composite: xor;
             mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             mask-composite: exclude;
-            opacity: 0.85;
+            opacity: 0.88;
             pointer-events: none;
+        }
+
+        /* لمعة الانعكاس الاتجاهي التي تنساب يميناً ويساراً حسب حركة الفقاعة */
+        .ig-lens-sheen {
+            position: absolute;
+            inset: -4px;
+            border-radius: inherit;
+            pointer-events: none;
+            opacity: 0.45;
+            background: radial-gradient(ellipse 46% 78% at 50% 28%, rgba(255, 255, 255, 0.52) 0%, rgba(56, 189, 248, 0.14) 45%, transparent 74%);
+            will-change: transform, opacity;
+        }
+
+        .ig-lens-edge {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            width: 24px;
+            pointer-events: none;
+            opacity: 0;
+            will-change: opacity;
+        }
+
+        .ig-lens-edge-left {
+            left: 0;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(56, 189, 248, 0.34) 38%, transparent 100%);
+        }
+
+        .ig-lens-edge-right {
+            right: 0;
+            background: linear-gradient(270deg, rgba(255, 255, 255, 0.75) 0%, rgba(251, 146, 60, 0.34) 38%, transparent 100%);
         }
 
         .nav-item-mobile {
             position: relative;
             z-index: 2;
             flex: 1;
-            height: 44px;
+            height: 52px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 9999px;
             color: #1E293B;
-            transition: color 0.18s ease;
+            transition: color 0.16s ease;
             cursor: pointer;
             background: transparent;
             border: none;
@@ -493,18 +515,23 @@
 
         .nav-item-mobile .nav-icon-wrap {
             position: relative;
-            width: 34px;
-            height: 34px;
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform;
         }
 
+        /* إيقاف انتقال CSS أثناء تحريك العدسة بـ 120fps لتفادي أي تأخير أو تعارض */
+        .ig-glass-nav.is-animating .nav-item-mobile .nav-icon-wrap {
+            transition: none;
+        }
+
         .nav-item-mobile i {
-            font-size: 1.18rem;
-            transition: color 0.16s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+            font-size: 1.32rem;
+            transition: color 0.14s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .nav-item-mobile.active {
@@ -517,7 +544,7 @@
         }
 
         /* أثناء التمرير بالإصبع تتلون الأيقونة الواقعة تحت العدسة الشفافة */
-        .ig-glass-nav.is-interacting .nav-item-mobile.active:not(.is-lens-hit) i {
+        .ig-glass-nav.is-animating .nav-item-mobile.active:not(.is-lens-hit) i {
             color: #1E293B;
             transform: scale(1);
         }
@@ -534,8 +561,8 @@
 
         /* حلقة صورة حسابي */
         .ig-avatar-ring {
-            width: 25px;
-            height: 25px;
+            width: 29px;
+            height: 29px;
             padding: 1.5px;
             border-radius: 9999px;
             background: linear-gradient(135deg, #FFB347, #FF7B00, #EC4899);
@@ -1250,11 +1277,15 @@
                 inset -2px 0 4px rgba(251, 146, 60, 0.32);
         }
 
+        html.dark .ig-lens-sheen {
+            background: radial-gradient(ellipse 46% 78% at 50% 28%, rgba(255, 255, 255, 0.36) 0%, rgba(56, 189, 248, 0.16) 45%, transparent 74%);
+        }
+
         html.dark .nav-item-mobile {
             color: #F8FAFC;
         }
 
-        html.dark .ig-glass-nav.is-interacting .nav-item-mobile.active:not(.is-lens-hit) i {
+        html.dark .ig-glass-nav.is-animating .nav-item-mobile.active:not(.is-lens-hit) i {
             color: #F8FAFC;
         }
 
@@ -2297,8 +2328,12 @@
                         </div>
                     </button>
 
-                    <!-- الطبقة العلوية للعدسة الزجاجية ذات الانكسار المنشوري -->
-                    <div id="ig-nav-bubble-rim" class="ig-nav-bubble-rim" aria-hidden="true"></div>
+                    <!-- الطبقة العلوية للعدسة الزجاجية ذات الانكسار المنشوري ولمعة الحركة لليمين واليسار -->
+                    <div id="ig-nav-bubble-rim" class="ig-nav-bubble-rim" aria-hidden="true">
+                        <div id="ig-lens-sheen" class="ig-lens-sheen"></div>
+                        <div id="ig-lens-edge-left" class="ig-lens-edge ig-lens-edge-left"></div>
+                        <div id="ig-lens-edge-right" class="ig-lens-edge ig-lens-edge-right"></div>
+                    </div>
                 </nav>
             </div>
     </main>
@@ -2941,83 +2976,91 @@
             const nav = document.getElementById('ig-glass-nav');
             const bubble = document.getElementById('ig-nav-bubble');
             const bubbleRim = document.getElementById('ig-nav-bubble-rim');
+            const lensSheen = document.getElementById('ig-lens-sheen');
+            const edgeLeft = document.getElementById('ig-lens-edge-left');
+            const edgeRight = document.getElementById('ig-lens-edge-right');
             if (!nav || !bubble) return;
 
             const buttons = Array.from(nav.querySelectorAll('.nav-item-mobile'));
             if (!buttons.length) return;
             const iconWraps = buttons.map(btn => btn.querySelector('.nav-icon-wrap'));
+            const lastHitState = buttons.map(() => false);
+
+            // قيم الأبعاد المخزنة مؤقتاً (تمنع أي قراءة Layout داخل حركة الإطارات لـ 120fps خالصة)
+            let navLeft = 0;
+            let bubbleW = 86;
+            let btnCenters = [];
+            let btnLefts = [];
+            let minLeft = 0;
+            let maxLeft = 0;
 
             let isPointerDown = false;
             let activePointerId = null;
             let isLiquid = false;
+            let pendingSettle = false;
+            let releaseTime = 0;
             let hasDragged = false;
             let startClientX = 0;
-            let hoveredBtn = null;
-            let settleTimer = null;
+            let hoveredIdx = -1;
             let rafId = null;
             let lastTime = 0;
             let hasPositioned = false;
 
-            let bubbleW = 74;
             let currentX = 0;
             let targetX = 0;
             let velX = 0;
-            let currentScale = 1;
+            let smoothVel = 0;
+            let currentSX = 1;
+            let currentSY = 1;
 
             function setLiquidMode(active) {
                 isLiquid = !!active;
                 bubble.classList.toggle('is-liquid', isLiquid);
                 if (bubbleRim) bubbleRim.classList.toggle('is-liquid', isLiquid);
+                if (isLiquid) nav.classList.add('is-animating');
             }
 
-            function measureBubbleWidth() {
-                if (!nav.offsetWidth || !buttons[0].offsetWidth) return;
-                bubbleW = Math.min(Math.round(buttons[0].offsetWidth - 2), 78);
+            function measureLayout() {
+                if (!nav.offsetWidth || !buttons[0].offsetWidth) return false;
+                navLeft = nav.getBoundingClientRect().left;
+                bubbleW = Math.min(Math.round(buttons[0].offsetWidth - 2), 90);
                 bubble.style.width = `${bubbleW}px`;
                 if (bubbleRim) bubbleRim.style.width = `${bubbleW}px`;
-            }
 
-            function getBtnBubbleLeft(btn) {
-                return btn.offsetLeft + (btn.offsetWidth - bubbleW) / 2;
-            }
-
-            function getEdgeBounds() {
-                let minLeft = Infinity;
-                let maxLeft = -Infinity;
-                buttons.forEach(btn => {
-                    const left = getBtnBubbleLeft(btn);
+                minLeft = Infinity;
+                maxLeft = -Infinity;
+                btnCenters = buttons.map(btn => btn.offsetLeft + btn.offsetWidth / 2);
+                btnLefts = buttons.map(btn => {
+                    const left = btn.offsetLeft + (btn.offsetWidth - bubbleW) / 2;
                     if (left < minLeft) minLeft = left;
                     if (left > maxLeft) maxLeft = left;
+                    return left;
                 });
-                return { minLeft, maxLeft };
+                return true;
             }
 
-            function getLocalPointerX(clientX) {
-                const navRect = nav.getBoundingClientRect();
-                return clientX - navRect.left;
-            }
-
-            function getTabAtClientX(clientX) {
-                const localX = getLocalPointerX(clientX);
-                let closest = buttons[0];
+            function getBtnIndexAtClientX(clientX) {
+                const localX = clientX - navLeft;
+                let closestIdx = 0;
                 let minDist = Infinity;
-                buttons.forEach(btn => {
-                    const center = btn.offsetLeft + btn.offsetWidth / 2;
-                    const dist = Math.abs(localX - center);
+                for (let i = 0; i < btnCenters.length; i++) {
+                    const dist = Math.abs(localX - btnCenters[i]);
                     if (dist < minDist) {
                         minDist = dist;
-                        closest = btn;
+                        closestIdx = i;
                     }
-                });
-                return closest;
+                }
+                return closestIdx;
             }
 
-            function setHoveredButton(btn) {
-                if (hoveredBtn === btn) return;
-                const hadPrev = hoveredBtn !== null;
-                hoveredBtn = btn;
-                buttons.forEach(b => b.classList.toggle('is-hovered', b === btn));
-                if (hadPrev && btn) {
+            function setHoveredIndex(idx) {
+                if (hoveredIdx === idx) return;
+                const hadPrev = hoveredIdx !== -1;
+                hoveredIdx = idx;
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.toggle('is-hovered', i === idx);
+                }
+                if (hadPrev && idx !== -1) {
                     playUiSound('nav-tick');
                     if (navigator.vibrate) {
                         try { navigator.vibrate(7); } catch (e) { }
@@ -3025,73 +3068,128 @@
                 }
             }
 
-            function resetLensIcons() {
-                buttons.forEach((btn, idx) => {
-                    btn.classList.remove('is-lens-hit');
-                    if (iconWraps[idx]) iconWraps[idx].style.transform = '';
-                });
-            }
-
-            function updateLensOptics() {
-                if (!isLiquid && !isPointerDown) {
-                    resetLensIcons();
-                    return;
-                }
-                const bubbleCenter = currentX + bubbleW / 2;
-                const lensRadius = bubbleW * 0.64;
-                buttons.forEach((btn, idx) => {
-                    const btnCenter = btn.offsetLeft + btn.offsetWidth / 2;
-                    const dist = Math.abs(bubbleCenter - btnCenter);
-                    const proximity = Math.max(0, 1 - dist / lensRadius);
-                    btn.classList.toggle('is-lens-hit', proximity > 0.26);
-                    if (iconWraps[idx]) {
-                        const iconScale = 1 + 0.18 * proximity;
-                        iconWraps[idx].style.transform = `scale(${iconScale.toFixed(4)})`;
+            function resetLensOptics() {
+                for (let i = 0; i < buttons.length; i++) {
+                    if (lastHitState[i]) {
+                        buttons[i].classList.remove('is-lens-hit');
+                        lastHitState[i] = false;
                     }
-                });
+                    if (iconWraps[i]) iconWraps[i].style.transform = '';
+                }
+                if (lensSheen) {
+                    lensSheen.style.transform = 'translate3d(0, 0, 0)';
+                    lensSheen.style.opacity = '0.45';
+                }
+                if (edgeLeft) edgeLeft.style.opacity = '0';
+                if (edgeRight) edgeRight.style.opacity = '0';
             }
 
-            function renderBubble() {
-                const tf = `translate3d(${currentX.toFixed(2)}px, 0, 0) scale(${currentScale.toFixed(4)})`;
+            function renderFrame(dirNorm, speedMag) {
+                const tf = `translate3d(${currentX.toFixed(2)}px, 0, 0) scale(${currentSX.toFixed(4)}, ${currentSY.toFixed(4)})`;
                 bubble.style.transform = tf;
                 if (bubbleRim) bubbleRim.style.transform = tf;
-                updateLensOptics();
+
+                // لمعة الضوء وحافة الانكسار التي تتحرك يميناً أو يساراً مع اتجاه السحب/الانتقال
+                if (lensSheen) {
+                    const sheenShift = dirNorm * 18;
+                    const sheenStretch = 1 + 0.16 * speedMag;
+                    lensSheen.style.transform = `translate3d(${sheenShift.toFixed(2)}px, 0, 0) scaleX(${sheenStretch.toFixed(3)})`;
+                    lensSheen.style.opacity = (0.42 + 0.54 * speedMag).toFixed(3);
+                }
+                if (edgeLeft) {
+                    edgeLeft.style.opacity = dirNorm < -0.04 ? Math.min(1, -dirNorm * 1.2).toFixed(3) : '0';
+                }
+                if (edgeRight) {
+                    edgeRight.style.opacity = dirNorm > 0.04 ? Math.min(1, dirNorm * 1.2).toFixed(3) : '0';
+                }
+
+                // تموّج وتكبير اتجاهي ناعم للأيقونات تحت العدسة الزجاجية (بدون أي قراءة Layout)
+                if (isLiquid || isPointerDown || pendingSettle) {
+                    const bubbleCenter = currentX + bubbleW / 2;
+                    const lensRadius = bubbleW * 0.68;
+                    for (let i = 0; i < buttons.length; i++) {
+                        const dist = Math.abs(bubbleCenter - btnCenters[i]);
+                        const proximity = Math.max(0, 1 - dist / lensRadius);
+                        const hit = proximity > 0.25;
+                        if (lastHitState[i] !== hit) {
+                            buttons[i].classList.toggle('is-lens-hit', hit);
+                            lastHitState[i] = hit;
+                        }
+                        if (iconWraps[i]) {
+                            const shiftX = dirNorm * 4.5 * proximity;
+                            const shiftY = -1.5 * proximity;
+                            const iconScale = 1 + 0.18 * proximity;
+                            iconWraps[i].style.transform = `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 0) scale(${iconScale.toFixed(4)})`;
+                        }
+                    }
+                }
             }
 
             function stepAnimation(now) {
-                const dt = lastTime ? Math.min(Math.max((now - lastTime) / 1000, 0.001), 0.04) : 0.016;
+                const dt = lastTime ? Math.min(Math.max((now - lastTime) / 1000, 0.001), 0.032) : 0.016;
                 lastTime = now;
 
                 if (isPointerDown && hasDragged) {
-                    const followAlpha = 1 - Math.exp(-30 * dt);
+                    const followAlpha = 1 - Math.exp(-38 * dt);
                     const nextX = currentX + (targetX - currentX) * followAlpha;
-                    velX = (nextX - currentX) / dt;
+                    const instVel = (nextX - currentX) / dt;
+                    velX += (instVel - velX) * (1 - Math.exp(-26 * dt));
                     currentX = nextX;
                 } else {
-                    const omega = 22;
-                    const zeta = 0.92;
+                    // زنبرك سائل سلس يبرز الانطلاقة لليمين واليسار مع استقرار ناعم عند الوصول
+                    const omega = 20.5;
+                    const zeta = 0.78;
                     const accel = (targetX - currentX) * (omega * omega) - velX * (2 * zeta * omega);
                     velX += accel * dt;
                     currentX += velX * dt;
                 }
 
-                const desiredScale = isLiquid ? 1.08 : 1;
-                const scaleAlpha = 1 - Math.exp(-24 * dt);
-                currentScale += (desiredScale - currentScale) * scaleAlpha;
+                // تنعيم السرعة لاستخلاص اتجاه الحركة لليمين (+1) أو اليسار (-1)
+                smoothVel += (velX - smoothVel) * (1 - Math.exp(-18 * dt));
+                const dirNorm = Math.max(-1, Math.min(1, smoothVel / 620));
+                const speedMag = Math.abs(dirNorm);
 
-                renderBubble();
+                // إغلاق العدسة تلقائياً لحظة وصولها السلس إلى الوجهة (بدون قطع الحركة مبكراً)
+                if (!isPointerDown && pendingSettle) {
+                    const nearTarget = Math.abs(targetX - currentX) < 3.5 && Math.abs(velX) < 42;
+                    const heldLongEnough = (now - releaseTime) >= 115;
+                    if (nearTarget && heldLongEnough) {
+                        pendingSettle = false;
+                        setLiquidMode(false);
+                    }
+                }
+
+                // تمدد هوائي سائل مع اتجاه الحركة (انسيابي ومحدود بدون تشويه)
+                const baseSX = isLiquid ? 1.18 : 1;
+                const baseSY = isLiquid ? 1.28 : 1;
+                const desiredSX = isLiquid ? baseSX * (1 + 0.14 * speedMag) : 1;
+                const desiredSY = isLiquid ? baseSY * (1 - 0.08 * speedMag) : 1;
+
+                const scaleAlpha = 1 - Math.exp(-22 * dt);
+                currentSX += (desiredSX - currentSX) * scaleAlpha;
+                currentSY += (desiredSY - currentSY) * scaleAlpha;
+
+                renderFrame(dirNorm, speedMag);
 
                 const isSettled =
                     !isPointerDown &&
+                    !pendingSettle &&
+                    !isLiquid &&
                     Math.abs(targetX - currentX) < 0.08 &&
                     Math.abs(velX) < 0.8 &&
-                    Math.abs(desiredScale - currentScale) < 0.002;
+                    Math.abs(smoothVel) < 2 &&
+                    Math.abs(1 - currentSX) < 0.002 &&
+                    Math.abs(1 - currentSY) < 0.002;
 
                 if (isSettled) {
                     currentX = targetX;
-                    currentScale = desiredScale;
+                    currentSX = 1;
+                    currentSY = 1;
                     velX = 0;
-                    renderBubble();
+                    smoothVel = 0;
+                    renderFrame(0, 0);
+                    resetLensOptics();
+                    nav.classList.remove('is-animating');
                     rafId = null;
                     lastTime = 0;
                 } else {
@@ -3101,66 +3199,78 @@
 
             function ensureLoop() {
                 if (!rafId) {
+                    nav.classList.add('is-animating');
                     lastTime = 0;
                     rafId = requestAnimationFrame(stepAnimation);
                 }
             }
 
             function syncToActive(immediate = false) {
-                if (nav.offsetWidth === 0) return;
-                measureBubbleWidth();
-                const activeBtn = nav.querySelector('.nav-item-mobile.active');
-                if (!activeBtn) {
+                if (!measureLayout()) return;
+                const activeIdx = buttons.findIndex(b => b.classList.contains('active'));
+                if (activeIdx === -1) {
                     if (!isPointerDown) bubble.classList.remove('is-visible');
                     return;
                 }
-                targetX = getBtnBubbleLeft(activeBtn);
+                const nextTarget = btnLefts[activeIdx];
                 bubble.classList.add('is-visible');
 
                 if (immediate || !hasPositioned) {
-                    currentX = targetX;
-                    currentScale = 1;
+                    targetX = nextTarget;
+                    currentX = nextTarget;
+                    currentSX = 1;
+                    currentSY = 1;
                     velX = 0;
+                    smoothVel = 0;
                     hasPositioned = true;
-                    renderBubble();
+                    pendingSettle = false;
+                    setLiquidMode(false);
+                    renderFrame(0, 0);
+                    resetLensOptics();
+                    nav.classList.remove('is-animating');
                 } else {
+                    const travelDist = Math.abs(nextTarget - currentX);
+                    targetX = nextTarget;
+                    if (!isPointerDown && travelDist > 4) {
+                        setLiquidMode(true);
+                        pendingSettle = true;
+                        releaseTime = performance.now();
+                    }
                     ensureLoop();
                 }
             }
 
             window.syncIgNavBubble = syncToActive;
 
-            function activateTarget(btn) {
+            function activateIndex(idx) {
+                const btn = buttons[idx];
                 if (!btn) return;
                 const target = btn.getAttribute('data-target');
+                releaseTime = performance.now();
+                pendingSettle = true;
+
                 if (target === 'account') {
                     toggleSettingsModal();
-                    if (settleTimer) clearTimeout(settleTimer);
-                    settleTimer = setTimeout(() => {
-                        setLiquidMode(false);
-                        syncToActive(false);
-                    }, 150);
-                } else if (target) {
-                    switchPage(target);
-                    targetX = getBtnBubbleLeft(btn);
+                    const activeIdx = buttons.findIndex(b => b.classList.contains('active'));
+                    if (activeIdx !== -1) targetX = btnLefts[activeIdx];
                     ensureLoop();
-                    if (settleTimer) clearTimeout(settleTimer);
-                    settleTimer = setTimeout(() => {
-                        setLiquidMode(false);
-                        ensureLoop();
-                    }, 150);
+                } else if (target) {
+                    targetX = btnLefts[idx];
+                    switchPage(target);
+                    targetX = btnLefts[idx];
+                    setLiquidMode(true);
+                    pendingSettle = true;
+                    releaseTime = performance.now();
+                    ensureLoop();
                 }
             }
 
             nav.addEventListener('pointerdown', (e) => {
                 if (e.pointerType === 'mouse' && e.button !== 0) return;
-                if (settleTimer) {
-                    clearTimeout(settleTimer);
-                    settleTimer = null;
-                }
+                if (!measureLayout()) return;
 
-                measureBubbleWidth();
                 isPointerDown = true;
+                pendingSettle = false;
                 activePointerId = e.pointerId;
                 hasDragged = false;
                 startClientX = e.clientX;
@@ -3168,42 +3278,42 @@
                 try { nav.setPointerCapture(e.pointerId); } catch (err) { }
 
                 const wasVisible = bubble.classList.contains('is-visible');
-                nav.classList.add('is-interacting');
+                nav.classList.add('is-animating');
                 bubble.classList.add('is-visible');
                 setLiquidMode(true);
 
-                const btn = getTabAtClientX(e.clientX);
-                targetX = getBtnBubbleLeft(btn);
+                const idx = getBtnIndexAtClientX(e.clientX);
+                targetX = btnLefts[idx];
 
                 if (!hasPositioned || !wasVisible) {
                     currentX = targetX;
                     velX = 0;
+                    smoothVel = 0;
                     hasPositioned = true;
-                    renderBubble();
+                    renderFrame(0, 0);
                 }
 
-                hoveredBtn = null;
-                setHoveredButton(btn);
+                hoveredIdx = -1;
+                setHoveredIndex(idx);
                 ensureLoop();
             });
 
             nav.addEventListener('pointermove', (e) => {
                 if (!isPointerDown || e.pointerId !== activePointerId) return;
-                if (Math.abs(e.clientX - startClientX) > 6) hasDragged = true;
+                if (Math.abs(e.clientX - startClientX) > 5) hasDragged = true;
 
-                const { minLeft, maxLeft } = getEdgeBounds();
-                const btn = getTabAtClientX(e.clientX);
+                const idx = getBtnIndexAtClientX(e.clientX);
 
                 if (hasDragged) {
-                    let desiredX = getLocalPointerX(e.clientX) - bubbleW / 2;
+                    let desiredX = (e.clientX - navLeft) - bubbleW / 2;
                     if (desiredX < minLeft) desiredX = minLeft + (desiredX - minLeft) * 0.14;
                     else if (desiredX > maxLeft) desiredX = maxLeft + (desiredX - maxLeft) * 0.14;
                     targetX = desiredX;
                 } else {
-                    targetX = getBtnBubbleLeft(btn);
+                    targetX = btnLefts[idx];
                 }
 
-                setHoveredButton(btn);
+                setHoveredIndex(idx);
                 ensureLoop();
             });
 
@@ -3216,19 +3326,19 @@
                     if (nav.hasPointerCapture(e.pointerId)) nav.releasePointerCapture(e.pointerId);
                 } catch (err) { }
 
-                const finalBtn = hoveredBtn || getTabAtClientX(e.clientX);
-                hoveredBtn = null;
-                buttons.forEach(b => b.classList.remove('is-hovered'));
-                nav.classList.remove('is-interacting');
+                const finalIdx = hoveredIdx !== -1 ? hoveredIdx : getBtnIndexAtClientX(e.clientX);
+                hoveredIdx = -1;
+                for (let i = 0; i < buttons.length; i++) buttons[i].classList.remove('is-hovered');
 
-                if (shouldActivate && finalBtn) {
-                    targetX = getBtnBubbleLeft(finalBtn);
+                if (shouldActivate && finalIdx >= 0) {
                     hasDragged = false;
-                    ensureLoop();
-                    activateTarget(finalBtn);
+                    activateIndex(finalIdx);
                 } else {
-                    setLiquidMode(false);
-                    syncToActive(false);
+                    releaseTime = performance.now();
+                    pendingSettle = true;
+                    const activeIdx = buttons.findIndex(b => b.classList.contains('active'));
+                    if (activeIdx !== -1) targetX = btnLefts[activeIdx];
+                    ensureLoop();
                 }
             }
 
@@ -3236,13 +3346,14 @@
             nav.addEventListener('pointercancel', (e) => finishPointer(e, false));
 
             // دعم لوحة المفاتيح للوصولية
-            buttons.forEach(btn => {
+            buttons.forEach((btn, idx) => {
                 btn.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
+                        if (!measureLayout()) return;
                         bubble.classList.add('is-visible');
                         setLiquidMode(true);
-                        activateTarget(btn);
+                        activateIndex(idx);
                     }
                 });
             });
