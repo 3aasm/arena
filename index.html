@@ -321,8 +321,8 @@
             background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            border-radius: 28px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.045);
+            border-radius: 22px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.045);
             border: 1px solid rgba(255, 255, 255, 0.9);
             transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease, border-color 0.3s ease;
         }
@@ -332,13 +332,13 @@
             backdrop-filter: blur(16px) saturate(180%);
             -webkit-backdrop-filter: blur(16px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.85);
-            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+            box-shadow: 0 5px 16px rgba(15, 23, 42, 0.06);
         }
 
-        /* الشريط السفلي الزجاجي بنمط إنستجرام مع الفقاعة الزجاجية السائلة */
+        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass (مطابق للفيديو المرفق) */
         .ig-glass-dock-wrapper {
             position: fixed;
-            bottom: max(12px, env(safe-area-inset-bottom, 12px));
+            bottom: max(7px, env(safe-area-inset-bottom, 7px));
             left: 14px;
             right: 14px;
             z-index: 45;
@@ -351,53 +351,55 @@
             position: relative;
             pointer-events: auto;
             width: 100%;
-            max-width: 420px;
-            height: 62px;
-            background: rgba(255, 255, 255, 0.72);
-            backdrop-filter: blur(26px) saturate(200%);
-            -webkit-backdrop-filter: blur(26px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.82);
-            border-radius: 31px;
-            box-shadow:
-                0 14px 36px rgba(15, 23, 42, 0.12),
-                0 4px 12px rgba(15, 23, 42, 0.05),
-                inset 0 1px 1px rgba(255, 255, 255, 0.95);
+            max-width: 326px;
+            height: 52px;
+            border-radius: 9999px;
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 0 7px;
+            padding: 0 5px;
             touch-action: none;
             user-select: none;
             -webkit-user-select: none;
-            overflow: hidden;
-            transition: background-color 0.3s ease, box-shadow 0.28s ease;
+            overflow: visible;
         }
 
-        .ig-glass-nav.is-interacting {
+        /* السطح الزجاجي الشفاف للشريط */
+        .ig-glass-surface {
+            position: absolute;
+            inset: 0;
+            border-radius: 9999px;
+            z-index: 0;
+            pointer-events: none;
+            background: rgba(255, 255, 255, 0.34);
+            backdrop-filter: blur(22px) saturate(185%);
+            -webkit-backdrop-filter: blur(22px) saturate(185%);
+            border: 1px solid rgba(255, 255, 255, 0.72);
             box-shadow:
-                0 16px 40px rgba(15, 23, 42, 0.15),
-                0 4px 14px rgba(255, 138, 0, 0.09),
-                inset 0 1px 1px rgba(255, 255, 255, 0.98);
+                0 10px 28px rgba(15, 23, 42, 0.10),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.92),
+                inset 0 -1px 0.5px rgba(255, 255, 255, 0.32);
+            transition: background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
-        /* الفقاعة الزجاجية المنزلقة بنمط إنستجرام (سلسة ومتناسقة بدون تشويه) */
+        /* الطبقة الخلفية للفقاعة (كبسولة هادئة عند الثبات -> عدسة زجاجية شفافة بارزة عند السحب) */
         .ig-nav-bubble {
             position: absolute;
             left: 0;
-            top: 8px;
-            height: 46px;
-            border-radius: 23px;
+            top: 4px;
+            height: 44px;
+            border-radius: 9999px;
             pointer-events: none;
             z-index: 1;
             opacity: 0;
             transform-origin: center center;
             will-change: transform, opacity;
-            background: linear-gradient(180deg, rgba(255, 165, 38, 0.16) 0%, rgba(255, 123, 0, 0.1) 100%);
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.85),
-                inset 0 0 0 1px rgba(255, 152, 0, 0.22);
+            background: rgba(15, 23, 42, 0.08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
             transition:
                 opacity 0.2s ease,
+                top 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+                height 0.24s cubic-bezier(0.22, 1, 0.36, 1),
                 background 0.22s ease,
                 box-shadow 0.22s ease;
         }
@@ -407,25 +409,81 @@
         }
 
         .ig-nav-bubble.is-liquid {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 246, 234, 0.78) 100%);
+            top: -6px;
+            height: 64px;
+            background: radial-gradient(ellipse at 50% 24%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.05) 58%, rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(2px) brightness(1.08) contrast(1.06) saturate(165%);
+            -webkit-backdrop-filter: blur(2px) brightness(1.08) contrast(1.06) saturate(165%);
             box-shadow:
-                0 6px 18px rgba(15, 23, 42, 0.11),
-                0 2px 8px rgba(255, 138, 0, 0.16),
-                inset 0 1.5px 1px rgba(255, 255, 255, 1),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.92);
+                0 10px 26px rgba(15, 23, 42, 0.16),
+                0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        /* الحافة الزجاجية الطافية مع انكسار الضوء المنشوري (تظهر فوق الأيقونات أثناء السحب) */
+        .ig-nav-bubble-rim {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            height: 44px;
+            border-radius: 9999px;
+            pointer-events: none;
+            z-index: 4;
+            opacity: 0;
+            transform-origin: center center;
+            will-change: transform, opacity;
+            transition:
+                opacity 0.2s ease,
+                top 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+                height 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .ig-nav-bubble-rim.is-liquid {
+            top: -6px;
+            height: 64px;
+            opacity: 1;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.01) 36%, rgba(255, 255, 255, 0.01) 70%, rgba(255, 255, 255, 0.12) 100%);
+            box-shadow:
+                inset 0 1.5px 1.5px rgba(255, 255, 255, 0.88),
+                inset 0 -1.5px 2px rgba(255, 255, 255, 0.42),
+                inset 2px 0 4px rgba(56, 189, 248, 0.28),
+                inset -2px 0 4px rgba(251, 146, 60, 0.28);
+        }
+
+        .ig-nav-bubble-rim::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.5px;
+            background: conic-gradient(
+                from 200deg,
+                rgba(255, 255, 255, 0.9) 0deg,
+                rgba(56, 189, 248, 0.72) 55deg,
+                rgba(167, 139, 250, 0.56) 105deg,
+                rgba(255, 255, 255, 0.48) 160deg,
+                rgba(251, 146, 60, 0.66) 225deg,
+                rgba(56, 189, 248, 0.62) 290deg,
+                rgba(255, 255, 255, 0.92) 360deg
+            );
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+            opacity: 0.85;
+            pointer-events: none;
         }
 
         .nav-item-mobile {
             position: relative;
             z-index: 2;
             flex: 1;
-            height: 48px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 24px;
-            color: #64748B;
-            transition: color 0.22s ease, transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 9999px;
+            color: #1E293B;
+            transition: color 0.18s ease;
             cursor: pointer;
             background: transparent;
             border: none;
@@ -435,107 +493,85 @@
 
         .nav-item-mobile .nav-icon-wrap {
             position: relative;
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
         }
 
         .nav-item-mobile i {
-            font-size: 1.38rem;
-            transition: color 0.22s ease, transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 1.18rem;
+            transition: color 0.16s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .nav-item-mobile.active {
-            color: #0F172A;
+            color: #FF8A00;
         }
 
         .nav-item-mobile.active i {
             color: #FF8A00;
-            transform: scale(1.1);
+            transform: scale(1.06);
         }
 
-        /* أثناء التمرير بالإصبع يتبع التمييز الأيقونة الموجودة تحت الفقاعة فقط */
-        .ig-glass-nav.is-interacting .nav-item-mobile.active:not(.is-hovered) i {
-            color: #64748B;
+        /* أثناء التمرير بالإصبع تتلون الأيقونة الواقعة تحت العدسة الشفافة */
+        .ig-glass-nav.is-interacting .nav-item-mobile.active:not(.is-lens-hit) i {
+            color: #1E293B;
             transform: scale(1);
         }
 
+        .nav-item-mobile.is-lens-hit i,
         .nav-item-mobile.is-hovered i {
             color: #FF8A00 !important;
-            transform: scale(1.22) translateY(-1px) !important;
         }
 
+        .nav-item-mobile.is-lens-hit .ig-avatar-ring,
         .nav-item-mobile.is-hovered .ig-avatar-ring {
-            transform: scale(1.18) translateY(-1px);
-            box-shadow: 0 5px 14px rgba(255, 123, 0, 0.36);
+            box-shadow: 0 4px 12px rgba(255, 123, 0, 0.36);
         }
 
-        .nav-item-mobile::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            width: 4px;
-            height: 4px;
-            border-radius: 9999px;
-            background: #FF8A00;
-            opacity: 0;
-            transform: scale(0);
-            transition: opacity 0.2s ease, transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .nav-item-mobile.active::after {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .ig-glass-nav.is-interacting .nav-item-mobile::after {
-            opacity: 0;
-            transform: scale(0);
-        }
-
-        /* حلقة صورة حسابي بنمط إنستجرام */
+        /* حلقة صورة حسابي */
         .ig-avatar-ring {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             padding: 1.5px;
             border-radius: 9999px;
             background: linear-gradient(135deg, #FFB347, #FF7B00, #EC4899);
-            box-shadow: 0 2px 8px rgba(255, 123, 0, 0.25);
-            transition: transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.24s ease;
+            box-shadow: 0 2px 7px rgba(255, 123, 0, 0.24);
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
         }
 
         .nav-item-mobile:hover .ig-avatar-ring {
-            transform: scale(1.08);
+            transform: scale(1.06);
         }
 
         /* ============================================================
-           بطاقات الألعاب الزجاجية الفاتحة مع رسومات وخلفيات علوية ناعمة
+           بطاقات الألعاب الزجاجية الفاتحة مع رسومات وخلفيات علوية ناعمة (بحجم مدمج وأنيق)
            ============================================================ */
         .game-glass-card {
             position: relative;
             overflow: hidden;
-            border-radius: 26px;
+            border-radius: 20px;
             background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.96);
             box-shadow:
-                0 10px 26px -6px rgba(15, 23, 42, 0.065),
-                0 4px 10px -2px rgba(15, 23, 42, 0.025);
+                0 8px 20px -6px rgba(15, 23, 42, 0.065),
+                0 3px 8px -2px rgba(15, 23, 42, 0.025);
             display: flex;
             flex-direction: column;
             transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.24s ease, border-color 0.24s ease, background-color 0.3s ease;
         }
 
         .game-glass-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-3px);
             border-color: rgba(255, 152, 0, 0.38);
             box-shadow:
-                0 18px 34px -10px rgba(255, 123, 0, 0.16),
-                0 8px 16px -6px rgba(15, 23, 42, 0.06);
+                0 14px 28px -10px rgba(255, 123, 0, 0.16),
+                0 6px 14px -6px rgba(15, 23, 42, 0.06);
         }
 
         .game-glass-card:active {
@@ -545,20 +581,20 @@
         html.dark .game-glass-card {
             background: rgba(30, 41, 59, 0.88);
             border-color: rgba(255, 255, 255, 0.09);
-            box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.38);
+            box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.38);
         }
 
         html.dark .game-glass-card:hover {
             border-color: rgba(255, 167, 38, 0.38);
-            box-shadow: 0 18px 36px -8px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.5);
         }
 
         /* نافذة الرسمة والخلفية الناعمة في أعلى كل بطاقة */
         .game-art-banner {
             position: relative;
-            margin: 8px 8px 0 8px;
-            height: 108px;
-            border-radius: 20px;
+            margin: 6px 6px 0 6px;
+            height: 82px;
+            border-radius: 15px;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -650,20 +686,20 @@
         /* شارة التصنيف الطافية على زاوية الرسمة */
         .game-banner-pill {
             position: absolute;
-            top: 8px;
-            left: 8px;
+            top: 6px;
+            left: 6px;
             z-index: 3;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 900;
-            padding: 2px 9px;
+            padding: 1.5px 7px;
             border-radius: 9999px;
             background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             color: #0F172A;
             border: 1px solid rgba(255, 255, 255, 0.95);
-            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
-            line-height: 1.45;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+            line-height: 1.4;
         }
 
         html.dark .game-banner-pill {
@@ -674,7 +710,7 @@
 
         /* جسم البطاقة السفلي (نص واضح ومتناسق مع الهوية) */
         .game-card-body {
-            padding: 12px 12px 15px;
+            padding: 8px 9px 11px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -688,28 +724,28 @@
             display: none;
             align-items: center;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 6px;
+            gap: 5px;
+            margin-bottom: 4px;
         }
 
         .most-played-pill {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            font-size: 10px;
+            gap: 3px;
+            font-size: 9.5px;
             font-weight: 900;
-            padding: 3px 10px;
+            padding: 2px 8px;
             border-radius: 9999px;
             background: linear-gradient(135deg, #FFB347 0%, #FF7B00 100%);
             color: #FFFFFF;
-            box-shadow: 0 4px 10px rgba(255, 123, 0, 0.26);
+            box-shadow: 0 3px 8px rgba(255, 123, 0, 0.24);
             line-height: 1.35;
         }
 
         .game-inline-cat {
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 800;
-            padding: 3px 9px;
+            padding: 2px 7px;
             border-radius: 9999px;
             background: #FFF3E0;
             color: #EA580C;
@@ -723,7 +759,7 @@
 
         .game-card-title {
             font-weight: 900;
-            font-size: 1rem;
+            font-size: 0.87rem;
             line-height: 1.3;
             color: #0F172A;
         }
@@ -733,11 +769,11 @@
         }
 
         .game-card-desc {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             color: #64748B;
-            margin-top: 3px;
-            line-height: 1.45;
+            margin-top: 2px;
+            line-height: 1.4;
         }
 
         html.dark .game-card-desc {
@@ -746,20 +782,20 @@
 
         .game-featured-play-row {
             display: none;
-            margin-top: 10px;
+            margin-top: 7px;
         }
 
         .game-play-chip {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 7px 16px;
+            gap: 5px;
+            padding: 5px 12px;
             border-radius: 9999px;
             background: linear-gradient(135deg, #FFA726 0%, #FF7B00 100%);
             color: #FFFFFF;
             font-weight: 900;
-            font-size: 12px;
-            box-shadow: 0 3px 0 #C2410C, 0 8px 16px rgba(255, 123, 0, 0.25);
+            font-size: 11px;
+            box-shadow: 0 2.5px 0 #C2410C, 0 6px 12px rgba(255, 123, 0, 0.24);
             transition: transform 0.2s ease;
         }
 
@@ -773,24 +809,24 @@
             align-items: stretch;
             border: 1.5px solid rgba(255, 152, 0, 0.34);
             box-shadow:
-                0 14px 32px -8px rgba(255, 123, 0, 0.14),
-                0 6px 14px -4px rgba(15, 23, 42, 0.04);
-            min-height: 146px;
+                0 12px 26px -8px rgba(255, 123, 0, 0.14),
+                0 4px 10px -4px rgba(15, 23, 42, 0.04);
+            min-height: 114px;
         }
 
         html.dark .game-glass-card.is-most-played {
             border-color: rgba(255, 167, 38, 0.36);
-            box-shadow: 0 16px 34px -8px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.45);
         }
 
         .game-glass-card.is-most-played .game-art-banner {
-            width: 44%;
-            min-width: 128px;
-            max-width: 215px;
+            width: 40%;
+            min-width: 106px;
+            max-width: 180px;
             height: auto;
-            min-height: 126px;
-            margin: 9px;
-            border-radius: 20px;
+            min-height: 98px;
+            margin: 7px;
+            border-radius: 15px;
         }
 
         .game-glass-card.is-most-played .game-banner-pill {
@@ -800,7 +836,7 @@
         .game-glass-card.is-most-played .game-card-body {
             align-items: flex-start;
             text-align: right;
-            padding: 14px 6px 14px 16px;
+            padding: 10px 5px 10px 12px;
         }
 
         .game-glass-card.is-most-played .game-card-badges {
@@ -808,11 +844,11 @@
         }
 
         .game-glass-card.is-most-played .game-card-title {
-            font-size: 1.2rem;
+            font-size: 1.02rem;
         }
 
         .game-glass-card.is-most-played .game-card-desc {
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .game-glass-card.is-most-played .game-featured-play-row {
@@ -821,31 +857,31 @@
 
         @media (max-width: 420px) {
             .game-glass-card.is-most-played {
-                min-height: 132px;
+                min-height: 104px;
             }
 
             .game-glass-card.is-most-played .game-art-banner {
-                width: 42%;
-                min-width: 112px;
-                min-height: 112px;
-                margin: 8px;
+                width: 39%;
+                min-width: 96px;
+                min-height: 90px;
+                margin: 6px;
             }
 
             .game-glass-card.is-most-played .game-card-body {
-                padding: 12px 4px 12px 12px;
+                padding: 9px 4px 9px 10px;
             }
 
             .game-glass-card.is-most-played .game-card-title {
-                font-size: 1.05rem;
+                font-size: 0.94rem;
             }
 
             .game-glass-card.is-most-played .game-card-desc {
-                font-size: 11px;
+                font-size: 10px;
             }
 
             .game-play-chip {
-                padding: 6px 13px;
-                font-size: 11px;
+                padding: 4.5px 11px;
+                font-size: 10.5px;
             }
         }
 
@@ -853,14 +889,14 @@
         .arena-discovery-bar {
             background: rgba(255, 250, 242, 0.92);
             border: 1px solid rgba(255, 152, 0, 0.24);
-            border-radius: 22px;
+            border-radius: 18px;
             transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
         }
 
         .arena-discovery-bar:hover {
             transform: translateY(-2px);
             border-color: rgba(255, 152, 0, 0.48);
-            box-shadow: 0 10px 24px -8px rgba(255, 123, 0, 0.18);
+            box-shadow: 0 8px 20px -8px rgba(255, 123, 0, 0.18);
         }
 
         html.dark .arena-discovery-bar {
@@ -869,14 +905,14 @@
         }
 
         .mini-art-dot {
-            width: 34px;
-            height: 34px;
-            border-radius: 12px;
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
+            font-size: 12px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
             border: 2px solid #FFFFFF;
         }
 
@@ -926,7 +962,7 @@
         .input-ui {
             background: #F8FAFC;
             border: 2px solid #E2E8F0;
-            border-radius: 18px;
+            border-radius: 15px;
             transition: all 0.25s ease;
             color: #0F172A;
         }
@@ -934,7 +970,7 @@
         .input-ui:focus {
             background: #FFFFFF;
             border-color: #FF9800;
-            box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.14);
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.14);
             outline: none;
         }
 
@@ -952,7 +988,7 @@
             opacity: 0;
             pointer-events: none;
             transition: all 0.3s ease;
-            padding: 1rem;
+            padding: 0.85rem;
         }
 
         .modal-base.active {
@@ -964,10 +1000,10 @@
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(20px);
             width: 100%;
-            max-width: 420px;
-            padding: 1.65rem;
-            border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 365px;
+            padding: 1.25rem;
+            border-radius: 26px;
+            box-shadow: 0 22px 44px -12px rgba(0, 0, 0, 0.24);
             border: 1px solid rgba(255, 255, 255, 0.8);
             transform: scale(0.92) translateY(15px);
             transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -980,8 +1016,8 @@
         /* أيقونة اللعبة */
         .game-icon-bg {
             background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-            border-radius: 24px;
-            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.9), 0 8px 18px rgba(15, 23, 42, 0.06);
+            border-radius: 20px;
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.9), 0 6px 14px rgba(15, 23, 42, 0.06);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -990,19 +1026,19 @@
         /* Toast الإشعارات الفوري */
         #global-toast {
             position: fixed;
-            top: 1.15rem;
+            top: 0.9rem;
             right: 1rem;
             left: 1rem;
             margin-left: auto;
             margin-right: auto;
-            max-width: 370px;
+            max-width: 325px;
             z-index: 2500;
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
-            border-radius: 22px;
-            box-shadow: 0 20px 40px -8px rgba(15, 23, 42, 0.18);
-            padding: 0.95rem 1.15rem;
+            border-radius: 18px;
+            box-shadow: 0 16px 34px -8px rgba(15, 23, 42, 0.18);
+            padding: 0.72rem 0.92rem;
             transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform: translateY(-160%);
             opacity: 0;
@@ -1016,7 +1052,6 @@
             pointer-events: auto;
         }
 
-        /* الهيدر العلوي الأنيق والزجاجي */
         /* التمرير السلس والمتوازن لصفحات التطبيق */
         #main-scroll-area {
             scroll-behavior: auto;
@@ -1027,19 +1062,16 @@
 
         /* الهيدر العلوي الأنيق والزجاجي (ثابت الارتفاع لمنع الاهتزاز أثناء التمرير) */
         #main-header {
-            will-change: background-color, box-shadow, height;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             will-change: background-color, box-shadow;
             transition: background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         #main-header.scrolled {
-            height: 4.25rem;
             background: rgba(255, 255, 255, 0.72);
             backdrop-filter: blur(22px) saturate(180%);
             -webkit-backdrop-filter: blur(22px) saturate(180%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.65);
-            box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
         }
 
         /* قائمة التوسعة لأفضل 10 لاعبين */
@@ -1053,7 +1085,7 @@
         .top10-drawer.open {
             max-height: 1200px;
             opacity: 1;
-            margin-top: 1.25rem;
+            margin-top: 1rem;
         }
 
         /* الوضع الداكن المتكامل */
@@ -1068,7 +1100,7 @@
         html.dark #main-header.scrolled {
             background: rgba(15, 23, 42, 0.76) !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
         }
 
         html.dark .bg-white {
@@ -1183,50 +1215,53 @@
             box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05), 0 8px 16px rgba(0, 0, 0, 0.3) !important;
         }
 
-        /* الشريط السفلي الزجاجي والفقاعة في الوضع الداكن */
-        html.dark .ig-glass-nav {
-            background: rgba(15, 23, 42, 0.72);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass في الوضع الداكن (مطابق للفيديو المرفق) */
+        html.dark .ig-glass-surface {
+            background: rgba(34, 37, 46, 0.44);
+            backdrop-filter: blur(22px) saturate(185%);
+            -webkit-backdrop-filter: blur(22px) saturate(185%);
+            border: 1px solid rgba(255, 255, 255, 0.22);
             box-shadow:
-                0 16px 38px rgba(0, 0, 0, 0.5),
-                inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        }
-
-        html.dark .ig-glass-nav.is-interacting {
-            box-shadow:
-                0 20px 46px rgba(0, 0, 0, 0.62),
-                0 0 20px rgba(255, 152, 0, 0.12),
-                inset 0 1px 1.5px rgba(255, 255, 255, 0.16);
+                0 14px 34px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.24),
+                inset 0 -1px 0.5px rgba(255, 255, 255, 0.08);
         }
 
         html.dark .ig-nav-bubble {
-            background: linear-gradient(180deg, rgba(255, 167, 38, 0.22) 0%, rgba(255, 123, 0, 0.12) 100%);
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.18),
-                inset 0 0 0 1px rgba(255, 167, 38, 0.28);
+            background: rgba(0, 0, 0, 0.36);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         html.dark .ig-nav-bubble.is-liquid {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 152, 0, 0.2) 100%);
+            background: radial-gradient(ellipse at 50% 22%, rgba(255, 255, 255, 0.14) 0%, rgba(15, 23, 42, 0.05) 58%, rgba(255, 255, 255, 0.08) 100%);
+            backdrop-filter: blur(2px) brightness(1.16) contrast(1.08) saturate(175%);
+            -webkit-backdrop-filter: blur(2px) brightness(1.16) contrast(1.08) saturate(175%);
             box-shadow:
-                0 8px 20px rgba(0, 0, 0, 0.42),
-                0 0 14px rgba(255, 152, 0, 0.18),
-                inset 0 1.5px 1px rgba(255, 255, 255, 0.36),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.26);
+                0 12px 28px rgba(0, 0, 0, 0.48),
+                0 2px 8px rgba(0, 0, 0, 0.26);
+        }
+
+        html.dark .ig-nav-bubble-rim.is-liquid {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.01) 34%, rgba(255, 255, 255, 0.01) 72%, rgba(255, 255, 255, 0.09) 100%);
+            box-shadow:
+                inset 0 1.5px 1.5px rgba(255, 255, 255, 0.65),
+                inset 0 -1.5px 2px rgba(255, 255, 255, 0.24),
+                inset 2px 0 4px rgba(56, 189, 248, 0.34),
+                inset -2px 0 4px rgba(251, 146, 60, 0.32);
         }
 
         html.dark .nav-item-mobile {
-            color: #94A3B8;
+            color: #F8FAFC;
         }
 
-        html.dark .ig-glass-nav.is-interacting .nav-item-mobile.active:not(.is-hovered) i {
-            color: #94A3B8;
+        html.dark .ig-glass-nav.is-interacting .nav-item-mobile.active:not(.is-lens-hit) i {
+            color: #F8FAFC;
         }
 
         html.dark .nav-item-mobile.active i,
-        html.dark .nav-item-mobile.is-hovered i,
-        html.dark .nav-item-mobile.active span.nav-label {
-            color: #FFB74D !important;
+        html.dark .nav-item-mobile.is-lens-hit i,
+        html.dark .nav-item-mobile.is-hovered i {
+            color: #FFA726 !important;
         }
     </style>
 </head>
@@ -1236,163 +1271,161 @@
 
     <!-- ==================== القائمة الجانبية لسطح المكتب (Desktop Glass Sidebar) ==================== -->
     <aside
-        class="hidden lg:flex flex-col w-72 bg-white/80 backdrop-blur-xl shadow-card border border-white/80 z-20 relative transition-all duration-300 rounded-l-[36px] m-4 mr-0 shrink-0">
-        <div class="p-7 pb-4 text-center">
+        class="hidden lg:flex flex-col w-60 bg-white/80 backdrop-blur-xl shadow-card border border-white/80 z-20 relative transition-all duration-300 rounded-l-[28px] m-3 mr-0 shrink-0">
+        <div class="p-5 pb-3 text-center">
             <div onclick="switchPage('games')"
-                class="w-18 h-18 w-[72px] h-[72px] bg-gradient-to-tr from-brand-gradientStart to-brand-gradientEnd rounded-[24px] flex items-center justify-center shadow-3d mx-auto mb-3.5 cursor-pointer hover:scale-105 transition-transform">
-                <i class="fa-solid fa-gamepad text-white text-3xl"></i>
+                class="w-14 h-14 bg-gradient-to-tr from-brand-gradientStart to-brand-gradientEnd rounded-[20px] flex items-center justify-center shadow-3d mx-auto mb-2.5 cursor-pointer hover:scale-105 transition-transform">
+                <i class="fa-solid fa-gamepad text-white text-2xl"></i>
             </div>
-            <h1 class="text-2xl font-black font-heading uppercase text-primary tracking-tight">
+            <h1 class="text-xl font-black font-heading uppercase text-primary tracking-tight">
                 برو <span class="text-brand">أرينا</span>
             </h1>
-            <p class="text-xs font-bold text-secondary mt-1">ساحة التحدي والألعاب الجماعية</p>
+            <p class="text-[11px] font-bold text-secondary mt-0.5">ساحة التحدي والألعاب الجماعية</p>
         </div>
 
         <!-- عناصر التنقل بنفس الترتيب المطلوب: 𝖆𝖗𝖊𝖓𝖆 ثم الألعاب ثم الأصدقاء -->
-        <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
+        <nav class="flex-1 px-3 space-y-1.5 mt-2 overflow-y-auto">
             <button onclick="switchPage('news')"
-                class="nav-item w-full flex items-center justify-between px-4 py-3.5 text-secondary transition-all duration-300 rounded-2xl hover:bg-orange-50/60"
+                class="nav-item w-full flex items-center justify-between px-3 py-2.5 text-secondary transition-all duration-300 rounded-2xl hover:bg-orange-50/60"
                 data-target="news">
-                <div class="flex items-center gap-3.5">
+                <div class="flex items-center gap-3">
                     <div
-                        class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center nav-icon-container transition-colors relative">
-                        <i class="fa-solid fa-newspaper text-lg"></i>
+                        class="w-9 h-9 rounded-xl bg-gray-50 flex items-center justify-center nav-icon-container transition-colors relative">
+                        <i class="fa-solid fa-newspaper text-base"></i>
                         <span id="sidebar-news-badge"
-                            class="hidden absolute -top-1 -right-1 w-3 h-3 bg-brand rounded-full border-2 border-white"></span>
+                            class="hidden absolute -top-1 -right-1 w-2.5 h-2.5 bg-brand rounded-full border-2 border-white"></span>
                     </div>
-                    <span class="font-black text-base tracking-wide">𝖆𝖗𝖊𝖓𝖆</span>
+                    <span class="font-black text-sm tracking-wide">𝖆𝖗𝖊𝖓𝖆</span>
                 </div>
             </button>
 
             <button onclick="switchPage('games')"
-                class="nav-item active w-full flex items-center gap-3.5 px-4 py-3.5 text-brand transition-all duration-300 rounded-2xl hover:bg-orange-50/60"
+                class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 text-brand transition-all duration-300 rounded-2xl hover:bg-orange-50/60"
                 data-target="games">
                 <div
-                    class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center nav-icon-container transition-colors">
-                    <i class="fa-solid fa-gamepad text-lg"></i>
+                    class="w-9 h-9 rounded-xl bg-orange-100 flex items-center justify-center nav-icon-container transition-colors">
+                    <i class="fa-solid fa-gamepad text-base"></i>
                 </div>
-                <span class="font-black text-sm">الألعاب</span>
+                <span class="font-black text-xs">الألعاب</span>
             </button>
 
             <button onclick="switchPage('messages')"
-                class="nav-item w-full flex items-center justify-between px-4 py-3.5 text-secondary transition-all duration-300 rounded-2xl hover:bg-orange-50/60"
+                class="nav-item w-full flex items-center justify-between px-3 py-2.5 text-secondary transition-all duration-300 rounded-2xl hover:bg-orange-50/60"
                 data-target="messages">
-                <div class="flex items-center gap-3.5">
+                <div class="flex items-center gap-3">
                     <div
-                        class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center nav-icon-container transition-colors relative">
-                        <i class="fa-solid fa-user-group text-lg"></i>
+                        class="w-9 h-9 rounded-xl bg-gray-50 flex items-center justify-center nav-icon-container transition-colors relative">
+                        <i class="fa-solid fa-user-group text-base"></i>
                         <span id="sidebar-friends-badge"
-                            class="hidden absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white"></span>
+                            class="hidden absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
                     </div>
-                    <span class="font-black text-sm">الأصدقاء</span>
+                    <span class="font-black text-xs">الأصدقاء</span>
                 </div>
             </button>
 
             <button onclick="switchPage('notifications')"
-                class="nav-item w-full flex items-center justify-between px-4 py-3.5 text-secondary transition-all duration-300 rounded-2xl hover:bg-orange-50/60"
+                class="nav-item w-full flex items-center justify-between px-3 py-2.5 text-secondary transition-all duration-300 rounded-2xl hover:bg-orange-50/60"
                 data-target="notifications">
-                <div class="flex items-center gap-3.5">
+                <div class="flex items-center gap-3">
                     <div
-                        class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center nav-icon-container transition-colors relative">
-                        <i class="fa-solid fa-bell text-lg"></i>
+                        class="w-9 h-9 rounded-xl bg-gray-50 flex items-center justify-center nav-icon-container transition-colors relative">
+                        <i class="fa-solid fa-bell text-base"></i>
                         <span id="sidebar-notif-badge"
-                            class="hidden absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
+                            class="hidden absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
                     </div>
-                    <span class="font-black text-sm">الإشعارات</span>
+                    <span class="font-black text-xs">الإشعارات</span>
                 </div>
             </button>
         </nav>
 
         <!-- بطاقة حسابي (تفتح الإعدادات مباشرة) -->
-        <div class="p-4 m-3 bg-gradient-to-l from-orange-50/90 to-amber-50/50 dark:from-slate-800 dark:to-slate-800/60 rounded-[24px] cursor-pointer hover:shadow-md transition-all border border-orange-100/80 dark:border-slate-700"
+        <div class="p-3 m-2.5 bg-gradient-to-l from-orange-50/90 to-amber-50/50 dark:from-slate-800 dark:to-slate-800/60 rounded-[20px] cursor-pointer hover:shadow-md transition-all border border-orange-100/80 dark:border-slate-700"
             onclick="toggleSettingsModal()">
-            <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-brand to-pink-500 p-[2px] shadow-sm shrink-0">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-brand to-pink-500 p-[2px] shadow-sm shrink-0">
                     <img id="sidebar-avatar"
                         src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sniper&backgroundColor=FF9800" alt="User"
                         class="w-full h-full rounded-full bg-white">
                 </div>
                 <div class="flex-1 min-w-0">
-                    <p class="text-[10px] text-secondary font-bold">حسابي والإعدادات</p>
-                    <h4 class="font-black text-primary truncate text-sm" id="sidebar-username">القناص</h4>
-                    <span id="sidebar-userid" class="text-[10px] font-bold text-brand block">ID: #------</span>
+                    <p class="text-[9.5px] text-secondary font-bold">حسابي والإعدادات</p>
+                    <h4 class="font-black text-primary truncate text-xs" id="sidebar-username">القناص</h4>
+                    <span id="sidebar-userid" class="text-[9.5px] font-bold text-brand block">ID: #------</span>
                 </div>
-                <i class="fa-solid fa-sliders text-brand/80 text-sm"></i>
+                <i class="fa-solid fa-sliders text-brand/80 text-xs"></i>
             </div>
         </div>
     </aside>
 
     <!-- ==================== المحتوى الرئيسي ==================== -->
-    <main class="flex-1 flex flex-col h-full relative overflow-hidden lg:pl-4">
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden lg:pl-3">
         <!-- الشريط العلوي النظيف والأنيق (اسم الصفحة + فلوس المستخدم + زر أدواتي + زر الإشعارات) -->
         <header id="main-header"
-            class="h-[74px] lg:h-20 shrink-0 flex items-center justify-between px-5 lg:px-10 z-30 sticky top-0">
+            class="h-[56px] lg:h-[62px] shrink-0 flex items-center justify-between px-3.5 lg:px-8 z-30 sticky top-0">
 
             <!-- اسم الصفحة بشكل أنيق -->
-            <div class="flex items-center gap-2.5 z-10">
+            <div class="flex items-center gap-2 z-10">
                 <span
-                    class="w-1.5 h-7 rounded-full bg-gradient-to-b from-brand-gradientStart to-brand-gradientEnd shadow-sm"></span>
+                    class="w-1 h-5 rounded-full bg-gradient-to-b from-brand-gradientStart to-brand-gradientEnd shadow-sm"></span>
                 <div class="flex flex-col">
                     <h2 id="header-title"
-                        class="text-2xl lg:text-3xl font-black tracking-tight bg-gradient-to-l from-primary via-primary to-brand dark:from-white dark:via-slate-100 dark:to-brand-light bg-clip-text text-transparent leading-tight">
+                        class="text-xl lg:text-2xl font-black tracking-tight bg-gradient-to-l from-primary via-primary to-brand dark:from-white dark:via-slate-100 dark:to-brand-light bg-clip-text text-transparent leading-tight">
                         الألعاب
                     </h2>
                 </div>
             </div>
 
             <!-- فلوس المستخدم + زر أدواتي + زر الإشعارات -->
-            <div class="flex items-center gap-2.5 z-10">
+            <div class="flex items-center gap-2 z-10">
                 <!-- عداد فلوس / نقاط المستخدم -->
                 <div onclick="switchPage('news')"
-                    class="glass-pill px-3.5 py-2 rounded-2xl flex items-center gap-2 font-black text-brand cursor-pointer hover:scale-105 active:scale-95 transition-transform">
+                    class="glass-pill px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 font-black text-brand cursor-pointer hover:scale-105 active:scale-95 transition-transform">
                     <div
-                        class="w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center">
-                        <i class="fa-solid fa-coins text-amber-500 text-xs"></i>
+                        class="w-5 h-5 rounded-full bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center">
+                        <i class="fa-solid fa-coins text-amber-500 text-[10px]"></i>
                     </div>
-                    <span id="header-points" class="text-sm md:text-base tracking-tight">0</span>
+                    <span id="header-points" class="text-xs md:text-sm tracking-tight">0</span>
                 </div>
 
                 <!-- زر صفحة أدواتي -->
                 <a href="الادوات/ادواتي.html" onclick="playUiSound('click')"
-                    class="glass-pill w-11 h-11 rounded-2xl flex items-center justify-center text-primary dark:text-slate-100 hover:text-brand active:scale-95 transition-all"
+                    class="glass-pill w-9 h-9 rounded-xl flex items-center justify-center text-primary dark:text-slate-100 hover:text-brand active:scale-95 transition-all"
                     aria-label="أدواتي" title="أدواتي">
-                    <i class="fa-solid fa-toolbox text-lg"></i>
+                    <i class="fa-solid fa-toolbox text-[15px]"></i>
                 </a>
 
                 <!-- زر الإشعارات -->
                 <button onclick="switchPage('notifications')"
-                    class="glass-pill w-11 h-11 rounded-2xl flex items-center justify-center text-primary dark:text-slate-100 hover:text-brand active:scale-95 transition-all relative"
+                    class="glass-pill w-9 h-9 rounded-xl flex items-center justify-center text-primary dark:text-slate-100 hover:text-brand active:scale-95 transition-all relative"
                     aria-label="الإشعارات">
-                    <i class="fa-regular fa-bell text-lg"></i>
+                    <i class="fa-regular fa-bell text-[15px]"></i>
                     <span id="notification-badge"
-                        class="hidden absolute top-2 right-2.5 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+                        class="hidden absolute top-1.5 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
                 </button>
             </div>
         </header>
 
         <!-- منطقة التمرير الرئيسية لجميع الصفحات -->
-        <div id="main-scroll-area" class="flex-1 overflow-y-auto px-4 lg:px-10 pb-32 lg:pb-8 scroll-smooth">
-            <div id="main-scroll-area" class="flex-1 overflow-y-auto px-4 lg:px-10 pb-32 lg:pb-8">
+        <div id="main-scroll-area" class="flex-1 overflow-y-auto px-3 lg:px-8 pb-24 lg:pb-6">
 
-                <!-- ==================== 1. صفحة الأخبار والمتصدرين ==================== -->
-                <div id="news-page" class="page-section max-w-4xl mx-auto space-y-6 flex-col">
+            <!-- ==================== 1. صفحة الأخبار والمتصدرين ==================== -->
+            <div id="news-page" class="page-section max-w-3xl mx-auto space-y-4 flex-col">
 
-                    <!-- أولاً: قسم الألعاب المقترحة ببطاقات زجاجية ناعمة ورسومات مخصصة لكل لعبة -->
-                    <div class="stagger-item card-ui p-4 sm:p-5 relative overflow-hidden">
-                        <div
-                            class="absolute -top-12 -left-12 w-44 h-44 bg-brand/10 rounded-full blur-3xl pointer-events-none">
-                        </div>
+                <!-- أولاً: قسم الألعاب المقترحة ببطاقات زجاجية ناعمة ورسومات مخصصة لكل لعبة -->
+                <div class="stagger-item card-ui p-3.5 sm:p-4 relative overflow-hidden">
+                    <div
+                        class="absolute -top-12 -left-12 w-36 h-36 bg-brand/10 rounded-full blur-3xl pointer-events-none">
+                    </div>
 
-                        <div class="flex items-center justify-between gap-3 mb-4 relative z-10">
-                            <div class="flex items-center gap-2.5">
-                                <div
-                                    class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-gradientStart to-brand-gradientEnd text-white flex items-center justify-center shadow-md">
-                                    <i class="fa-solid fa-fire-flame-curved text-base"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-black text-base md:text-lg text-primary leading-tight">ألعاب مقترحة
-                                    </h3>
-                                    <p class="text-[11px] font-bold text-secondary">تحديات سريعة جاهزة للعب الآن</p>
+                    <div class="flex items-center justify-between gap-2.5 mb-3 relative z-10">
+                        <div class="flex items-center gap-2">
+                            <div
+                                class="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-gradientStart to-brand-gradientEnd text-white flex items-center justify-center shadow-md">
+                                <i class="fa-solid fa-fire-flame-curved text-sm"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-black text-sm md:text-base text-primary leading-tight">ألعاب مقترحة</h3>
+                                <p class="text-[10px] font-bold text-secondary">تحديات سريعة جاهزة للعب الآن</p>
                                 </div>
                             </div>
 
@@ -1534,8 +1567,8 @@
 
                             <!-- 4. شريط استكشاف باقي الألعاب -->
                             <button type="button" onclick="switchPage('games')"
-                                class="arena-discovery-bar col-span-2 px-3.5 py-3 sm:px-4 sm:py-3.5 flex items-center justify-between gap-3 text-right cursor-pointer group active:scale-[0.99]">
-                                <div class="flex items-center gap-3 min-w-0">
+                                class="arena-discovery-bar col-span-2 px-3 py-2.5 sm:px-3.5 sm:py-3 flex items-center justify-between gap-2.5 text-right cursor-pointer group active:scale-[0.99]">
+                                <div class="flex items-center gap-2.5 min-w-0">
                                     <div class="flex items-center -space-x-2 space-x-reverse shrink-0">
                                         <span
                                             class="mini-art-dot bg-emerald-100 text-emerald-600 dark:bg-emerald-900/70 dark:text-emerald-300">
@@ -1551,103 +1584,101 @@
                                         </span>
                                     </div>
                                     <div class="min-w-0">
-                                        <span class="block font-black text-xs sm:text-sm text-primary truncate">استكشف
-                                            جميع
+                                        <span class="block font-black text-xs text-primary truncate">استكشف جميع
                                             الألعاب</span>
                                         <span
-                                            class="block text-[10px] sm:text-[11px] font-bold text-secondary truncate">كرة
-                                            القدم، الثعبان، خمن اللاعب والمزيد...</span>
-                                        البلياردو، كرة القدم، الثعبان، خمن اللاعب والمزيد...</span>
+                                            class="block text-[10px] font-bold text-secondary truncate">كرة البلياردو،
+                                            كرة القدم، الثعبان، خمن اللاعب والمزيد...</span>
                                     </div>
                                 </div>
-                                <span class="btn-3d px-3.5 py-2 text-[11px] sm:text-xs gap-1.5 shrink-0">
+                                <span class="btn-3d px-3 py-1.5 text-[10.5px] gap-1 shrink-0">
                                     <span>دخول</span>
-                                    <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                                    <i class="fa-solid fa-arrow-left text-[9px]"></i>
                                 </span>
                             </button>
                         </div>
                     </div>
 
                     <!-- ثانياً: قسم الأخبار والإعلانات المنشورة من الإدارة -->
-                    <div class="stagger-item space-y-4">
+                    <div class="stagger-item space-y-3">
                         <div class="flex items-center justify-between px-1">
-                            <div class="flex items-center gap-2.5">
+                            <div class="flex items-center gap-2">
                                 <div
-                                    class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/15 text-nav flex items-center justify-center">
-                                    <i class="fa-solid fa-bullhorn text-base"></i>
+                                    class="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-500/15 text-nav flex items-center justify-center">
+                                    <i class="fa-solid fa-bullhorn text-sm"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-black text-lg text-primary leading-tight">آخر الأخبار والإعلانات
-                                    </h3>
-                                    <p class="text-[11px] font-bold text-secondary">تحديثات وبطولات الإدارة المباشرة</p>
+                                    <h3 class="font-black text-sm md:text-base text-primary leading-tight">آخر الأخبار
+                                        والإعلانات</h3>
+                                    <p class="text-[10px] font-bold text-secondary">تحديثات وبطولات الإدارة المباشرة</p>
                                 </div>
                             </div>
 
                             <!-- زر نشر خبر (يظهر للأدمن فقط) -->
                             <button id="admin-publish-news-btn" onclick="toggleAdminNewsModal()"
-                                class="hidden btn-3d px-4 py-2 text-xs gap-1.5">
+                                class="hidden btn-3d px-3 py-1.5 text-[11px] gap-1">
                                 <i class="fa-solid fa-plus"></i>
                                 <span>نشر خبر</span>
                             </button>
                         </div>
 
-                        <div id="admin-news-list" class="space-y-4">
-                            <div class="card-ui p-10 text-center">
-                                <i class="fas fa-spinner fa-spin text-brand text-2xl"></i>
+                        <div id="admin-news-list" class="space-y-3">
+                            <div class="card-ui p-7 text-center">
+                                <i class="fas fa-spinner fa-spin text-brand text-xl"></i>
                             </div>
                         </div>
                     </div>
 
                     <!-- ثالثاً: مستطيل توب 3 لأفضل اللاعبين مع زر المزيد لعرض التوب 10 -->
-                    <div class="stagger-item card-ui p-5 md:p-6 relative overflow-hidden">
+                    <div class="stagger-item card-ui p-3.5 sm:p-4 relative overflow-hidden">
                         <!-- خلفية جمالية ناعمة -->
                         <div
-                            class="absolute -top-12 -left-12 w-40 h-40 bg-brand/10 rounded-full blur-2xl pointer-events-none">
+                            class="absolute -top-12 -left-12 w-36 h-36 bg-brand/10 rounded-full blur-2xl pointer-events-none">
                         </div>
 
-                        <div class="flex items-center justify-between gap-3 mb-5 relative z-10">
-                            <div class="flex items-center gap-2.5">
+                        <div class="flex items-center justify-between gap-2.5 mb-3.5 relative z-10">
+                            <div class="flex items-center gap-2">
                                 <div
-                                    class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-md">
-                                    <i class="fa-solid fa-crown text-base"></i>
+                                    class="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-md">
+                                    <i class="fa-solid fa-crown text-sm"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-black text-base md:text-lg text-primary leading-tight">أفضل 3 لاعبين
+                                    <h3 class="font-black text-sm md:text-base text-primary leading-tight">أفضل 3 لاعبين
                                     </h3>
-                                    <p class="text-[11px] font-bold text-secondary">أبطال الصدارة في برو أرينا</p>
+                                    <p class="text-[10px] font-bold text-secondary">أبطال الصدارة في برو أرينا</p>
                                 </div>
                             </div>
 
                             <!-- زر المزيد لإظهار بقية التوب 10 -->
                             <button id="toggle-top10-btn" onclick="toggleTop10Drawer()"
-                                class="px-3.5 py-2 rounded-2xl bg-orange-50 dark:bg-slate-800 hover:bg-orange-100 text-brand font-black text-xs flex items-center gap-1.5 transition-all active:scale-95 border border-orange-100 dark:border-slate-700">
+                                class="px-3 py-1.5 rounded-xl bg-orange-50 dark:bg-slate-800 hover:bg-orange-100 text-brand font-black text-[11px] flex items-center gap-1.5 transition-all active:scale-95 border border-orange-100 dark:border-slate-700">
                                 <span id="toggle-top10-text">المزيد</span>
                                 <i id="toggle-top10-icon"
-                                    class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300"></i>
+                                    class="fa-solid fa-chevron-down text-[9px] transition-transform duration-300"></i>
                             </button>
                         </div>
 
                         <!-- مستطيل عرض التوب 3 -->
                         <div id="top3-podium-container"
-                            class="rounded-3xl bg-gradient-to-br from-orange-50/90 via-amber-50/60 to-white dark:from-slate-800/90 dark:via-slate-800/60 dark:to-slate-900/70 border border-orange-100/80 dark:border-slate-700/80 p-4 pt-8 pb-5 relative z-10">
-                            <div class="py-6 text-center">
-                                <i class="fas fa-spinner fa-spin text-brand text-2xl"></i>
+                            class="rounded-2xl bg-gradient-to-br from-orange-50/90 via-amber-50/60 to-white dark:from-slate-800/90 dark:via-slate-800/60 dark:to-slate-900/70 border border-orange-100/80 dark:border-slate-700/80 p-3 pt-6 pb-4 relative z-10">
+                            <div class="py-5 text-center">
+                                <i class="fas fa-spinner fa-spin text-brand text-xl"></i>
                             </div>
                         </div>
 
                         <!-- قائمة التوب 10 البقية (تفتح عند الضغط على زر المزيد) -->
                         <div id="top10-drawer" class="top10-drawer relative z-10">
-                            <div class="flex items-center justify-between mb-3 px-1">
-                                <span class="text-xs font-black text-secondary flex items-center gap-1.5">
+                            <div class="flex items-center justify-between mb-2.5 px-1">
+                                <span class="text-[11px] font-black text-secondary flex items-center gap-1.5">
                                     <i class="fa-solid fa-ranking-star text-brand"></i>
                                     بقية قائمة أفضل 10 لاعبين
                                 </span>
                                 <span
-                                    class="text-[11px] font-bold text-brand bg-orange-50 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">
+                                    class="text-[10px] font-bold text-brand bg-orange-50 dark:bg-slate-800 px-2 py-0.5 rounded-full">
                                     نقاطك: <span id="home-points-display">0</span>
                                 </span>
                             </div>
-                            <div id="top10-rest-list" class="space-y-2.5">
+                            <div id="top10-rest-list" class="space-y-2">
                                 <!-- تعبأ تلقائياً بالمراكز من 4 إلى 10 -->
                             </div>
                         </div>
@@ -1655,43 +1686,42 @@
                 </div>
 
                 <!-- ==================== 2. صفحة الألعاب ==================== -->
-                <div id="games-page" class="page-section active max-w-5xl mx-auto space-y-6 flex-col">
+                <div id="games-page" class="page-section active max-w-4xl mx-auto space-y-4 flex-col">
                     <!-- البانر الترحيبي والبحث والفلترة -->
                     <div id="games-hero-banner"
-                        class="stagger-item flex flex-col md:flex-row gap-4 items-center justify-between card-ui bg-gradient-to-br from-brand-gradientStart to-brand-gradientEnd p-5 relative overflow-hidden text-white shadow-3d border-0">
+                        class="stagger-item flex flex-col md:flex-row gap-3 items-center justify-between card-ui bg-gradient-to-br from-brand-gradientStart to-brand-gradientEnd p-3.5 sm:p-4 relative overflow-hidden text-white shadow-3d border-0">
                         <div class="absolute right-0 top-0 opacity-20 pointer-events-none">
-                            <i class="fa-solid fa-gamepad text-8xl absolute -top-6 -right-6 transform rotate-12"></i>
+                            <i class="fa-solid fa-gamepad text-7xl absolute -top-5 -right-5 transform rotate-12"></i>
                         </div>
-                        <div class="relative z-10 flex items-center gap-4 w-full md:w-auto">
+                        <div class="relative z-10 flex items-center gap-3 w-full md:w-auto">
                             <div
-                                class="w-14 h-14 bg-white/25 backdrop-blur-sm rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
+                                class="w-11 h-11 bg-white/25 backdrop-blur-sm rounded-xl flex items-center justify-center shrink-0 shadow-inner">
                                 <i
-                                    class="fa-solid fa-trophy text-2xl text-yellow-200 drop-shadow-md transform -rotate-12"></i>
+                                    class="fa-solid fa-trophy text-xl text-yellow-200 drop-shadow-md transform -rotate-12"></i>
                             </div>
                             <div>
-                                <div class="flex items-center gap-2 mb-1">
+                                <div class="flex items-center gap-1.5 mb-0.5">
                                     <span
-                                        class="bg-white/30 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">ساحة
+                                        class="bg-white/30 text-white text-[9.5px] font-black px-2 py-0.5 rounded-full uppercase">ساحة
                                         الأبطال</span>
-                                    <h1 class="text-xl font-black drop-shadow-sm">هيا نلعب ونتحدى!</h1>
+                                    <h1 class="text-base sm:text-lg font-black drop-shadow-sm">هيا نلعب ونتحدى!</h1>
                                 </div>
-                                <p class="text-white/95 font-bold text-xs">العب أي لعبة واكسب نقطة تلقائياً كل دقيقة
-                                    لعب.
-                                </p>
+                                <p class="text-white/95 font-bold text-[11px]">العب أي لعبة واكسب نقطة تلقائياً كل دقيقة
+                                    لعب.</p>
                             </div>
                         </div>
 
                         <!-- حقل البحث وزر الفلتر -->
-                        <div class="relative w-full md:w-[360px] lg:w-[410px] z-10">
+                        <div class="relative w-full md:w-[320px] lg:w-[360px] z-10">
                             <i
-                                class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"></i>
+                                class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs z-10"></i>
                             <input type="text" id="game-search-input" oninput="handleGameSearch(this.value)"
                                 placeholder="ابحث عن لعبتك المفضلة..."
-                                class="w-full pl-[105px] pr-11 py-3.5 font-bold text-sm shadow-sm relative rounded-full border-0 text-primary focus:ring-4 focus:ring-white/30 focus:outline-none bg-white">
+                                class="w-full pl-[90px] pr-9 py-2.5 font-bold text-xs shadow-sm relative rounded-full border-0 text-primary focus:ring-4 focus:ring-white/30 focus:outline-none bg-white">
                             <div class="absolute left-1.5 top-1/2 -translate-y-1/2 z-10">
                                 <button id="category-cycle-btn" onclick="cycleCategory()"
-                                    class="btn-3d px-3.5 py-2 min-w-[88px] flex justify-center items-center gap-1.5 select-none text-xs !rounded-full shadow-sm">
-                                    <i class="fa-solid fa-filter text-[10px] opacity-90"></i>
+                                    class="btn-3d px-3 py-1.5 min-w-[76px] flex justify-center items-center gap-1 select-none text-[11px] !rounded-full shadow-sm">
+                                    <i class="fa-solid fa-filter text-[9px] opacity-90"></i>
                                     <span id="category-cycle-text">الكل</span>
                                 </button>
                             </div>
@@ -1699,28 +1729,28 @@
                     </div>
 
                     <!-- أزرار التصنيف السريعة -->
-                    <div class="stagger-item flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                    <div class="stagger-item flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
                         <button onclick="setCategoryFilter('all')" data-cat-pill="all"
-                            class="cat-pill bg-brand text-white font-black text-xs px-4 py-2.5 rounded-2xl shadow-sm transition-all shrink-0">
+                            class="cat-pill bg-brand text-white font-black text-[11px] px-3 py-1.5 rounded-xl shadow-sm transition-all shrink-0">
                             <i class="fa-solid fa-border-all ml-1"></i> جميع الألعاب
                         </button>
                         <button onclick="setCategoryFilter('group')" data-cat-pill="group"
-                            class="cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
+                            class="cat-pill bg-white text-secondary font-bold text-[11px] px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
                             <i class="fa-solid fa-users ml-1 text-purple-500"></i> ألعاب جماعية
                         </button>
                         <button onclick="setCategoryFilter('1v1')" data-cat-pill="1v1"
-                            class="cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
+                            class="cat-pill bg-white text-secondary font-bold text-[11px] px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
                             <i class="fa-solid fa-bolt ml-1 text-blue-500"></i> تحدي 1 ضد 1
                         </button>
                         <button onclick="setCategoryFilter('classic')" data-cat-pill="classic"
-                            class="cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
+                            class="cat-pill bg-white text-secondary font-bold text-[11px] px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0">
                             <i class="fa-solid fa-star ml-1 text-amber-500"></i> كلاسيكيات
                         </button>
                     </div>
 
                     <!-- شبكة الألعاب (الأكثر لعباً أولاً بعرض لعبتين + بطاقات زجاجية برسومات علوية) -->
                     <div id="games-grid-container"
-                        class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-4 md:gap-5 pt-1">
+                        class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4 pt-0.5">
 
                         <!-- Game Card: XO (التلقائية الأكثر لعباً بعرض لعبتين) -->
                         <div onclick="openGameSheet('اكس_او.html', 'لعبة XO')" data-game-id="اكس_او.html"
@@ -2114,34 +2144,34 @@
                     </div>
 
                     <!-- رسالة عدم وجود نتائج بحث -->
-                    <div id="no-games-found" class="hidden card-ui p-10 text-center my-4">
+                    <div id="no-games-found" class="hidden card-ui p-7 text-center my-3">
                         <div
-                            class="w-16 h-16 bg-orange-50 text-brand rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">
+                            class="w-12 h-12 bg-orange-50 text-brand rounded-2xl flex items-center justify-center mx-auto mb-2.5 text-xl">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
-                        <h3 class="font-black text-lg mb-1">لا توجد لعبة مطابقة لبحثك</h3>
-                        <p class="text-xs text-secondary font-bold mb-4">جرب البحث بكلمة أخرى أو استعرض جميع التصنيفات
-                        </p>
-                        <button onclick="resetGameFilters()" class="btn-3d px-6 py-2.5 text-xs">إظهار الكل</button>
+                        <h3 class="font-black text-base mb-1">لا توجد لعبة مطابقة لبحثك</h3>
+                        <p class="text-[11px] text-secondary font-bold mb-3.5">جرب البحث بكلمة أخرى أو استعرض جميع
+                            التصنيفات</p>
+                        <button onclick="resetGameFilters()" class="btn-3d px-5 py-2 text-[11px]">إظهار الكل</button>
                     </div>
                 </div>
 
                 <!-- ==================== 3. صفحة الأصدقاء والدردشة ==================== -->
-                <div id="messages-page" class="page-section max-w-4xl mx-auto space-y-6 flex-col">
+                <div id="messages-page" class="page-section max-w-3xl mx-auto space-y-4 flex-col">
                     <!-- شريط كود المستخدم وأزرار الصداقة والطلبات -->
-                    <div class="stagger-item card-ui p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-3.5 w-full sm:w-auto">
+                    <div class="stagger-item card-ui p-3.5 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
                             <div
-                                class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/15 text-nav flex items-center justify-center text-xl shrink-0">
+                                class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/15 text-nav flex items-center justify-center text-base shrink-0">
                                 <i class="fa-solid fa-id-badge"></i>
                             </div>
                             <div>
-                                <p class="text-xs font-bold text-secondary">معرفك الخاص لمشاركته مع أصدقائك</p>
+                                <p class="text-[11px] font-bold text-secondary">معرفك الخاص لمشاركته مع أصدقائك</p>
                                 <div class="flex items-center gap-2 mt-0.5">
                                     <span id="my-friend-code"
-                                        class="font-black text-lg text-primary tracking-wider">#------</span>
+                                        class="font-black text-base text-primary tracking-wider">#------</span>
                                     <button onclick="copyMyId()"
-                                        class="text-xs bg-orange-50 dark:bg-slate-800 text-brand font-black px-2.5 py-1 rounded-lg hover:bg-orange-100 transition">
+                                        class="text-[11px] bg-orange-50 dark:bg-slate-800 text-brand font-black px-2 py-0.5 rounded-lg hover:bg-orange-100 transition">
                                         <i class="fa-regular fa-copy ml-1"></i>
                                         نسخ
                                     </button>
@@ -2149,16 +2179,16 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-2.5 w-full sm:w-auto">
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
                             <button onclick="toggleFriendRequestsModal()"
-                                class="flex-1 sm:flex-initial px-4 py-3 bg-gray-100 hover:bg-gray-200 text-primary font-black text-xs rounded-2xl flex items-center justify-center gap-2 transition relative">
+                                class="flex-1 sm:flex-initial px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-primary font-black text-[11px] rounded-xl flex items-center justify-center gap-1.5 transition relative">
                                 <i class="fa-solid fa-user-clock text-nav"></i>
                                 <span>الطلبات</span>
                                 <span id="requests-count-badge"
-                                    class="hidden bg-red-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[20px] text-center">0</span>
+                                    class="hidden bg-red-500 text-white text-[9.5px] font-black px-1.5 py-0.5 rounded-full min-w-[18px] text-center">0</span>
                             </button>
                             <button onclick="toggleAddFriendModal()"
-                                class="flex-1 sm:flex-initial px-5 py-3 btn-3d text-xs flex items-center justify-center gap-2">
+                                class="flex-1 sm:flex-initial px-4 py-2 btn-3d text-[11px] flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-user-plus"></i>
                                 <span>إضافة صديق</span>
                             </button>
@@ -2166,55 +2196,55 @@
                     </div>
 
                     <!-- قائمة الأصدقاء -->
-                    <div class="stagger-item card-ui p-6 flex-1">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-black text-lg flex items-center gap-2">
+                    <div class="stagger-item card-ui p-4 sm:p-5 flex-1">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-black text-base flex items-center gap-2">
                                 <i class="fa-solid fa-comments text-brand"></i>
                                 <span>قائمة الأصدقاء والمحادثات</span>
                             </h3>
                             <span id="friends-total-count"
-                                class="text-xs font-black text-secondary bg-gray-100 px-3 py-1 rounded-full">0
+                                class="text-[11px] font-black text-secondary bg-gray-100 px-2.5 py-0.5 rounded-full">0
                                 صديق</span>
                         </div>
-                        <div id="friends-list-container" class="space-y-3">
-                            <div class="text-center py-12">
+                        <div id="friends-list-container" class="space-y-2.5">
+                            <div class="text-center py-8">
                                 <div
-                                    class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-400 text-2xl">
+                                    class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-2.5 text-gray-400 text-xl">
                                     <i class="fa-solid fa-user-group"></i>
                                 </div>
-                                <p class="font-black text-secondary text-sm">لا يوجد أصدقاء مضافون حتى الآن</p>
-                                <p class="text-xs text-secondary font-bold mt-1">أرسل طلب صداقة عبر الـ ID وانتظر موافقة
-                                    صديقك</p>
+                                <p class="font-black text-secondary text-xs">لا يوجد أصدقاء مضافون حتى الآن</p>
+                                <p class="text-[11px] text-secondary font-bold mt-1">أرسل طلب صداقة عبر الـ ID وانتظر
+                                    موافقة صديقك</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- ==================== 4. صفحة الإشعارات ==================== -->
-                <div id="notifications-page" class="page-section max-w-4xl mx-auto space-y-6 flex-col">
-                    <div class="stagger-item card-ui p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="flex items-center gap-2.5">
+                <div id="notifications-page" class="page-section max-w-3xl mx-auto space-y-4 flex-col">
+                    <div class="stagger-item card-ui p-4 sm:p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
                                 <div
-                                    class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-500/20 text-brand flex items-center justify-center">
+                                    class="w-8 h-8 rounded-xl bg-orange-100 dark:bg-orange-500/20 text-brand flex items-center justify-center text-sm">
                                     <i class="fa-solid fa-bell"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-black text-lg">مركز الإشعارات</h3>
-                                    <p class="text-xs text-secondary font-bold">أخبار الإدارة، طلبات الصداقة، والرسائل
-                                    </p>
+                                    <h3 class="font-black text-base">مركز الإشعارات</h3>
+                                    <p class="text-[11px] text-secondary font-bold">أخبار الإدارة، طلبات الصداقة،
+                                        والرسائل</p>
                                 </div>
                             </div>
                             <button onclick="clearAllNotifications()"
-                                class="text-xs font-bold text-secondary hover:text-brand transition px-3 py-1.5 rounded-xl bg-gray-50">
+                                class="text-[11px] font-bold text-secondary hover:text-brand transition px-2.5 py-1 rounded-xl bg-gray-50">
                                 <i class="fa-solid fa-check-double ml-1"></i>
                                 قراءة الكل
                             </button>
                         </div>
 
-                        <div id="notifications-list-container" class="space-y-3">
-                            <div class="py-10 text-center">
-                                <i class="fas fa-spinner fa-spin text-brand text-2xl"></i>
+                        <div id="notifications-list-container" class="space-y-2.5">
+                            <div class="py-7 text-center">
+                                <i class="fas fa-spinner fa-spin text-brand text-xl"></i>
                             </div>
                         </div>
                     </div>
@@ -2222,10 +2252,13 @@
 
             </div>
 
-            <!-- ==================== الشريط السفلي الزجاجي بنمط إنستجرام مع الفقاعة التفاعلية ==================== -->
+            <!-- ==================== الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass ==================== -->
             <div class="lg:hidden ig-glass-dock-wrapper">
                 <nav id="ig-glass-nav" class="ig-glass-nav" aria-label="التنقل السفلي">
-                    <!-- الفقاعة الزجاجية المنزلقة مع حركة الإصبع -->
+                    <!-- السطح الزجاجي الشفاف للشريط -->
+                    <div class="ig-glass-surface" aria-hidden="true"></div>
+
+                    <!-- الطبقة الخلفية للفقاعة / العدسة الزجاجية المنزلقة -->
                     <div id="ig-nav-bubble" class="ig-nav-bubble" aria-hidden="true"></div>
 
                     <!-- 1. صفحة 𝖆𝖗𝖊𝖓𝖆 -->
@@ -2233,7 +2266,7 @@
                         <div class="nav-icon-wrap">
                             <i class="fa-solid fa-newspaper"></i>
                             <span id="mobile-news-badge"
-                                class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-brand rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+                                class="hidden absolute top-0.5 right-0.5 w-2 h-2 bg-brand rounded-full ring-2 ring-white dark:ring-slate-900"></span>
                         </div>
                     </button>
 
@@ -2249,11 +2282,11 @@
                         <div class="nav-icon-wrap">
                             <i class="fa-solid fa-user-group"></i>
                             <span id="mobile-friends-badge"
-                                class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+                                class="hidden absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
                         </div>
                     </button>
 
-                    <!-- 4. حسابي (يفتح الإعدادات مباشرة بنمط صورة إنستجرام) -->
+                    <!-- 4. حسابي (يفتح الإعدادات مباشرة) -->
                     <button type="button" data-target="account" class="nav-item-mobile" aria-label="حسابي">
                         <div class="nav-icon-wrap">
                             <div class="ig-avatar-ring">
@@ -2263,6 +2296,9 @@
                             </div>
                         </div>
                     </button>
+
+                    <!-- الطبقة العلوية للعدسة الزجاجية ذات الانكسار المنشوري -->
+                    <div id="ig-nav-bubble-rim" class="ig-nav-bubble-rim" aria-hidden="true"></div>
                 </nav>
             </div>
     </main>
@@ -2840,7 +2876,6 @@
             targetPage.classList.add('active');
 
             const scrollArea = document.getElementById('main-scroll-area');
-            if (scrollArea) scrollArea.scrollTop = 0;
             if (scrollArea) {
                 if (typeof scrollArea._resetSmoothScroll === 'function') {
                     scrollArea._resetSmoothScroll();
@@ -2905,10 +2940,12 @@
         function initInstagramBubbleNav() {
             const nav = document.getElementById('ig-glass-nav');
             const bubble = document.getElementById('ig-nav-bubble');
+            const bubbleRim = document.getElementById('ig-nav-bubble-rim');
             if (!nav || !bubble) return;
 
             const buttons = Array.from(nav.querySelectorAll('.nav-item-mobile'));
             if (!buttons.length) return;
+            const iconWraps = buttons.map(btn => btn.querySelector('.nav-icon-wrap'));
 
             let isPointerDown = false;
             let activePointerId = null;
@@ -2921,16 +2958,23 @@
             let lastTime = 0;
             let hasPositioned = false;
 
-            let bubbleW = 72;
+            let bubbleW = 74;
             let currentX = 0;
             let targetX = 0;
             let velX = 0;
             let currentScale = 1;
 
+            function setLiquidMode(active) {
+                isLiquid = !!active;
+                bubble.classList.toggle('is-liquid', isLiquid);
+                if (bubbleRim) bubbleRim.classList.toggle('is-liquid', isLiquid);
+            }
+
             function measureBubbleWidth() {
                 if (!nav.offsetWidth || !buttons[0].offsetWidth) return;
-                bubbleW = Math.min(Math.round(buttons[0].offsetWidth - 8), 76);
+                bubbleW = Math.min(Math.round(buttons[0].offsetWidth - 2), 78);
                 bubble.style.width = `${bubbleW}px`;
+                if (bubbleRim) bubbleRim.style.width = `${bubbleW}px`;
             }
 
             function getBtnBubbleLeft(btn) {
@@ -2981,8 +3025,37 @@
                 }
             }
 
+            function resetLensIcons() {
+                buttons.forEach((btn, idx) => {
+                    btn.classList.remove('is-lens-hit');
+                    if (iconWraps[idx]) iconWraps[idx].style.transform = '';
+                });
+            }
+
+            function updateLensOptics() {
+                if (!isLiquid && !isPointerDown) {
+                    resetLensIcons();
+                    return;
+                }
+                const bubbleCenter = currentX + bubbleW / 2;
+                const lensRadius = bubbleW * 0.64;
+                buttons.forEach((btn, idx) => {
+                    const btnCenter = btn.offsetLeft + btn.offsetWidth / 2;
+                    const dist = Math.abs(bubbleCenter - btnCenter);
+                    const proximity = Math.max(0, 1 - dist / lensRadius);
+                    btn.classList.toggle('is-lens-hit', proximity > 0.26);
+                    if (iconWraps[idx]) {
+                        const iconScale = 1 + 0.18 * proximity;
+                        iconWraps[idx].style.transform = `scale(${iconScale.toFixed(4)})`;
+                    }
+                });
+            }
+
             function renderBubble() {
-                bubble.style.transform = `translate3d(${currentX.toFixed(2)}px, 0, 0) scale(${currentScale.toFixed(4)})`;
+                const tf = `translate3d(${currentX.toFixed(2)}px, 0, 0) scale(${currentScale.toFixed(4)})`;
+                bubble.style.transform = tf;
+                if (bubbleRim) bubbleRim.style.transform = tf;
+                updateLensOptics();
             }
 
             function stepAnimation(now) {
@@ -2996,13 +3069,13 @@
                     currentX = nextX;
                 } else {
                     const omega = 22;
-                    const zeta = 0.94;
+                    const zeta = 0.92;
                     const accel = (targetX - currentX) * (omega * omega) - velX * (2 * zeta * omega);
                     velX += accel * dt;
                     currentX += velX * dt;
                 }
 
-                const desiredScale = isLiquid ? 1.07 : 1;
+                const desiredScale = isLiquid ? 1.08 : 1;
                 const scaleAlpha = 1 - Math.exp(-24 * dt);
                 currentScale += (desiredScale - currentScale) * scaleAlpha;
 
@@ -3064,20 +3137,18 @@
                     toggleSettingsModal();
                     if (settleTimer) clearTimeout(settleTimer);
                     settleTimer = setTimeout(() => {
-                        isLiquid = false;
-                        bubble.classList.remove('is-liquid');
+                        setLiquidMode(false);
                         syncToActive(false);
-                    }, 160);
+                    }, 150);
                 } else if (target) {
                     switchPage(target);
                     targetX = getBtnBubbleLeft(btn);
                     ensureLoop();
                     if (settleTimer) clearTimeout(settleTimer);
                     settleTimer = setTimeout(() => {
-                        isLiquid = false;
-                        bubble.classList.remove('is-liquid');
+                        setLiquidMode(false);
                         ensureLoop();
-                    }, 160);
+                    }, 150);
                 }
             }
 
@@ -3093,13 +3164,13 @@
                 activePointerId = e.pointerId;
                 hasDragged = false;
                 startClientX = e.clientX;
-                isLiquid = true;
 
                 try { nav.setPointerCapture(e.pointerId); } catch (err) { }
 
                 const wasVisible = bubble.classList.contains('is-visible');
                 nav.classList.add('is-interacting');
-                bubble.classList.add('is-visible', 'is-liquid');
+                bubble.classList.add('is-visible');
+                setLiquidMode(true);
 
                 const btn = getTabAtClientX(e.clientX);
                 targetX = getBtnBubbleLeft(btn);
@@ -3125,8 +3196,8 @@
 
                 if (hasDragged) {
                     let desiredX = getLocalPointerX(e.clientX) - bubbleW / 2;
-                    if (desiredX < minLeft) desiredX = minLeft + (desiredX - minLeft) * 0.16;
-                    else if (desiredX > maxLeft) desiredX = maxLeft + (desiredX - maxLeft) * 0.16;
+                    if (desiredX < minLeft) desiredX = minLeft + (desiredX - minLeft) * 0.14;
+                    else if (desiredX > maxLeft) desiredX = maxLeft + (desiredX - maxLeft) * 0.14;
                     targetX = desiredX;
                 } else {
                     targetX = getBtnBubbleLeft(btn);
@@ -3156,8 +3227,7 @@
                     ensureLoop();
                     activateTarget(finalBtn);
                 } else {
-                    isLiquid = false;
-                    bubble.classList.remove('is-liquid');
+                    setLiquidMode(false);
                     syncToActive(false);
                 }
             }
@@ -3170,8 +3240,8 @@
                 btn.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        isLiquid = true;
-                        bubble.classList.add('is-visible', 'is-liquid');
+                        bubble.classList.add('is-visible');
+                        setLiquidMode(true);
                         activateTarget(btn);
                     }
                 });
@@ -3217,9 +3287,9 @@
 
             document.querySelectorAll('.cat-pill').forEach(pill => {
                 if (pill.getAttribute('data-cat-pill') === catId) {
-                    pill.className = 'cat-pill bg-brand text-white font-black text-xs px-4 py-2.5 rounded-2xl shadow-sm transition-all shrink-0';
+                    pill.className = 'cat-pill bg-brand text-white font-black text-[11px] px-3 py-1.5 rounded-xl shadow-sm transition-all shrink-0';
                 } else {
-                    pill.className = 'cat-pill bg-white text-secondary font-bold text-xs px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0';
+                    pill.className = 'cat-pill bg-white text-secondary font-bold text-[11px] px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 hover:border-brand transition-all shrink-0';
                 }
             });
 
@@ -3529,12 +3599,12 @@
 
             if (adminNewsItems.length === 0) {
                 container.innerHTML = `
-                    <div class="card-ui p-10 text-center">
-                        <div class="w-16 h-16 bg-orange-50 dark:bg-slate-800 text-brand rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">
+                    <div class="card-ui p-6 text-center">
+                        <div class="w-12 h-12 bg-orange-50 dark:bg-slate-800 text-brand rounded-xl flex items-center justify-center mx-auto mb-2 text-xl">
                             <i class="fa-regular fa-newspaper"></i>
                         </div>
-                        <h4 class="font-black text-base text-primary mb-1">لا توجد أخبار منشورة بعد</h4>
-                        <p class="text-xs font-bold text-secondary">عندما تنشر الإدارة أي أخبار أو بطولات ستظهر هنا وفي الإشعارات فوراً</p>
+                        <h4 class="font-black text-sm text-primary mb-0.5">لا توجد أخبار منشورة بعد</h4>
+                        <p class="text-[11px] font-bold text-secondary">عندما تنشر الإدارة أي أخبار أو بطولات ستظهر هنا وفي الإشعارات فوراً</p>
                     </div>`;
                 return;
             }
@@ -3542,30 +3612,30 @@
             container.innerHTML = adminNewsItems.map(item => `
                 <article class="card-ui overflow-hidden hover:shadow-soft transition-all">
                     ${item.image ? `
-                        <div class="w-full h-44 sm:h-56 bg-gray-100 overflow-hidden relative">
+                        <div class="w-full h-36 sm:h-44 bg-gray-100 overflow-hidden relative">
                             <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}"
                                 onerror="this.parentElement.style.display='none'"
                                 class="w-full h-full object-cover">
-                            <span class="absolute top-3 right-3 bg-black/55 backdrop-blur-md text-white text-[10px] font-black px-3 py-1 rounded-full">
+                            <span class="absolute top-2.5 right-2.5 bg-black/55 backdrop-blur-md text-white text-[9.5px] font-black px-2.5 py-0.5 rounded-full">
                                 ${escapeHtml(item.tag)}
                             </span>
                         </div>
                     ` : ''}
-                    <div class="p-5">
-                        <div class="flex items-center justify-between gap-2 mb-2.5">
-                            <div class="flex items-center gap-2">
-                                <span class="w-7 h-7 rounded-xl bg-gradient-to-tr from-brand to-amber-400 text-white flex items-center justify-center text-xs shadow-sm">
+                    <div class="p-3.5 sm:p-4">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-6 h-6 rounded-lg bg-gradient-to-tr from-brand to-amber-400 text-white flex items-center justify-center text-[10px] shadow-sm">
                                     <i class="fa-solid fa-shield-halved"></i>
                                 </span>
-                                <span class="text-xs font-black text-primary">${escapeHtml(item.author)}</span>
-                                ${!item.image ? `<span class="text-[10px] font-black bg-orange-50 dark:bg-slate-800 text-brand px-2.5 py-0.5 rounded-full">${escapeHtml(item.tag)}</span>` : ''}
+                                <span class="text-[11px] font-black text-primary">${escapeHtml(item.author)}</span>
+                                ${!item.image ? `<span class="text-[9.5px] font-black bg-orange-50 dark:bg-slate-800 text-brand px-2 py-0.5 rounded-full">${escapeHtml(item.tag)}</span>` : ''}
                             </div>
-                            <span class="text-[11px] font-bold text-secondary">
+                            <span class="text-[10px] font-bold text-secondary">
                                 <i class="fa-regular fa-clock ml-1"></i>${formatRelativeTime(item.timeMs)}
                             </span>
                         </div>
-                        <h4 class="font-black text-base md:text-lg text-primary mb-1.5 leading-snug">${escapeHtml(item.title)}</h4>
-                        <p class="text-xs md:text-sm font-semibold text-secondary leading-relaxed whitespace-pre-line">${escapeHtml(item.content)}</p>
+                        <h4 class="font-black text-sm md:text-base text-primary mb-1 leading-snug">${escapeHtml(item.title)}</h4>
+                        <p class="text-xs font-semibold text-secondary leading-relaxed whitespace-pre-line">${escapeHtml(item.content)}</p>
                     </div>
                 </article>
             `).join('');
@@ -3667,15 +3737,15 @@
             const restTop10 = docs.slice(3, 10);
 
             // بناء مستطيل أفضل 3 لاعبين (المركز 2 - المركز 1 الأعلى بالتاج - المركز 3)
-            let podiumHTML = `<div class="grid grid-cols-3 items-end gap-2 sm:gap-4 text-center">`;
+            let podiumHTML = `<div class="grid grid-cols-3 items-end gap-2 sm:gap-3 text-center">`;
             podiumHTML += top3[1]
-                ? createPodiumSlot(top3[1], 2, 'w-14 h-14 sm:w-16 sm:h-16', 'bg-slate-300 text-slate-800', false)
+                ? createPodiumSlot(top3[1], 2, 'w-12 h-12 sm:w-14 sm:h-14', 'bg-slate-300 text-slate-800', false)
                 : `<div></div>`;
             podiumHTML += top3[0]
-                ? createPodiumSlot(top3[0], 1, 'w-20 h-20 sm:w-24 sm:h-24 ring-4 ring-brand', 'bg-gradient-to-tr from-amber-400 to-yellow-300 text-amber-950', true)
+                ? createPodiumSlot(top3[0], 1, 'w-16 h-16 sm:w-20 sm:h-20 ring-[3px] ring-brand', 'bg-gradient-to-tr from-amber-400 to-yellow-300 text-amber-950', true)
                 : `<div></div>`;
             podiumHTML += top3[2]
-                ? createPodiumSlot(top3[2], 3, 'w-14 h-14 sm:w-16 sm:h-16', 'bg-amber-600 text-white', false)
+                ? createPodiumSlot(top3[2], 3, 'w-12 h-12 sm:w-14 sm:h-14', 'bg-amber-600 text-white', false)
                 : `<div></div>`;
             podiumHTML += `</div>`;
 
@@ -3684,23 +3754,23 @@
             // بناء بقية التوب 10 (من المركز 4 إلى 10)
             if (restTop10.length === 0) {
                 restContainer.innerHTML = `
-                    <div class="text-center py-5 bg-gray-50 rounded-2xl">
-                        <p class="text-xs font-bold text-secondary">لا يوجد لاعبون إضافيون في المراكز من 4 إلى 10 حالياً</p>
+                    <div class="text-center py-4 bg-gray-50 rounded-xl">
+                        <p class="text-[11px] font-bold text-secondary">لا يوجد لاعبون إضافيون في المراكز من 4 إلى 10 حالياً</p>
                     </div>`;
             } else {
                 restContainer.innerHTML = restTop10.map((player, idx) => {
                     const rank = idx + 4;
                     return `
-                        <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl border border-gray-100">
-                            <div class="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center font-black text-brand text-xs shrink-0">${rank}</div>
+                        <div class="flex items-center gap-2.5 p-2.5 bg-gray-50 rounded-xl border border-gray-100">
+                            <div class="w-7 h-7 rounded-lg bg-white shadow-sm flex items-center justify-center font-black text-brand text-[11px] shrink-0">${rank}</div>
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(player.avatarSeed || '1')}&backgroundColor=FF9800"
-                                class="w-10 h-10 rounded-full bg-white p-0.5 shrink-0">
+                                class="w-8 h-8 rounded-full bg-white p-0.5 shrink-0">
                             <div class="flex-1 min-w-0">
-                                <div class="font-black text-sm text-primary truncate">${escapeHtml(player.username || 'لاعب')}</div>
-                                <div class="text-[10px] text-secondary font-bold">${escapeHtml(player.region || 'الشرق الأوسط')}</div>
+                                <div class="font-black text-xs text-primary truncate">${escapeHtml(player.username || 'لاعب')}</div>
+                                <div class="text-[9.5px] text-secondary font-bold">${escapeHtml(player.region || 'الشرق الأوسط')}</div>
                             </div>
-                            <div class="bg-orange-100 dark:bg-orange-500/20 text-brand px-3 py-1 rounded-xl text-xs font-black flex items-center gap-1 shrink-0">
-                                <i class="fa-solid fa-coins text-amber-500 text-[11px]"></i>
+                            <div class="bg-orange-100 dark:bg-orange-500/20 text-brand px-2.5 py-0.5 rounded-lg text-[11px] font-black flex items-center gap-1 shrink-0">
+                                <i class="fa-solid fa-coins text-amber-500 text-[10px]"></i>
                                 <span>${(player.points || 0).toLocaleString()}</span>
                             </div>
                         </div>`;
@@ -3714,18 +3784,18 @@
 
         function createPodiumSlot(data, rank, sizeClasses, badgeClasses, isFirst) {
             return `
-                <div class="flex flex-col items-center relative ${isFirst ? '-mt-4' : ''}">
-                    ${isFirst ? '<i class="fa-solid fa-crown text-amber-400 text-2xl sm:text-3xl drop-shadow-md absolute -top-7 animate-bounce"></i>' : ''}
-                    <div class="${sizeClasses} rounded-full bg-white shadow-md p-1 mb-2.5 relative">
+                <div class="flex flex-col items-center relative ${isFirst ? '-mt-3' : ''}">
+                    ${isFirst ? '<i class="fa-solid fa-crown text-amber-400 text-xl sm:text-2xl drop-shadow-md absolute -top-6 animate-bounce"></i>' : ''}
+                    <div class="${sizeClasses} rounded-full bg-white shadow-md p-0.5 mb-2 relative">
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(data.avatarSeed || '1')}&backgroundColor=FF9800"
                             class="w-full h-full rounded-full object-cover">
-                        <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center font-black text-[11px] shadow-sm border-2 border-white ${badgeClasses}">
+                        <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full flex items-center justify-center font-black text-[10px] shadow-sm border-2 border-white ${badgeClasses}">
                             ${rank}
                         </div>
                     </div>
-                    <span class="font-black text-xs sm:text-sm text-primary truncate w-full px-1">${escapeHtml(data.username || 'لاعب')}</span>
-                    <span class="mt-0.5 inline-flex items-center gap-1 text-[10px] sm:text-[11px] text-brand font-black bg-white/80 dark:bg-slate-900/60 px-2.5 py-0.5 rounded-full shadow-sm">
-                        <i class="fa-solid fa-coins text-amber-400 text-[9px]"></i>
+                    <span class="font-black text-[11px] sm:text-xs text-primary truncate w-full px-1">${escapeHtml(data.username || 'لاعب')}</span>
+                    <span class="mt-0.5 inline-flex items-center gap-1 text-[9.5px] sm:text-[10px] text-brand font-black bg-white/80 dark:bg-slate-900/60 px-2 py-0.5 rounded-full shadow-sm">
+                        <i class="fa-solid fa-coins text-amber-400 text-[8.5px]"></i>
                         ${(data.points || 0).toLocaleString()}
                     </span>
                 </div>`;
@@ -4020,30 +4090,30 @@
 
             if (list.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-10">
-                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-400 text-2xl">
+                    <div class="text-center py-8">
+                        <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-2.5 text-gray-400 text-xl">
                             <i class="fa-solid fa-user-group"></i>
                         </div>
-                        <p class="font-black text-secondary text-sm">لا يوجد أصدقاء مضافون حتى الآن</p>
-                        <p class="text-xs text-secondary font-bold mt-1">أرسل طلب صداقة عبر الـ ID وانتظر الموافقة لبدء المراسلة</p>
+                        <p class="font-black text-secondary text-xs">لا يوجد أصدقاء مضافون حتى الآن</p>
+                        <p class="text-[11px] text-secondary font-bold mt-1">أرسل طلب صداقة عبر الـ ID وانتظر الموافقة لبدء المراسلة</p>
                     </div>`;
                 return;
             }
 
             container.innerHTML = list.map(f => `
-                <div class="flex items-center justify-between gap-3 p-3.5 bg-gray-50 rounded-2xl border border-gray-100 hover:border-brand/50 transition">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-brand to-amber-300 p-[2px] shrink-0">
+                <div class="flex items-center justify-between gap-2.5 p-2.5 sm:p-3 bg-gray-50 rounded-xl border border-gray-100 hover:border-brand/50 transition">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand to-amber-300 p-[2px] shrink-0">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(f.avatarSeed)}&backgroundColor=FF9800"
                                 class="w-full h-full rounded-full bg-white">
                         </div>
                         <div class="min-w-0">
-                            <h4 class="font-black text-sm text-primary truncate">${escapeHtml(f.username)}</h4>
-                            <span class="text-[11px] font-bold text-secondary">ID: #${escapeHtml(f.customId || '------')}</span>
+                            <h4 class="font-black text-xs sm:text-sm text-primary truncate">${escapeHtml(f.username)}</h4>
+                            <span class="text-[10px] font-bold text-secondary">ID: #${escapeHtml(f.customId || '------')}</span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <button onclick="openChatByUid('${f.uid}')" class="btn-3d px-4 py-2 text-xs gap-1.5">
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button onclick="openChatByUid('${f.uid}')" class="btn-3d px-3 py-1.5 text-[11px] gap-1">
                             <i class="fa-solid fa-paper-plane"></i> مراسلة
                         </button>
                     </div>
