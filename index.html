@@ -1897,7 +1897,7 @@
         }
 
         /* ============================================================
-           أنيميشن دخول التطبيق السريع (لمدة ثانية ونصف: 1500ms)
+           أنيميشن دخول التطبيق السلس بـ 120fps (لمدة ثانية ونصف: 1500ms)
            ============================================================ */
         #pa-launch-splash {
             position: fixed;
@@ -1907,28 +1907,30 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            contain: layout style paint;
             background-color: #FFF7EB;
             background-image:
-                radial-gradient(circle at 50% 42%, rgba(255, 152, 0, 0.22) 0%, rgba(255, 123, 0, 0.08) 32%, transparent 64%),
-                radial-gradient(circle at 20% 20%, rgba(255, 183, 77, 0.24), transparent 42%),
-                radial-gradient(circle at 82% 82%, rgba(239, 68, 68, 0.12), transparent 40%);
+                radial-gradient(circle at 50% 42%, rgba(255, 152, 0, 0.20) 0%, rgba(255, 123, 0, 0.07) 34%, transparent 65%),
+                radial-gradient(circle at 20% 20%, rgba(255, 183, 77, 0.22), transparent 44%),
+                radial-gradient(circle at 82% 82%, rgba(239, 68, 68, 0.10), transparent 42%);
             opacity: 1;
-            transform: scale(1);
-            transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1), transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: opacity, transform;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition: opacity 0.46s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity;
         }
 
         html.dark #pa-launch-splash {
             background-color: #0B1120;
             background-image:
-                radial-gradient(circle at 50% 42%, rgba(255, 138, 0, 0.22) 0%, rgba(225, 29, 72, 0.12) 34%, transparent 64%),
-                radial-gradient(circle at 22% 18%, rgba(255, 152, 0, 0.14), transparent 42%),
-                radial-gradient(circle at 80% 82%, rgba(99, 102, 241, 0.14), transparent 44%);
+                radial-gradient(circle at 50% 42%, rgba(255, 138, 0, 0.20) 0%, rgba(225, 29, 72, 0.10) 36%, transparent 65%),
+                radial-gradient(circle at 22% 18%, rgba(255, 152, 0, 0.13), transparent 44%),
+                radial-gradient(circle at 80% 82%, rgba(99, 102, 241, 0.13), transparent 46%);
         }
 
         #pa-launch-splash.is-exiting {
             opacity: 0;
-            transform: scale(1.06);
             pointer-events: none;
         }
 
@@ -1940,6 +1942,16 @@
             justify-content: center;
             gap: 14px;
             z-index: 2;
+            transform: translate3d(0, 0, 0) scale(1);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transition: transform 0.46s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, opacity;
+        }
+
+        #pa-launch-splash.is-exiting .pa-splash-stage {
+            opacity: 0;
+            transform: translate3d(0, -10px, 0) scale(1.045);
         }
 
         .pa-splash-ring {
@@ -1951,16 +1963,18 @@
             margin-left: -54px;
             margin-top: -54px;
             border-radius: 32px;
-            border: 2px solid rgba(255, 138, 0, 0.55);
-            box-shadow: 0 0 28px rgba(255, 123, 0, 0.26);
+            border: 1.8px solid rgba(255, 138, 0, 0.48);
             pointer-events: none;
             opacity: 0;
-            animation: paSplashRing 1.05s cubic-bezier(0.16, 1, 0.3, 1) 0.06s forwards;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            will-change: transform, opacity;
+            animation: paSplashRing 1.15s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
         }
 
         .pa-splash-ring-outer {
-            border-color: rgba(239, 68, 68, 0.32);
-            animation-delay: 0.22s;
+            border-color: rgba(239, 68, 68, 0.28);
+            animation-delay: 0.2s;
         }
 
         .pa-splash-icon-frame {
@@ -1969,20 +1983,22 @@
             height: 92px;
             border-radius: 26px;
             padding: 3px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 167, 38, 0.65), rgba(239, 68, 68, 0.55));
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(255, 167, 38, 0.65), rgba(239, 68, 68, 0.55));
             box-shadow:
-                0 18px 40px -8px rgba(220, 38, 38, 0.34),
-                0 8px 20px -6px rgba(255, 123, 0, 0.30),
+                0 18px 38px -10px rgba(220, 38, 38, 0.30),
+                0 8px 18px -6px rgba(255, 123, 0, 0.26),
                 inset 0 1px 1px rgba(255, 255, 255, 0.9);
-            animation: paSplashLogoIn 0.62s cubic-bezier(0.22, 1.28, 0.36, 1) both;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             will-change: transform, opacity;
+            animation: paSplashLogoIn 0.78s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
 
         html.dark .pa-splash-icon-frame {
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.32), rgba(255, 152, 0, 0.65), rgba(225, 29, 72, 0.55));
             box-shadow:
-                0 20px 48px -6px rgba(0, 0, 0, 0.65),
-                0 0 32px rgba(255, 123, 0, 0.26);
+                0 20px 44px -8px rgba(0, 0, 0, 0.62),
+                0 0 28px rgba(255, 123, 0, 0.22);
         }
 
         .pa-splash-icon-inner {
@@ -1995,23 +2011,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transform: translate3d(0, 0, 0);
         }
 
         .pa-splash-icon-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: scale(1.07);
+            transform: scale(1.07) translate3d(0, 0, 0);
             display: block;
         }
 
         .pa-splash-shimmer {
             position: absolute;
-            inset: -20%;
-            background: linear-gradient(115deg, transparent 34%, rgba(255, 255, 255, 0.65) 50%, transparent 66%);
-            transform: translateX(-140%) skewX(-18deg);
-            animation: paSplashShimmer 0.78s cubic-bezier(0.22, 1, 0.36, 1) 0.24s forwards;
+            inset: -24%;
+            background: linear-gradient(115deg, transparent 36%, rgba(255, 255, 255, 0.52) 50%, transparent 64%);
             pointer-events: none;
+            will-change: transform, opacity;
+            animation: paSplashShimmer 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
         }
 
         .pa-splash-brand {
@@ -2019,8 +2036,10 @@
             flex-direction: column;
             align-items: center;
             gap: 2px;
-            opacity: 0;
-            animation: paSplashTitleIn 0.56s cubic-bezier(0.22, 1, 0.36, 1) 0.18s forwards;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            will-change: transform, opacity;
+            animation: paSplashTitleIn 0.74s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
         }
 
         .pa-splash-wordmark {
@@ -2032,7 +2051,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            filter: drop-shadow(0 4px 12px rgba(255, 123, 0, 0.24));
         }
 
         .pa-splash-sub {
@@ -2052,8 +2070,8 @@
             background: rgba(15, 23, 42, 0.08);
             overflow: hidden;
             margin-top: 2px;
-            opacity: 0;
-            animation: paSplashTitleIn 0.38s ease 0.18s forwards;
+            will-change: transform, opacity;
+            animation: paSplashTitleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
         }
 
         html.dark .pa-splash-bar-track {
@@ -2062,84 +2080,82 @@
 
         .pa-splash-bar-fill {
             height: 100%;
-            width: 0%;
+            width: 100%;
             border-radius: 9999px;
             background: linear-gradient(90deg, #FF7B00, #FFB74D, #F43F5E);
-            animation: paSplashBarFill 1.10s cubic-bezier(0.25, 0.9, 0.35, 1) 0.06s forwards;
+            transform-origin: center center;
+            will-change: transform;
+            animation: paSplashBarFill 0.98s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
         }
 
         @keyframes paSplashLogoIn {
-            0% {
-                opacity: 0.78;
-                transform: scale(0.76) rotate(-5deg) translateY(6px);
+            from {
+                opacity: 0.76;
+                transform: translate3d(0, 14px, 0) scale(0.84);
             }
 
-            30% {
+            to {
                 opacity: 1;
-            }
-
-            62% {
-                opacity: 1;
-                transform: scale(1.05) rotate(1deg) translateY(-1px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: scale(1) rotate(0deg) translateY(0);
+                transform: translate3d(0, 0, 0) scale(1);
             }
         }
 
         @keyframes paSplashRing {
             0% {
-                opacity: 0.75;
-                transform: scale(0.76);
+                opacity: 0;
+                transform: translate3d(0, 0, 0) scale(0.84);
+            }
+
+            24% {
+                opacity: 0.52;
             }
 
             100% {
                 opacity: 0;
-                transform: scale(1.75);
+                transform: translate3d(0, 0, 0) scale(1.82);
             }
         }
 
         @keyframes paSplashShimmer {
             0% {
-                transform: translateX(-140%) skewX(-18deg);
+                opacity: 0;
+                transform: translate3d(-135%, 0, 0) skewX(-18deg);
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            85% {
+                opacity: 1;
             }
 
             100% {
-                transform: translateX(155%) skewX(-18deg);
+                opacity: 0;
+                transform: translate3d(145%, 0, 0) skewX(-18deg);
             }
         }
 
         @keyframes paSplashTitleIn {
-            0% {
+            from {
                 opacity: 0;
-                transform: translateY(10px) scale(0.95);
+                transform: translate3d(0, 12px, 0) scale(0.96);
             }
 
-            100% {
+            to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translate3d(0, 0, 0) scale(1);
             }
         }
 
         @keyframes paSplashBarFill {
-            0% {
-                width: 0%;
+            from {
+                transform: translate3d(0, 0, 0) scaleX(0);
             }
 
-            100% {
-                width: 100%;
+            to {
+                transform: translate3d(0, 0, 0) scaleX(1);
             }
-        }
-
-        /* ظهور سلس لمحتوى التطبيق فور انتهاء أنيميشن الدخول */
-        #main-scroll-area {
-            transition: opacity 0.32s ease;
-        }
-
-        html.pa-app-launching #main-scroll-area {
-            opacity: 0.25;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -2156,10 +2172,6 @@
                 animation: none !important;
                 opacity: 1 !important;
                 transform: none !important;
-            }
-
-            .pa-splash-bar-fill {
-                width: 100%;
             }
         }
     </style>
@@ -2193,14 +2205,14 @@
     </div>
     <script>
             (function () {
-                document.documentElement.classList.add('pa-app-launching');
                 var splash = document.getElementById('pa-launch-splash');
                 if (!splash) return;
-                // إجمالي مدة الأنيميشن ثانية ونصف بالضبط (1180ms عرض + 320ms تلاشٍ ناعم = 1500ms)
+                // إجمالي مدة الأنيميشن ثانية ونصف بالضبط (1040ms عرض سلس + 460ms تلاشٍ حريري = 1500ms)
                 setTimeout(function () {
-                    document.documentElement.classList.remove('pa-app-launching');
-                    splash.classList.add('is-exiting');
-                }, 1180);
+                    requestAnimationFrame(function () {
+                        splash.classList.add('is-exiting');
+                    });
+                }, 1040);
                 setTimeout(function () {
                     if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
                     window.__PA_LAUNCH_DONE = true;
