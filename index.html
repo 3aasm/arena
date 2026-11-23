@@ -6036,7 +6036,7 @@
                             if (msgTime > prevTime) {
                                 lastSeenChatTimes[ch.doc.id] = msgTime;
                                 if (d.lastSenderId && d.lastSenderId !== uid && d.lastMessage) {
-                                    const senderName = friendsMap[d.lastSenderId]?.username || 'صديقك';
+                                    const senderName = getLiveUsername(d.lastSenderId, 'صديقك');
                                     const preview = d.lastMessage.length > 75 ? d.lastMessage.substring(0, 75) + '...' : d.lastMessage;
                                     triggerTopIncomingToast(`رسالة من ${senderName}`, preview, 'message', d.lastSenderId);
                                 }
@@ -6077,8 +6077,12 @@
                                 seenNotifIds.add(ch.doc.id);
                                 const d = ch.doc.data() || {};
                                 if (d.read === false) {
+                                    const liveSender = (d.type === 'message' && d.senderUid && (liveUserProfilesCache[d.senderUid]?.username || friendsMap[d.senderUid]?.username))
+                                        ? getLiveUsername(d.senderUid, '')
+                                        : '';
+                                    const notifTitle = liveSender ? `رسالة جديدة من ${liveSender}` : (d.title || 'إشعار جديد');
                                     triggerTopIncomingToast(
-                                        d.title || 'إشعار جديد',
+                                        notifTitle,
                                         d.message || '',
                                         d.type || 'info',
                                         d.senderUid || ''
@@ -6165,6 +6169,10 @@
                     iconClass = 'fa-coins';
                 }
 
+                const displayTitle = (n.type === 'message' && n.senderUid && (liveUserProfilesCache[n.senderUid]?.username || friendsMap[n.senderUid]?.username))
+                    ? `رسالة جديدة من ${getLiveUsername(n.senderUid, '')}`
+                    : n.title;
+
                 return `
                     <div ${clickAction} class="flex items-start gap-3.5 p-4 bg-gray-50 rounded-2xl border ${!n.read ? 'border-brand/40' : 'border-gray-100'} ${clickAction ? 'cursor-pointer hover:border-brand transition' : ''}">
                         <div class="w-10 h-10 rounded-xl ${iconBg} flex items-center justify-center shrink-0 mt-0.5">
@@ -6172,7 +6180,7 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex justify-between items-start gap-2">
-                                <h4 class="font-black text-sm text-primary leading-snug">${escapeHtml(n.title)}</h4>
+                                <h4 class="font-black text-sm text-primary leading-snug">${escapeHtml(displayTitle)}</h4>
                                 <span class="text-[10px] font-bold text-secondary shrink-0">${formatRelativeTime(n.timeMs)}</span>
                             </div>
                             <p class="text-xs font-bold text-secondary mt-1 line-clamp-2">${escapeHtml(n.message)}</p>
@@ -6719,24 +6727,95 @@
             btn.disabled = true;
 
             try {
-                if (auth.currentUser) {
-                    await db.collection('users').doc(auth.currentUser.uid).update({
-                        username: newName,
-                        region: newRegion,
-                        avatarSeed: newAvatarSeed
-                    }).catch(() => { });
+                // التأكد من وجود جلسة مصادقة فعّالة قبل الحفظ في Firestore
+                if (!auth.currentUser) {
+                    try {
+                        await auth.signInAnonymously();
+                    } catch (authErr) { }
                 }
 
-                currentUserData.username = newName;
-                currentUserData.region = newRegion;
-                currentUserData.avatarSeed = newAvatarSeed;
+                const customIdStr = String(currentUserData?.customId || generateCustomId());
+                currentUserData = {
+                    ...(currentUserData || {}),
+                    username: newName,
+                    region: newRegion,
+                    avatarSeed: newAvatarSeed,
+                    customId: customIdStr
+                };
+
+                let syncedToServer = false;
+                let firestoreWriteError = null;
+
+                if (auth.currentUser) {
+                    const myUid = auth.currentUser.uid;
+                    const userRef = db.collection('users').doc(myUid);
+
+                    const profilePatch = {
+                        username: newName,
+                        region: newRegion,
+                        avatarSeed: newAvatarSeed,
+                        customId: customIdStr,
+                        updatedAt: Date.now()
+                    };
+
+                    try {
+                        // نضمن وجود حقل النقاط إذا كان المستند جديداً دون المساس بالنقاط الحالية
+                        const existingSnap = await userRef.get().catch(() => null);
+                        if (existingSnap && (!existingSnap.exists || typeof (existingSnap.data() || {}).points !== 'number')) {
+                            profilePatch.points = Number(currentUserData?.points || 5);
+                        }
+
+                        await userRef.set(profilePatch, { merge: true });
+                        syncedToServer = true;
+
+                        // تحديث اسم العرض في Firebase Auth أيضاً
+                        auth.currentUser.updateProfile({ displayName: newName }).catch(() => { });
+
+                        // تحديث اسمي وصورتي مباشرة في قائمة الأصدقاء لدى جميع أصدقائي (باستخدام update فقط حتى لا يُعاد صديق محذوف)
+                        const friendUidsSet = new Set(Object.keys(friendsMap || {}));
+                        if (friendUidsSet.size === 0) {
+                            const friendsSnap = await userRef.collection('friends').get().catch(() => null);
+                            if (friendsSnap) {
+                                friendsSnap.forEach(doc => friendUidsSet.add(doc.id));
+                            }
+                        }
+
+                        if (friendUidsSet.size > 0) {
+                            const friendSyncTasks = Array.from(friendUidsSet).map(friendUid =>
+                                db.collection('users').doc(friendUid)
+                                    .collection('friends').doc(myUid)
+                                    .update({
+                                        username: newName,
+                                        avatarSeed: newAvatarSeed,
+                                        customId: customIdStr,
+                                        updatedAt: Date.now()
+                                    })
+                                    .catch(() => { })
+                            );
+                            await Promise.allSettled(friendSyncTasks);
+                        }
+                    } catch (writeErr) {
+                        firestoreWriteError = writeErr;
+                        console.error('Failed to save profile to Firestore:', writeErr);
+                    }
+                }
+
                 localStorage.setItem('pro-arena-profile', JSON.stringify(currentUserData));
                 updateUserUI(currentUserData);
                 showProfileCard(currentUserData);
+                if (!leaderboardUnsubscribe) fetchLeaderboard();
 
-                playUiSound('success');
-                showToastNotification('تم الحفظ!', 'تم تحديث بيانات ملفك الشخصي بنجاح', 'success');
-                toggleEditProfileModal();
+                if (firestoreWriteError) {
+                    showToastNotification('تنبيه المزامنة', 'تم الحفظ على جهازك فقط، تحقق من الاتصال بالإنترنت لتحديث الاسم عند بقية اللاعبين', 'error');
+                } else {
+                    playUiSound('success');
+                    showToastNotification(
+                        'تم الحفظ!',
+                        syncedToServer ? 'تم تحديث اسمك وبياناتك عند جميع اللاعبين والأصدقاء بنجاح' : 'تم تحديث بيانات ملفك الشخصي بنجاح',
+                        'success'
+                    );
+                    toggleEditProfileModal();
+                }
             } catch (err) {
                 showToastNotification('خطأ', 'حدث خطأ غير متوقع أثناء الحفظ', 'error');
             } finally {
