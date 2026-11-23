@@ -335,12 +335,12 @@
             box-shadow: 0 5px 16px rgba(15, 23, 42, 0.06);
         }
 
-        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass (حجم مريح وحركة سلسة 120fps) */
+        /* الشريط السفلي الزجاجي الشفاف بنمط Liquid Glass (حجم أوسع ومتناسب وموضع سفلي مريح 120fps) */
         .ig-glass-dock-wrapper {
             position: fixed;
-            bottom: max(9px, env(safe-area-inset-bottom, 9px));
-            left: 12px;
-            right: 12px;
+            bottom: max(4px, env(safe-area-inset-bottom, 4px));
+            left: 10px;
+            right: 10px;
             z-index: 45;
             display: flex;
             justify-content: center;
@@ -351,13 +351,13 @@
             position: relative;
             pointer-events: auto;
             width: 100%;
-            max-width: 374px;
-            height: 60px;
+            max-width: 406px;
+            height: 68px;
             border-radius: 9999px;
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 0 6px;
+            padding: 0 7px;
             touch-action: none;
             user-select: none;
             -webkit-user-select: none;
@@ -401,7 +401,7 @@
             top: -12px;
             bottom: -12px;
             left: 0;
-            width: 140px;
+            width: 156px;
             border-radius: 9999px;
             pointer-events: none;
             opacity: 0;
@@ -413,7 +413,7 @@
         .ig-dock-rim-glint {
             position: absolute;
             inset: 0 auto 0 0;
-            width: 118px;
+            width: 132px;
             pointer-events: none;
             opacity: 0;
             will-change: transform, opacity;
@@ -444,8 +444,8 @@
         .ig-nav-bubble {
             position: absolute;
             left: 0;
-            top: 4px;
-            height: 52px;
+            top: 5px;
+            height: 58px;
             border-radius: 9999px;
             pointer-events: none;
             z-index: 1;
@@ -475,8 +475,8 @@
         .ig-nav-bubble-rim {
             position: absolute;
             left: 0;
-            top: 4px;
-            height: 52px;
+            top: 5px;
+            height: 58px;
             border-radius: 9999px;
             pointer-events: none;
             z-index: 4;
@@ -577,7 +577,7 @@
             position: relative;
             z-index: 2;
             flex: 1;
-            height: 52px;
+            height: 58px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -593,8 +593,8 @@
 
         .nav-item-mobile .nav-icon-wrap {
             position: relative;
-            width: 38px;
-            height: 38px;
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -608,7 +608,7 @@
         }
 
         .nav-item-mobile i {
-            font-size: 1.32rem;
+            font-size: 1.48rem;
             transition: color 0.14s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
@@ -639,8 +639,8 @@
 
         /* حلقة صورة حسابي */
         .ig-avatar-ring {
-            width: 29px;
-            height: 29px;
+            width: 32px;
+            height: 32px;
             padding: 1.5px;
             border-radius: 9999px;
             background: linear-gradient(135deg, #FFB347, #FF7B00, #EC4899);
@@ -3150,7 +3150,7 @@
                 if (!nav.offsetWidth || !buttons[0].offsetWidth) return false;
                 navWidth = nav.offsetWidth;
                 navLeft = nav.getBoundingClientRect().left - dockX + (navWidth * (dockSX - 1)) / 2;
-                bubbleW = Math.min(Math.round(buttons[0].offsetWidth - 2), 90);
+                bubbleW = Math.min(Math.round(buttons[0].offsetWidth - 2), 98);
                 bubble.style.width = `${bubbleW}px`;
                 if (bubbleRim) bubbleRim.style.width = `${bubbleW}px`;
 
@@ -3246,11 +3246,11 @@
                 // تفاعل الشريط نفسه (انزياح وتنفّس مرن + هالة ضوء وبريق حافة يتتبعان الفقاعة)
                 nav.style.transform = `translate3d(${dockX.toFixed(2)}px, ${dockY.toFixed(2)}px, 0) scale(${dockSX.toFixed(4)}, ${dockSY.toFixed(4)})`;
                 if (dockSpotlight) {
-                    dockSpotlight.style.transform = `translate3d(${(bubbleCenter - 70).toFixed(2)}px, 0, 0) scaleX(${(1 + 0.22 * speedMag).toFixed(3)})`;
+                    dockSpotlight.style.transform = `translate3d(${(bubbleCenter - 78).toFixed(2)}px, 0, 0) scaleX(${(1 + 0.22 * speedMag).toFixed(3)})`;
                     dockSpotlight.style.opacity = dockGlow.toFixed(3);
                 }
                 if (dockRimGlint) {
-                    dockRimGlint.style.transform = `translate3d(${(bubbleCenter - 59).toFixed(2)}px, 0, 0) scaleX(${(1 + 0.24 * speedMag).toFixed(3)})`;
+                    dockRimGlint.style.transform = `translate3d(${(bubbleCenter - 66).toFixed(2)}px, 0, 0) scaleX(${(1 + 0.24 * speedMag).toFixed(3)})`;
                     dockRimGlint.style.opacity = dockGlow.toFixed(3);
                 }
 
