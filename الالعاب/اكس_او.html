@@ -697,6 +697,33 @@
         #pa-lobby-root.pa-dark .pa-text-secondary { color: #94A3B8; }
         .pa-hint-pill { background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(226, 232, 240, 0.8); color: #64748B; }
         #pa-lobby-root.pa-dark .pa-hint-pill { background: rgba(30, 41, 59, 0.8); border-color: #334155; color: #94A3B8; }
+        .pa-guide-btn { background: rgba(255, 247, 237, 0.96); border: 1.5px solid #FED7AA; color: #EA580C; box-shadow: 0 3px 0 #FED7AA, 0 8px 16px -6px rgba(255, 123, 0, 0.22); transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease; cursor: pointer; }
+        .pa-guide-btn:hover { background: #FFF7ED; border-color: #FDBA74; transform: translateY(-1px); box-shadow: 0 4px 0 #FDBA74, 0 10px 18px -6px rgba(255, 123, 0, 0.28); }
+        .pa-guide-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #FED7AA; }
+        .pa-guide-btn.is-open { background: linear-gradient(135deg, #FFB03A 0%, #FF7B00 100%); border-color: #FFD180; color: #FFFFFF; box-shadow: 0 3px 0 #C2410C, 0 10px 20px -6px rgba(255, 123, 0, 0.44); }
+        .pa-guide-chevron { transition: transform 0.34s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .pa-guide-btn.is-open .pa-guide-chevron { transform: rotate(180deg); }
+        #pa-lobby-root.pa-dark .pa-guide-btn { background: rgba(30, 41, 59, 0.9); border-color: rgba(255, 152, 0, 0.34); color: #FDBA74; box-shadow: 0 3px 0 #0A101D, 0 8px 16px -6px rgba(0, 0, 0, 0.45); }
+        #pa-lobby-root.pa-dark .pa-guide-btn:hover { background: #1E293B; border-color: #FF9800; color: #FED7AA; }
+        #pa-lobby-root.pa-dark .pa-guide-btn.is-open { background: linear-gradient(135deg, #FFB03A 0%, #FF7B00 100%); border-color: #FFD180; color: #FFFFFF; box-shadow: 0 3px 0 #9A3412, 0 10px 20px -6px rgba(255, 123, 0, 0.38); }
+        .pa-guide-drawer { display: grid; grid-template-rows: 0fr; opacity: 0; transform: translateY(-10px) scale(0.985); transition: grid-template-rows 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease, transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), margin 0.34s ease; pointer-events: none; margin-top: -8px; }
+        .pa-guide-drawer.is-open { grid-template-rows: 1fr; opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; margin-top: 2px; }
+        .pa-guide-drawer-inner { overflow: hidden; }
+        .pa-guide-card { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 2px solid #FFEDD5; border-radius: 22px; box-shadow: 0 4px 0 #FED7AA, 0 14px 28px -12px rgba(255, 123, 0, 0.20); padding: 14px; }
+        #pa-lobby-root.pa-dark .pa-guide-card { background: rgba(22, 32, 51, 0.94); border-color: rgba(255, 152, 0, 0.26); box-shadow: 0 4px 0 #0A101D, 0 16px 32px -12px rgba(0, 0, 0, 0.6); }
+        .pa-guide-summary { background: linear-gradient(135deg, rgba(255, 247, 237, 0.95), rgba(254, 243, 199, 0.55)); border: 1px solid #FFEDD5; border-radius: 14px; padding: 10px 12px; color: #9A3412; }
+        #pa-lobby-root.pa-dark .pa-guide-summary { background: rgba(255, 152, 0, 0.12); border-color: rgba(255, 152, 0, 0.24); color: #FDE68A; }
+        .pa-guide-item { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 10px 12px; opacity: 0; transform: translateY(-8px); transition: opacity 0.3s ease, transform 0.34s cubic-bezier(0.22, 1, 0.36, 1); }
+        .pa-guide-drawer.is-open .pa-guide-item { opacity: 1; transform: translateY(0); }
+        #pa-lobby-root.pa-dark .pa-guide-item { background: rgba(15, 23, 42, 0.65); border-color: #293852; }
+        .pa-options-title-btn { display: inline-flex; align-items: center; gap: 10px; background: transparent; border: none; padding: 3px 6px 3px 10px; margin-right: -6px; border-radius: 16px; cursor: pointer; transition: background-color 0.2s ease, transform 0.15s ease; }
+        .pa-options-title-btn:active { transform: scale(0.97); }
+        .pa-options-title-btn.is-returnable:hover { background: rgba(255, 152, 0, 0.11); }
+        .pa-options-title-btn.is-returnable h2 { color: #EA580C; }
+        #pa-lobby-root.pa-dark .pa-options-title-btn.is-returnable h2 { color: #FDBA74; }
+        .pa-options-panel { display: grid; grid-template-rows: 1fr; opacity: 1; transform: translateY(0) scale(1); transition: grid-template-rows 0.36s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.24s ease, transform 0.36s cubic-bezier(0.22, 1, 0.36, 1); }
+        .pa-options-panel.is-collapsed { grid-template-rows: 0fr; opacity: 0; transform: translateY(10px) scale(0.985); pointer-events: none; margin-top: -12px; }
+        .pa-options-panel-inner { overflow: hidden; padding: 3px 2px 8px; }
         .pa-opt-tag { background: #FFF7ED; border: 1px solid #FFEDD5; color: #FF9800; }
         #pa-lobby-root.pa-dark .pa-opt-tag { background: #1E293B; border-color: #334155; color: #FFB74D; }
         .pa-enter-pill { background: #F1F5F9; color: #64748B; }
@@ -816,15 +843,44 @@
                 <!-- 2. خيارات اللعب ثلاثية الأبعاد -->
                 <section class="flex-1 flex flex-col gap-3.5">
                     <div class="pa-animate-pop flex items-center justify-between px-1" style="animation-delay: 0.08s;">
-                        <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-xl flex items-center justify-center text-xs shadow-sm" style="background: rgba(255, 152, 0, 0.15); color: #FF9800;">
-                                <i class="fa-solid fa-layer-group"></i>
-                            </div>
-                            <h2 class="text-base sm:text-lg font-black pa-text-primary">خيارات اللعب</h2>
-                        </div>
-                        <span class="pa-hint-pill text-[11px] font-black px-3 py-1 rounded-full">انقر للدخول مباشرة</span>
+                        <button type="button" id="pa-options-title-btn" onclick="paToggleHowToPlay(false)" class="pa-options-title-btn" aria-label="عرض خيارات اللعب">
+                            <svg class="w-8 h-8 shrink-0 drop-shadow-sm" viewBox="0 0 64 66" aria-hidden="true">
+                                <circle cx="32" cy="34.2" r="30" fill="#C46019"/>
+                                <circle cx="32" cy="31.4" r="30" fill="#FF8228"/>
+                                <circle cx="32" cy="32.6" r="24.2" fill="#C46019"/>
+                                <circle cx="32" cy="30.6" r="24.5" fill="#FFFFFF"/>
+                                <circle cx="32" cy="31.5" r="23.8" fill="#FDCB58"/>
+                                <ellipse cx="18.6" cy="18.4" rx="5.4" ry="2.7" transform="rotate(-40 18.6 18.4)" fill="#FFFFFF"/>
+                                <circle cx="13.2" cy="24.2" r="2.0" fill="#FFFFFF"/>
+                                <rect x="20.2" y="18.4" width="23.6" height="6.5" rx="3.25" fill="#C46019"/>
+                                <rect x="20.4" y="20.3" width="23.2" height="4.6" rx="2.3" fill="#FF8228"/>
+                                <rect x="20.2" y="28.2" width="23.6" height="6.5" rx="3.25" fill="#C46019"/>
+                                <rect x="20.4" y="30.1" width="23.2" height="4.6" rx="2.3" fill="#FF8228"/>
+                                <rect x="20.2" y="38.0" width="23.6" height="6.5" rx="3.25" fill="#C46019"/>
+                                <rect x="20.4" y="39.9" width="23.2" height="4.6" rx="2.3" fill="#FF8228"/>
+                            </svg>
+                            <h2 class="text-base sm:text-lg font-black pa-text-primary transition-colors">خيارات اللعب</h2>
+                        </button>
+                        <button type="button" id="pa-guide-toggle-btn" onclick="paToggleHowToPlay()" aria-expanded="false" aria-controls="pa-guide-drawer"
+                            class="pa-guide-btn text-[11px] sm:text-xs font-black px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-question text-[12px]"></i>
+                            <span>طريقة اللعب</span>
+                            <i class="fa-solid fa-chevron-down pa-guide-chevron text-[10px]"></i>
+                        </button>
                     </div>
-                    <div id="pa-play-options-container" class="flex flex-col gap-4"></div>
+                    <div id="pa-guide-drawer" class="pa-guide-drawer" aria-hidden="true">
+                        <div class="pa-guide-drawer-inner">
+                            <div class="pa-guide-card flex flex-col gap-2.5">
+                                <div id="pa-guide-summary" class="pa-guide-summary text-[11px] sm:text-xs font-extrabold leading-relaxed flex items-start gap-2"></div>
+                                <div id="pa-guide-list" class="flex flex-col gap-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="pa-play-options-panel" class="pa-options-panel">
+                        <div class="pa-options-panel-inner">
+                            <div id="pa-play-options-container" class="flex flex-col gap-4"></div>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>
@@ -2517,6 +2573,7 @@
             name: 'لعبة XO',
             description: 'تحدى ذكاء خصمك بإصدار الكراسة المطور بنظام كلاسيكي أو لا نهائي',
             badge: '1 ضد 1 • كلاسيك',
+            howToPlaySummary: 'ضع 3 علامات متتالية (أفقياً أو عمودياً أو قطرياً) قبل خصمك للفوز بالجولة.',
             image: '',
             icon: 'fa-solid fa-hashtag',
             accentGradient: 'linear-gradient(135deg, #3B82F6, #4F46E5)',
@@ -2525,6 +2582,7 @@
                     id: 'local-classic',
                     title: 'لعب مع صديق (كلاسيكي)',
                     desc: 'مواجهة 1 ضد 1 على نفس الجهاز بقواعد إكس أو التقليدية',
+                    howToPlay: 'يتناوب اللاعبان (X و O) على نفس الجهاز؛ أول من يكوّن خطاً من 3 علامات متتالية يفوز، وإذا امتلأت الخانات التسع دون فائز تنتهي الجولة بالتعادل.',
                     tag: 'مقترح',
                     featured: true,
                     icon: 'fa-solid fa-user-group',
@@ -2534,6 +2592,7 @@
                     id: 'local-infinity',
                     title: 'لعب مع صديق (لا نهائي - 3 علامات)',
                     desc: 'تختفي أقدم علامة بعد 3 حركات — إثارة مستمرة بلا تعادل!',
+                    howToPlay: 'كل لاعب يحتفظ بـ 3 علامات فقط على اللوحة؛ عند وضع العلامة الرابعة تختفي أقدم علامة لك تلقائياً، مما يمنع التعادل ويضيف استراتيجية وحماساً مضاعفاً.',
                     tag: 'مميز',
                     featured: false,
                     icon: 'fa-solid fa-infinity',
@@ -2543,6 +2602,7 @@
                     id: 'bot',
                     title: 'تحدي الذكاء الاصطناعي',
                     desc: 'واجه الآلة بـ 3 مستويات: بسيط، متوسط، وأسطوري مستحيل',
+                    howToPlay: 'اختر مستوى الصعوبة المناسب لك (بسيط، متوسط، أو أسطوري) ونافس الذكاء الاصطناعي الذي يحلل خطواتك ويحاول إغلاق فرصك للفوز.',
                     tag: '3 مستويات',
                     featured: false,
                     icon: 'fa-solid fa-robot',
@@ -2552,6 +2612,7 @@
                     id: 'online',
                     title: 'المراسلة أونلاين',
                     desc: 'افتح رقم صفحة جديد وشاركه مع صديقك للعب عن بُعد',
+                    howToPlay: 'أنشئ صفحة لعب جديدة لتحصل على رمز مشاركة وأرسله لصديقك، أو أدخل رمز صديقك للعب معاً مباشرة عن بُعد في الوقت الفعلي.',
                     tag: 'أونلاين',
                     featured: false,
                     icon: 'fa-solid fa-paper-plane',
@@ -2643,6 +2704,51 @@
             if (ph) ph.classList.remove('hidden');
         }
 
+        function paToggleHowToPlay(forceState) {
+            const drawer = document.getElementById('pa-guide-drawer');
+            const optionsPanel = document.getElementById('pa-play-options-panel');
+            const btn = document.getElementById('pa-guide-toggle-btn');
+            const titleBtn = document.getElementById('pa-options-title-btn');
+            if (!drawer || !btn) return;
+            const wasOpen = drawer.classList.contains('is-open');
+            const willOpen = typeof forceState === 'boolean' ? forceState : !wasOpen;
+            if (wasOpen === willOpen) return;
+            drawer.classList.toggle('is-open', willOpen);
+            drawer.setAttribute('aria-hidden', willOpen ? 'false' : 'true');
+            if (optionsPanel) {
+                optionsPanel.classList.toggle('is-collapsed', willOpen);
+                optionsPanel.setAttribute('aria-hidden', willOpen ? 'true' : 'false');
+            }
+            btn.classList.toggle('is-open', willOpen);
+            btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            if (titleBtn) titleBtn.classList.toggle('is-returnable', willOpen);
+            paPlaySound('click');
+        }
+
+        function paRenderHowToPlay() {
+            const summaryEl = document.getElementById('pa-guide-summary');
+            const listEl = document.getElementById('pa-guide-list');
+            if (summaryEl) {
+                const summaryText = PA_GAME_TEMPLATE.howToPlaySummary || PA_GAME_TEMPLATE.description;
+                summaryEl.innerHTML = `<i class="fa-solid fa-lightbulb text-amber-500 mt-0.5 shrink-0"></i><span>${paEscapeHtml(summaryText)}</span>`;
+            }
+            if (listEl) {
+                listEl.innerHTML = PA_GAME_TEMPLATE.options.map((opt, idx) => `
+                    <div class="pa-guide-item flex items-start gap-2.5" style="transition-delay: ${55 + idx * 55}ms;">
+                        <div class="w-8 h-8 rounded-xl text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5" style="background: ${opt.iconBg};">
+                            <i class="${opt.icon} text-xs"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="text-xs font-black pa-text-primary leading-snug">${paEscapeHtml(opt.title)}</span>
+                                ${opt.tag ? `<span class="pa-opt-tag text-[9.5px] font-black px-2 py-0.5 rounded-md">${paEscapeHtml(opt.tag)}</span>` : ''}
+                            </div>
+                            <p class="text-[11px] font-bold pa-text-secondary mt-1 leading-relaxed">${paEscapeHtml(opt.howToPlay || opt.desc)}</p>
+                        </div>
+                    </div>`).join('');
+            }
+        }
+
         function renderProArenaLobby() {
             document.getElementById('pa-game-name').textContent = PA_GAME_TEMPLATE.name;
             document.getElementById('pa-game-desc').textContent = PA_GAME_TEMPLATE.description;
@@ -2651,6 +2757,7 @@
             if (imgBox) imgBox.style.background = PA_GAME_TEMPLATE.accentGradient;
             const iconEl = document.getElementById('pa-game-icon');
             if (iconEl) iconEl.className = `${PA_GAME_TEMPLATE.icon} text-4xl sm:text-5xl text-white drop-shadow-md`;
+            paRenderHowToPlay();
 
             const container = document.getElementById('pa-play-options-container');
             container.innerHTML = PA_GAME_TEMPLATE.options.map((opt, idx) => {
