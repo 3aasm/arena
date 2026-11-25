@@ -3295,8 +3295,8 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding: 2px 1px 4px;
+            gap: 12px;
+            padding: 12px 2px 6px;
             scrollbar-width: none;
         }
 
@@ -4069,6 +4069,652 @@
             font-weight: 900;
             min-width: 56px;
             text-align: center;
+        }
+
+
+        /* ==================== أنميشن كشف الإجابة الصحيحة (مطابق للفيديو) + الجولة الأخيرة + منصة التتويج الاحترافية ==================== */
+        /* 1. ميداليات الهيدر العلوي (عجلة التشويق الدوارة + دائرة الصح الخضراء + توهج الجولة الأخيرة) */
+        .timer-reveal-spinner {
+            position: absolute;
+            inset: 4px;
+            border-radius: 50%;
+            border: 2.5px solid #22112B;
+            background: repeating-conic-gradient(
+                from 0deg,
+                #60A5FA 0deg 30deg,
+                #1D4ED8 30deg 60deg
+            );
+            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35), 0 0 14px rgba(96, 165, 250, 0.55);
+            z-index: 4;
+            animation: revealWheelSpin 0.85s linear infinite;
+        }
+
+        .timer-reveal-spinner::after {
+            content: '';
+            position: absolute;
+            inset: 34%;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 2px solid #22112B;
+        }
+
+        @keyframes revealWheelSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .timer-reveal-check {
+            position: absolute;
+            inset: 4px;
+            border-radius: 50%;
+            border: 2.5px solid #143D22;
+            background: radial-gradient(circle at 32% 28%, #6EE7B7 0%, #22C55E 55%, #15803D 100%);
+            color: #FFFFFF;
+            font-size: 21px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 2px 0 #14532D;
+            box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.55), 0 0 18px rgba(34, 197, 94, 0.72);
+            z-index: 5;
+            animation: revealCheckPop 0.56s cubic-bezier(0.22, 1.62, 0.36, 1) both;
+        }
+
+        @keyframes revealCheckPop {
+            0% { transform: scale(0.2) rotate(-40deg); opacity: 0; }
+            62% { transform: scale(1.22) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .arena-center-timer.is-final-round .timer-wing-left {
+            background: linear-gradient(180deg, #FF7A18 0%, #E11D48 100%);
+            color: #FFFDE7;
+            border-color: #FFD43B;
+            box-shadow: 0 0 14px rgba(255, 140, 0, 0.65), inset 0 1.5px 0 rgba(255, 255, 255, 0.45);
+            animation: finalRoundPillPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes finalRoundPillPulse {
+            0%, 100% { filter: brightness(1); transform: scale(1); }
+            50% { filter: brightness(1.14); transform: scale(1.04); }
+        }
+
+        /* 2. شاشة الإعلان السينمائي للجولة الأخيرة */
+        .final-round-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 80;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            pointer-events: none;
+            background: radial-gradient(circle at center, rgba(255, 145, 0, 0.28) 0%, rgba(20, 8, 30, 0.84) 76%);
+            backdrop-filter: blur(4px);
+        }
+
+        .final-round-overlay.is-active {
+            display: flex;
+            animation: finalOverlayFade 2.4s ease forwards;
+        }
+
+        @keyframes finalOverlayFade {
+            0% { opacity: 0; }
+            12% { opacity: 1; }
+            82% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .final-round-rays {
+            position: absolute;
+            width: 190%;
+            aspect-ratio: 1 / 1;
+            background: repeating-conic-gradient(
+                from 0deg,
+                rgba(255, 208, 59, 0.24) 0deg 14deg,
+                transparent 14deg 28deg
+            );
+            animation: sunburstRotate 14s linear infinite;
+            pointer-events: none;
+        }
+
+        .final-round-card {
+            position: relative;
+            z-index: 2;
+            width: 86%;
+            max-width: 340px;
+            padding: 20px 18px 18px;
+            border-radius: 24px;
+            border: 3.5px solid #22112B;
+            background: linear-gradient(180deg, #FFCC33 0%, #FF8400 56%, #D93B16 100%);
+            box-shadow: 0 8px 0 #22112B, 0 0 42px rgba(255, 180, 36, 0.72), inset 0 3px 0 rgba(255, 255, 255, 0.6);
+            text-align: center;
+            overflow: hidden;
+            animation: finalCardSlam 0.65s cubic-bezier(0.22, 1.55, 0.36, 1) both;
+        }
+
+        .final-round-card::after {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -60%;
+            width: 45%;
+            height: 150%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transform: skewX(-24deg);
+            animation: leaderSweep 1.3s ease-out 0.38s 1;
+        }
+
+        @keyframes finalCardSlam {
+            0% { opacity: 0; transform: scale(2.1) rotate(-8deg); }
+            58% { opacity: 1; transform: scale(0.94) rotate(2deg); }
+            82% { transform: scale(1.04) rotate(-1deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .final-round-crown {
+            font-size: 40px;
+            line-height: 1;
+            filter: drop-shadow(0 4px 0 #22112B);
+            animation: mascotBob 1.3s ease-in-out infinite;
+        }
+
+        .final-round-title {
+            margin-top: 6px;
+            font-size: 28px;
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.2;
+            text-shadow:
+                -2.2px -2.2px 0 #22112B,
+                 2.2px -2.2px 0 #22112B,
+                -2.2px  2.2px 0 #22112B,
+                 2.2px  2.2px 0 #22112B,
+                 0      4px   0 #22112B;
+        }
+
+        .final-round-sub {
+            margin-top: 7px;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(34, 17, 43, 0.72);
+            border: 2px solid #FFE45E;
+            color: #FFF7D6;
+            font-size: 12.5px;
+            font-weight: 900;
+        }
+
+        /* 3. ساحة كشف الإجابة الصحيحة المتحركة (مطابقة لفيديو الإجابة الذهبية «الإجابة هي») */
+        .reveal-stage-top {
+            flex: 0 0 auto;
+            padding: 6px 14px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .reveal-q-mini-pill {
+            width: 100%;
+            padding: 7px 12px;
+            border-radius: 13px;
+            border: 2.2px solid #22112B;
+            background: rgba(34, 15, 48, 0.72);
+            color: #FFF7D6;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-align: center;
+            line-height: 1.4;
+            box-shadow: 0 3px 0 rgba(20, 8, 30, 0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .truth-spotlight-wrap {
+            position: relative;
+            width: 100%;
+            margin-top: 16px;
+            opacity: 0;
+            transform: translateY(120px) scale(0.42);
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .truth-spotlight-wrap.is-revealed {
+            opacity: 1;
+            pointer-events: auto;
+            animation: truthCardRiseExpand 0.72s cubic-bezier(0.22, 1.42, 0.36, 1) forwards;
+        }
+
+        .truth-spotlight-wrap.is-instant {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            animation: none;
+        }
+
+        @keyframes truthCardRiseExpand {
+            0% {
+                opacity: 0;
+                transform: translateY(130px) scale(0.38);
+            }
+            45% {
+                opacity: 1;
+                transform: translateY(-10px) scale(1.06);
+            }
+            74% {
+                transform: translateY(4px) scale(0.985);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* شريط «الإجابة هي» الأبيض المائل أعلى البطاقة الذهبية (مطابق للفيديو) */
+        .truth-label-tab {
+            position: absolute;
+            top: -19px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            background: linear-gradient(180deg, #FFFFFF 0%, #E8EEF8 100%);
+            color: #22112B;
+            border: 2.6px solid #22112B;
+            border-bottom: none;
+            border-radius: 11px 11px 0 0;
+            padding: 2px 22px 3px;
+            font-size: 12px;
+            font-weight: 900;
+            white-space: nowrap;
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.95);
+        }
+
+        /* البطاقة الذهبية العريضة للإجابة الصحيحة */
+        .truth-golden-banner {
+            position: relative;
+            width: 100%;
+            min-height: 70px;
+            padding: 16px 18px 14px;
+            border-radius: 17px;
+            border: 3px solid #22112B;
+            background: linear-gradient(180deg, #FFD84D 0%, #FFB014 54%, #E67A00 100%);
+            box-shadow: 0 6px 0 #7C3200, 0 12px 26px rgba(255, 168, 0, 0.42), inset 0 3px 0 rgba(255, 255, 230, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .truth-golden-banner::after {
+            content: '';
+            position: absolute;
+            top: -25%;
+            left: -55%;
+            width: 38%;
+            height: 155%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+            transform: skewX(-24deg);
+            animation: leaderSweep 1.35s ease-out 0.35s 1;
+            pointer-events: none;
+        }
+
+        .truth-golden-text {
+            position: relative;
+            z-index: 2;
+            font-size: 21px;
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.32;
+            text-shadow:
+                -2px -2px 0 #2B1000,
+                 2px -2px 0 #2B1000,
+                -2px  2px 0 #2B1000,
+                 2px  2px 0 #2B1000,
+                 0    3.5px 0 #2B1000;
+        }
+
+        /* شخصيات من اختار الإجابة الصحيحة تقفز مائلة على زاوية البطاقة الذهبية تماماً كالفيديو */
+        .truth-corner-mascots {
+            position: absolute;
+            top: -22px;
+            right: -4px;
+            z-index: 6;
+            display: flex;
+            align-items: flex-end;
+            gap: -6px;
+            pointer-events: none;
+        }
+
+        .truth-corner-fig {
+            width: 40px;
+            height: 40px;
+            transform: rotate(-11deg);
+            filter: drop-shadow(0 3px 3px rgba(20, 8, 30, 0.5));
+            animation: truthMascotPop 0.58s cubic-bezier(0.22, 1.65, 0.36, 1) both;
+        }
+
+        .truth-corner-fig:nth-child(even) {
+            transform: rotate(9deg);
+        }
+
+        @keyframes truthMascotPop {
+            0% { opacity: 0; transform: scale(0.2) translateY(18px) rotate(-25deg); }
+            65% { opacity: 1; transform: scale(1.22) translateY(-5px) rotate(-8deg); }
+            100% { opacity: 1; transform: scale(1) translateY(0) rotate(-11deg); }
+        }
+
+        .truth-meta-footer {
+            margin-top: 8px;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .truth-voters-strip {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* وضع التشويق داخل الدوك قبل كشف أسماء أصحاب الخدع */
+        .reveal-choice-item.is-suspense-truth {
+            transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.4s ease;
+        }
+
+        .reveal-choice-item.is-suspense-truth.is-lifted-away {
+            opacity: 0;
+            transform: translateY(-48px) scale(0.84);
+            max-height: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .reveal-choice-bar.is-light-pill {
+            background: linear-gradient(180deg, #FFFFFF 0%, #E7EEF9 100%);
+            color: #1E132B;
+            text-shadow: none;
+            box-shadow: 0 4px 0 #1D0D27, inset 0 2px 0 rgba(255, 255, 255, 0.95);
+        }
+
+        .reveal-corner-ribbon {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: linear-gradient(180deg, #FF5A6E 0%, #D91E36 100%);
+            color: #FFFFFF;
+            border: 2px solid #22112B;
+            border-radius: 7px;
+            padding: 1px 8px;
+            font-size: 10px;
+            font-weight: 900;
+            text-shadow: 0 1px 0 #5A0816;
+            box-shadow: 0 2px 0 #22112B;
+            animation: badgeStampIn 0.38s cubic-bezier(0.22, 1.55, 0.36, 1) both;
+        }
+
+        @keyframes badgeStampIn {
+            0% { opacity: 0; transform: scale(1.8) rotate(-10deg); }
+            100% { opacity: 1; transform: scale(1) rotate(-3deg); }
+        }
+
+        .reveal-people-tray.is-hidden-suspense {
+            display: none;
+        }
+
+        .reveal-people-tray.is-tray-reveal {
+            animation: trayUnfold 0.34s cubic-bezier(0.22, 1.25, 0.36, 1) both;
+        }
+
+        @keyframes trayUnfold {
+            0% { opacity: 0; transform: translateY(-8px) scaleY(0.85); }
+            100% { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
+
+        .reveal-dock-footer.is-cta-hidden {
+            opacity: 0;
+            transform: translateY(16px);
+            pointer-events: none;
+        }
+
+        .reveal-dock-footer.is-cta-shown {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            transition: opacity 0.32s ease, transform 0.36s cubic-bezier(0.22, 1.35, 0.36, 1);
+        }
+
+        /* 4. شاشة منصة التتويج النهائية الاحترافية (مطابقة تماماً لصورة «الفائز هو» مع الأشعة الدوارة) */
+        #screen-finished {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .winner-sunburst-layer {
+            position: absolute;
+            inset: -45%;
+            z-index: 0;
+            background: repeating-conic-gradient(
+                from 0deg,
+                rgba(255, 212, 59, 0.16) 0deg 12deg,
+                rgba(99, 102, 241, 0.08) 12deg 24deg
+            );
+            animation: sunburstRotate 22s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sunburstRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        #screen-finished .arena-stage-flex {
+            position: relative;
+            z-index: 2;
+        }
+
+        .winner-hero-spotlight {
+            position: relative;
+            width: 100%;
+            padding: 8px 12px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .winner-mascot-halo {
+            position: relative;
+            width: 132px;
+            height: 132px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: winnerMascotEntry 0.78s cubic-bezier(0.22, 1.48, 0.36, 1) both;
+        }
+
+        .winner-mascot-halo::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 224, 102, 0.55) 0%, rgba(255, 168, 0, 0) 72%);
+            filter: blur(6px);
+            animation: haloPulse 2.4s ease-in-out infinite;
+        }
+
+        @keyframes haloPulse {
+            0%, 100% { transform: scale(0.95); opacity: 0.75; }
+            50% { transform: scale(1.12); opacity: 1; }
+        }
+
+        @keyframes winnerMascotEntry {
+            0% { opacity: 0; transform: scale(0.28) translateY(34px) rotate(-18deg); }
+            62% { opacity: 1; transform: scale(1.12) translateY(-6px) rotate(6deg); }
+            100% { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); }
+        }
+
+        .winner-mascot-svg {
+            position: relative;
+            z-index: 2;
+            width: 122px;
+            height: 122px;
+            filter: drop-shadow(0 12px 16px rgba(16, 6, 28, 0.5));
+            animation: winnerMascotFloat 2.8s ease-in-out 0.78s infinite;
+        }
+
+        @keyframes winnerMascotFloat {
+            0%, 100% { transform: translateY(0) rotate(8deg); }
+            50% { transform: translateY(-9px) rotate(12deg); }
+        }
+
+        .winner-sparkle {
+            position: absolute;
+            font-size: 18px;
+            z-index: 3;
+            pointer-events: none;
+            animation: starTwinkle 1.8s ease-in-out infinite;
+        }
+
+        /* لوحة «الفائز هو» والنتائج النهائية المطابقة للصورة */
+        .winner-podium-shell {
+            position: relative;
+            width: 100%;
+            margin-top: 28px;
+            animation: resultsBoardLift 0.52s cubic-bezier(0.22, 1.24, 0.36, 1) 0.14s both;
+        }
+
+        .winner-plate-anchor {
+            position: relative;
+            z-index: 5;
+            width: 72%;
+            max-width: 268px;
+            margin: -34px auto -18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .winner-trapezoid-tag {
+            background: linear-gradient(180deg, #FFFFFF 0%, #EEF2FA 100%);
+            color: #1F0F2B;
+            border: 2.8px solid #14081E;
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            padding: 3px 22px 4px;
+            font-size: 13px;
+            font-weight: 900;
+            position: relative;
+            z-index: 2;
+            box-shadow: inset 0 2px 0 #FFFFFF;
+        }
+
+        .winner-gold-frame {
+            width: 100%;
+            padding: 6px;
+            border-radius: 16px;
+            border: 3px solid #14081E;
+            background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 100%);
+            box-shadow: 0 5px 0 #14081E, 0 10px 22px rgba(14, 4, 24, 0.42);
+        }
+
+        .winner-gold-inner {
+            position: relative;
+            width: 100%;
+            min-height: 54px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 2px solid #B45309;
+            background: linear-gradient(180deg, #FFE047 0%, #FFB800 58%, #E68A00 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: inset 0 2px 0 rgba(255, 255, 224, 0.72);
+        }
+
+        .winner-gold-inner::after {
+            content: '';
+            position: absolute;
+            top: -25%;
+            left: -55%;
+            width: 38%;
+            height: 155%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+            transform: skewX(-24deg);
+            animation: leaderSweep 2.4s ease-out 0.6s infinite;
+        }
+
+        .winner-gold-name {
+            position: relative;
+            z-index: 2;
+            font-size: 25px;
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.2;
+            text-align: center;
+            word-break: break-word;
+            text-shadow:
+                -2px -2px 0 #14081E,
+                 2px -2px 0 #14081E,
+                -2px  2px 0 #14081E,
+                 2px  2px 0 #14081E,
+                 0    3.5px 0 #14081E;
+        }
+
+        .winner-board-header {
+            min-height: 46px;
+            background: linear-gradient(180deg, #4B3A63 0%, #34254A 100%);
+            border-bottom: 3px solid #14081E;
+        }
+
+        .winner-actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .arena-slate-btn.is-blue-cta {
+            min-height: 50px;
+            background: linear-gradient(180deg, #4BA3FF 0%, #1677FF 52%, #0952CC 100%);
+            border-color: #0E2347;
+            color: #FFFFFF;
+            text-shadow: 0 2px 0 #07317A;
+            box-shadow: 0 5px 0 #07388C, 0 8px 16px rgba(7, 42, 108, 0.36), inset 0 2.5px 0 rgba(255, 255, 255, 0.5);
+            font-size: 15.5px;
+        }
+
+        .arena-slate-btn.is-blue-cta:active:not(:disabled) {
+            transform: translateY(3px) scale(0.985);
+            box-shadow: 0 2px 0 #07388C;
+        }
+
+        .arena-slate-btn.is-red-cta {
+            min-height: 50px;
+            background: linear-gradient(180deg, #FF4D6D 0%, #E11D48 52%, #B51034 100%);
+            border-color: #4A0717;
+            color: #FFFFFF;
+            text-shadow: 0 2px 0 #6B081E;
+            box-shadow: 0 5px 0 #7C0A24, 0 8px 16px rgba(105, 8, 28, 0.36), inset 0 2.5px 0 rgba(255, 255, 255, 0.44);
+            font-size: 14px;
+        }
+
+        .arena-slate-btn.is-red-cta:active:not(:disabled) {
+            transform: translateY(3px) scale(0.985);
+            box-shadow: 0 2px 0 #7C0A24;
         }
 
         /* ==================== الشريط السفلي (لعبة | دردشة) بألوان الصفحة الرئيسية ==================== */
@@ -5748,6 +6394,10 @@
                         </div>
                         <div class="timer-pie-circle">
                             <div id="arena-pie-dial" class="timer-pie-dial"></div>
+                            <div id="arena-reveal-spinner" class="timer-reveal-spinner hidden"></div>
+                            <div id="arena-reveal-check" class="timer-reveal-check hidden">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
                             <div id="arena-crown-medallion" class="timer-crown-face hidden">
                                 <i class="fa-solid fa-crown"></i>
                             </div>
@@ -5764,6 +6414,16 @@
 
                 <!-- إشعار التنبيه الداخلي -->
                 <div id="khandaq-toast" class="khandaq-toast" role="status"></div>
+
+                <!-- أنميشن الإعلان السينمائي للجولة الأخيرة -->
+                <div id="final-round-overlay" class="final-round-overlay" aria-live="polite">
+                    <div class="final-round-rays" aria-hidden="true"></div>
+                    <div class="final-round-card">
+                        <div class="final-round-crown">👑🔥</div>
+                        <div class="final-round-title">الجولة الأخيرة!</div>
+                        <div id="final-round-sub" class="final-round-sub">الفرصة الأخيرة للتربّع على عرش الخندق!</div>
+                    </div>
+                </div>
 
                 <!-- ==================== 1. الصفحة الرئيسية (فكرة جهاز الألعاب المحمول والشاشة السوداء والأزرار الثلاثة) ==================== -->
                 <section id="screen-home" class="screen active" aria-label="الصفحة الرئيسية للعبة الخندق">
@@ -6096,6 +6756,18 @@
 
                                     <div class="settings-row">
                                         <div class="settings-row-info">
+                                            <div class="settings-row-title">زر التخمين العشوائي</div>
+                                            <div class="settings-row-desc">إظهار زر اقتراح تخمين عشوائي (💡) أثناء الكتابة
+                                            </div>
+                                        </div>
+                                        <button id="lobby-set-random-bluff" type="button" class="comic-switch is-on"
+                                            aria-pressed="true" onclick="hostToggleLobbyBool('randomBluffEnabled')">
+                                            <span class="comic-switch-knob"></span>
+                                        </button>
+                                    </div>
+
+                                    <div class="settings-row">
+                                        <div class="settings-row-info">
                                             <div class="settings-row-title">عدد اللاعبين</div>
                                             <div class="settings-row-desc">الحد الأقصى لعدد اللاعبين في الغرفة</div>
                                         </div>
@@ -6236,7 +6908,7 @@
                                         <input id="bluff-answer-input" type="text" class="arena-white-input"
                                             maxlength="65" placeholder="اكتب إجابة تخدع بها باقي اللاعبين"
                                             onkeydown="if(event.key==='Enter') submitMyBluff(event)">
-                                        <button type="button" title="اقترح إجابة مخادعة"
+                                        <button id="btn-random-bluff" type="button" title="اختيار تخمين عشوائي"
                                             onclick="fillRandomBluffIdea(event)"
                                             style="position:absolute;left:6px;top:50%;transform:translateY(-50%);border:2px solid #22112B;background:#FFE066;border-radius:8px;padding:3px 8px;font-size:12px;font-weight:900;cursor:pointer;">
                                             💡
@@ -6316,51 +6988,57 @@
                     </div>
                 </section>
 
-                <!-- ==================== 6. شاشة عرض اختيارات الناس (بنفس شكل شاشة التصويت + اسم وصورة كل لاعب تحت كل اختيار) ==================== -->
+                <!-- ==================== 6. شاشة كشف الإجابة الصحيحة واختيارات الناس (بأنميشن صعود «الإجابة هي» الذهبية) ==================== -->
                 <section id="screen-choices-reveal" class="screen">
                     <div class="arena-stage-flex">
-                        <div class="arena-stage-scroll" style="padding:0 0 6px;flex:0 0 auto;">
-                            <div class="green-question-wrap">
-                                <div class="green-cat-ribbon">
-                                    <span id="reveal-cat-shield" class="green-cat-shield">✨</span>
-                                    <span id="reveal-cat-label" class="green-cat-label">اختيارات اللاعبين</span>
-                                </div>
-                                <div class="green-question-card" style="min-height:82px;padding:18px 14px 12px;">
-                                    <div class="green-question-inner" style="min-height:66px;padding:10px;">
-                                        <div id="choices-reveal-question" class="green-question-text"
-                                            style="font-size:16px;"></div>
-                                    </div>
-                                </div>
+                        <div class="reveal-stage-top">
+                            <div class="reveal-q-mini-pill">
+                                <span id="reveal-cat-shield" style="font-size:15px;">✨</span>
+                                <span id="reveal-cat-label" style="color:#FFE066;white-space:nowrap;">اختيارات</span>
+                                <span style="opacity:0.45;">•</span>
+                                <span id="choices-reveal-question" style="overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;"></span>
                             </div>
 
-                            <!-- صورة الشخصية أسفل السؤال في شاشة كشف الاختيارات -->
-                            <div id="reveal-char-wrap" class="question-character-wrap hidden"
-                                style="padding:4px 12px 0;">
-                                <div class="question-character-card is-compact" onclick="openCharacterZoomModal()">
+                            <!-- صورة الشخصية المصغرة إن وجدت -->
+                            <div id="reveal-char-wrap" class="question-character-wrap hidden" style="padding:2px 0 0;">
+                                <div class="question-character-card is-compact" style="width:94px;height:74px;" onclick="openCharacterZoomModal()">
                                     <img id="reveal-char-img" class="question-character-img" alt="صورة الشخصية"
                                         referrerpolicy="no-referrer"
                                         onerror="document.getElementById('reveal-char-wrap').classList.add('hidden')">
-                                    <span id="reveal-char-tag" class="question-character-tag">📸 الشخصية</span>
+                                    <span id="reveal-char-tag" class="question-character-tag" style="font-size:9px;">📸</span>
                                 </div>
                             </div>
 
-                            <div
-                                style="text-align:center;color:#FFE58F;font-size:13px;font-weight:900;text-shadow:0 2px 0 #22112B;margin-top:2px;">
-                                👀 اختيارات الناس في هذه الجولة
+                            <!-- بطاقة «الإجابة هي» الذهبية التي تنطلق وتتسع في وسط المسرح مثل الفيديو -->
+                            <div id="truth-spotlight-wrap" class="truth-spotlight-wrap">
+                                <div class="truth-label-tab">الإجابة هي</div>
+                                <div id="truth-corner-mascots" class="truth-corner-mascots"></div>
+                                <div class="truth-golden-banner">
+                                    <div id="truth-golden-text" class="truth-golden-text">---</div>
+                                </div>
+                                <div class="truth-meta-footer">
+                                    <div id="truth-voters-strip" class="truth-voters-strip"></div>
+                                    <div class="rate-pill-group" style="flex-shrink:0;">
+                                        <button type="button" class="rate-pill-btn" id="btn-reveal-rate-up"
+                                            onclick="rateCurrentQuestion('up')"><i class="fa-solid fa-thumbs-up"></i></button>
+                                        <button type="button" class="rate-pill-btn" id="btn-reveal-rate-down"
+                                            onclick="rateCurrentQuestion('down')"><i class="fa-solid fa-thumbs-down"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="arena-blue-dock is-reveal-dock">
                             <div id="choices-reveal-list" class="reveal-choices-scroll"></div>
 
-                            <div class="reveal-dock-footer">
+                            <div id="reveal-dock-footer" class="reveal-dock-footer is-cta-hidden">
                                 <button id="btn-to-round-results" type="button"
                                     class="arena-slate-btn is-next-cta hidden" onclick="hostGoToRoundResults(event)">
-                                    التالي <i class="fa-solid fa-arrow-left"></i>
+                                    إظهار النتيجة <i class="fa-solid fa-arrow-left"></i>
                                 </button>
                                 <div id="choices-guest-wait" class="hidden"
                                     style="text-align:center;color:#FFFFFF;font-weight:900;font-size:13px;padding:6px 0;text-shadow:0 1.5px 0 rgba(34,17,43,0.5);">
-                                    بانتظار القائد للضغط على «التالي» لعرض نتيجة الجولة...
+                                    بانتظار القائد للضغط على «إظهار النتيجة»...
                                 </div>
                             </div>
                         </div>
@@ -6444,30 +7122,48 @@
                     </div>
                 </section>
 
-                <!-- ==================== 8. شاشة منصة التتويج النهائية ==================== -->
+                <!-- ==================== 8. شاشة منصة التتويج النهائية (مطابقة لصورة «الفائز هو» مع الأشعة الدوارة) ==================== -->
                 <section id="screen-finished" class="screen">
+                    <div class="winner-sunburst-layer" aria-hidden="true"></div>
                     <div class="arena-stage-flex">
-                        <div class="arena-stage-scroll" style="align-items:center;">
-                            <div class="round-result-banner" style="width:100%;margin:6px 0 0;">
-                                <div style="font-size:38px;line-height:1;">👑</div>
-                                <div class="round-result-title" style="font-size:23px;margin-top:4px;">بطل الخندق!</div>
-                                <div id="winner-name-banner"
-                                    style="font-size:20px;font-weight:900;color:#22112B;margin-top:2px;"></div>
-                                <div id="winner-score-banner" class="round-result-sub"></div>
+                        <div class="arena-stage-scroll" style="align-items:center;padding:6px 12px 14px;">
+                            <div class="winner-hero-spotlight">
+                                <div id="winner-hero-mascot-wrap" class="winner-mascot-halo">
+                                    <span class="winner-sparkle" style="top:4px;right:-4px;animation-delay:0.1s;">✨</span>
+                                    <span class="winner-sparkle" style="bottom:14px;left:-10px;animation-delay:0.7s;">⭐</span>
+                                    <span class="winner-sparkle" style="top:18px;left:-12px;font-size:14px;animation-delay:1.2s;">✨</span>
+                                    <div id="winner-hero-mascot" class="winner-mascot-svg"></div>
+                                </div>
                             </div>
 
-                            <div id="final-leaderboard"
-                                style="width:100%;display:flex;flex-direction:column;gap:8px;margin-top:4px;"></div>
+                            <div id="winner-podium-shell" class="winner-podium-shell">
+                                <div class="winner-plate-anchor">
+                                    <div class="winner-trapezoid-tag">الفائز هو</div>
+                                    <div class="winner-gold-frame">
+                                        <div class="winner-gold-inner">
+                                            <div id="winner-name-banner" class="winner-gold-name">---</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="results-board-card">
+                                    <div class="winner-board-header"></div>
+                                    <div id="final-leaderboard" class="results-board-rows"></div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="arena-blue-dock is-cta-tray">
-                            <button id="btn-play-again" type="button" class="arena-slate-btn is-next-cta hidden"
-                                onclick="hostRestartMatch(event)">
-                                🔄 لعب مباراة جديدة
-                            </button>
-                            <button type="button" class="arena-slate-btn is-gold-cta" onclick="leaveRoomToHome()">
-                                🏠 العودة للرئيسية
-                            </button>
+                            <div class="winner-actions-grid">
+                                <button id="btn-play-again" type="button" class="arena-slate-btn is-blue-cta"
+                                    onclick="hostQuickNewMatch(event)">
+                                    لعبة جديدة
+                                </button>
+                                <button id="btn-back-lobby" type="button" class="arena-slate-btn is-red-cta"
+                                    onclick="handleBackToLobbyClick(event)">
+                                    الرجوع لغرفة الانتظار
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -6593,6 +7289,18 @@
                                         </div>
                                         <button id="create-set-ai" type="button" class="comic-switch is-on"
                                             aria-pressed="true" onclick="toggleCreateSwitch('ai')">
+                                            <span class="comic-switch-knob"></span>
+                                        </button>
+                                    </div>
+
+                                    <div class="settings-row">
+                                        <div class="settings-row-info">
+                                            <span class="settings-row-title">زر التخمين العشوائي</span>
+                                            <span class="settings-row-desc">إظهار زر اقتراح تخمين عشوائي (💡) أثناء
+                                                الكتابة</span>
+                                        </div>
+                                        <button id="create-set-random-bluff" type="button" class="comic-switch is-on"
+                                            aria-pressed="true" onclick="toggleCreateSwitch('randomBluff')">
                                             <span class="comic-switch-knob"></span>
                                         </button>
                                     </div>
@@ -8844,6 +9552,7 @@
         let createTeamMode = false;
         let createVoteTime = 25;
         let createAiEnabled = true;
+        let createRandomBluffEnabled = true;
         let createMaxPlayers = 12;
         let createEnabledCategories = [...DEFAULT_ENABLED_TOKENS];
 
@@ -9073,6 +9782,7 @@
             const swPub = document.getElementById('create-set-public');
             const swTm = document.getElementById('create-set-teams');
             const swAi = document.getElementById('create-set-ai');
+            const swRandBluff = document.getElementById('create-set-random-bluff');
             if (swPub) {
                 swPub.classList.toggle('is-on', createIsPublic);
                 swPub.setAttribute('aria-pressed', String(createIsPublic));
@@ -9084,6 +9794,10 @@
             if (swAi) {
                 swAi.classList.toggle('is-on', createAiEnabled);
                 swAi.setAttribute('aria-pressed', String(createAiEnabled));
+            }
+            if (swRandBluff) {
+                swRandBluff.classList.toggle('is-on', createRandomBluffEnabled);
+                swRandBluff.setAttribute('aria-pressed', String(createRandomBluffEnabled));
             }
 
             renderCategoryShieldBars('create-categories-list', createEnabledCategories, true, 'mutateCreateCategories');
@@ -9112,6 +9826,7 @@
             if (which === 'public') createIsPublic = !createIsPublic;
             else if (which === 'teams') createTeamMode = !createTeamMode;
             else if (which === 'ai') createAiEnabled = !createAiEnabled;
+            else if (which === 'randomBluff') createRandomBluffEnabled = !createRandomBluffEnabled;
             syncCreateUiFromState();
         }
 
@@ -9140,7 +9855,7 @@
         async function hostToggleLobbyBool(field) {
             if (!isHost || !currentRoomRef || !currentRoomData) return;
             const s = currentRoomData.settings || {};
-            const cur = field === 'aiEnabled' ? (s.aiEnabled !== false) : Boolean(s[field]);
+            const cur = (field === 'aiEnabled' || field === 'randomBluffEnabled') ? (s[field] !== false) : Boolean(s[field]);
             try {
                 await currentRoomRef.child('settings/' + field).set(!cur);
             } catch (e) { console.error(e); }
@@ -9491,6 +10206,7 @@
                         voteTime: createVoteTime,
                         teamMode: createTeamMode,
                         aiEnabled: createAiEnabled,
+                        randomBluffEnabled: createRandomBluffEnabled,
                         maxPlayers: createMaxPlayers,
                         enabledCategories: normalizeEnabledCategoryTokens(createEnabledCategories)
                     },
@@ -9777,27 +10493,40 @@
             const totalRounds = (room.settings && room.settings.rounds) || 5;
             const curRound = Math.min(totalRounds, (room.currentRound || 0) + 1);
             const isResultsHud = room.status === 'round_results' || room.status === 'finished';
+            const isRevealHud = room.status === 'choices_reveal';
+            const isFinalRoundActive = totalRounds >= 2 && curRound === totalRounds && ['category_pick', 'writing', 'voting', 'choices_reveal'].includes(room.status);
 
             const centerTimer = document.getElementById('arena-center-timer');
             const crownFace = document.getElementById('arena-crown-medallion');
+            const revealSpin = document.getElementById('arena-reveal-spinner');
+            const revealChk = document.getElementById('arena-reveal-check');
             const dialEl = document.getElementById('arena-pie-dial');
             const roundEl = document.getElementById('arena-round-counter');
             const clockEl = document.getElementById('arena-timer-clock');
 
-            if (centerTimer) centerTimer.classList.toggle('is-results-mode', isResultsHud);
+            if (centerTimer) {
+                centerTimer.classList.toggle('is-results-mode', isResultsHud);
+                centerTimer.classList.toggle('is-final-round', isFinalRoundActive);
+            }
             if (crownFace) crownFace.classList.toggle('hidden', !isResultsHud);
-            if (dialEl) dialEl.classList.toggle('hidden', isResultsHud);
+            if (!isRevealHud) {
+                if (revealSpin) revealSpin.classList.add('hidden');
+                if (revealChk) revealChk.classList.add('hidden');
+            }
+            if (dialEl) dialEl.classList.toggle('hidden', isResultsHud || isRevealHud);
 
             if (roundEl) {
-                roundEl.textContent = room.status === 'lobby' ? `0/${totalRounds}` : `${curRound}/${totalRounds}`;
+                if (room.status === 'lobby') roundEl.textContent = `0/${totalRounds}`;
+                else if (isFinalRoundActive) roundEl.textContent = `🔥 ${curRound}/${totalRounds}`;
+                else roundEl.textContent = `${curRound}/${totalRounds}`;
             }
 
             if (!room.phaseEndsAt || ['lobby', 'choices_reveal', 'round_results', 'finished'].includes(room.status)) {
                 clearInterval(timerInterval);
                 if (clockEl) {
-                    clockEl.textContent = room.status === 'lobby'
-                        ? 'انتظار'
-                        : (isResultsHud ? '★' : '--:--');
+                    if (room.status === 'lobby') clockEl.textContent = 'انتظار';
+                    else if (isResultsHud) clockEl.textContent = '★';
+                    else if (!isRevealHud) clockEl.textContent = '--:--';
                 }
                 if (dialEl) dialEl.style.background = 'conic-gradient(#FFF7CC 0deg, #FFD43B 360deg)';
                 return;
@@ -9905,7 +10634,7 @@
 
         function renderLobby(room) {
             const players = getSortedPlayers(room);
-            const s = room.settings || { rounds: 5, writeTime: 45, maxPlayers: 12, aiEnabled: true, teamMode: false };
+            const s = room.settings || { rounds: 5, writeTime: 45, maxPlayers: 12, aiEnabled: true, randomBluffEnabled: true, teamMode: false };
             const maxP = Number(s.maxPlayers) || 12;
 
             document.getElementById('lobby-code-text').textContent = room.code || currentRoomCode;
@@ -9961,6 +10690,7 @@
             const pubEl = document.getElementById('lobby-set-public');
             const tmEl = document.getElementById('lobby-set-teams');
             const aiEl = document.getElementById('lobby-set-ai');
+            const rbEl = document.getElementById('lobby-set-random-bluff');
 
             if (wtEl) { wtEl.value = String(s.writeTime || 45); wtEl.disabled = !isHost; }
             if (mpEl) { mpEl.value = String(s.maxPlayers || 12); mpEl.disabled = !isHost; }
@@ -9981,6 +10711,12 @@
                 aiEl.classList.toggle('is-on', aiOn);
                 aiEl.setAttribute('aria-pressed', String(aiOn));
                 aiEl.disabled = !isHost;
+            }
+            if (rbEl) {
+                const rbOn = s.randomBluffEnabled !== false;
+                rbEl.classList.toggle('is-on', rbOn);
+                rbEl.setAttribute('aria-pressed', String(rbOn));
+                rbEl.disabled = !isHost;
             }
 
             // رسم أشرطة الفئات الستة وبطاقات التصنيفات الفرعية الـ 114
@@ -10065,10 +10801,40 @@
             return picked;
         }
 
+        let lastFinalRoundAnnouncedKey = '';
+        let finalRoundOverlayTimer = null;
+
+        function maybeTriggerFinalRoundBanner(room) {
+            const totalRounds = (room.settings && room.settings.rounds) || 5;
+            const roundIdx = room.currentRound || 0;
+            if (totalRounds < 2 || roundIdx + 1 !== totalRounds) return;
+            const key = `final_round_${room.code || ''}_${roundIdx}_${room.phaseNonce || ''}`;
+            if (lastFinalRoundAnnouncedKey === key) return;
+            lastFinalRoundAnnouncedKey = key;
+
+            const overlay = document.getElementById('final-round-overlay');
+            if (!overlay) return;
+            clearTimeout(finalRoundOverlayTimer);
+            overlay.classList.remove('is-active');
+            void overlay.offsetWidth;
+            overlay.classList.add('is-active');
+            playCartoonPop('win');
+
+            const vp = document.getElementById('viewport-wrap');
+            if (vp) {
+                const r = vp.getBoundingClientRect();
+                spawnJoyBurst(r.left + r.width * 0.5, r.top + r.height * 0.42, 'mega');
+            }
+            finalRoundOverlayTimer = setTimeout(() => {
+                overlay.classList.remove('is-active');
+            }, 2450);
+        }
+
         /* --- المرحلة 1: اختيار التصنيف بالدور (مطابقة للصورة 1) --- */
         function renderCategoryPickPhase(room) {
             aiGuessedTruthRoundKey = '';
             lastWritingRoundKey = '';
+            maybeTriggerFinalRoundBanner(room);
             const players = getSortedPlayers(room);
             const picker = (room.players && room.players[room.pickerId]) || players[0];
             if (!picker) return;
@@ -10572,6 +11338,10 @@
 
             renderMiniPlayersBar('write-mini-players', room, new Set(Object.keys(submissions)));
 
+            const randomBluffOn = !(room.settings && room.settings.randomBluffEnabled === false);
+            const randBtn = document.getElementById('btn-random-bluff');
+            if (randBtn) randBtn.classList.toggle('hidden', !randomBluffOn);
+
             const inputArea = document.getElementById('write-input-area');
             const waitArea = document.getElementById('write-waiting-area');
             const waitAiNote = document.getElementById('write-ai-vote-reminder');
@@ -10607,6 +11377,7 @@
 
         function fillRandomBluffIdea() {
             if (!currentRoomData || !currentRoomData.currentQuestion || isCheckingBluffAI) return;
+            if (currentRoomData.settings && currentRoomData.settings.randomBluffEnabled === false) return;
             const decoys = currentRoomData.currentQuestion.decoys || [];
             if (!decoys.length) return;
             const pick = decoys[Math.floor(Math.random() * decoys.length)];
@@ -10863,17 +11634,20 @@
             });
         }
 
+        let lastRevealedChoicesKey = '';
+        let revealChoreoTimers = [];
+
+        function clearRevealChoreoTimers() {
+            revealChoreoTimers.forEach(t => clearTimeout(t));
+            revealChoreoTimers = [];
+        }
+
         function renderChoicesRevealPhase(room) {
             const qObj = room.currentQuestion;
             if (!qObj) return;
 
-            const celebKey = `choices_${room.code}_${room.currentRound}`;
-            if (lastCelebratedKey !== celebKey) {
-                lastCelebratedKey = celebKey;
-                playCartoonPop('win');
-                const vp = document.getElementById('viewport-wrap').getBoundingClientRect();
-                spawnJoyBurst(vp.left + vp.width * 0.5, vp.top + vp.height * 0.34, 'mega');
-            }
+            const revealKey = `choices_${room.code}_${room.currentRound}`;
+            const isFreshReveal = lastRevealedChoicesKey !== revealKey;
 
             document.getElementById('reveal-cat-shield').textContent = qObj.catIcon || '✨';
             document.getElementById('reveal-cat-label').textContent = qObj.catLabel || 'اختيارات اللاعبين';
@@ -10884,43 +11658,49 @@
             const votes = room.votes || {};
             const players = room.players || {};
 
-            // عرض الاختيارات بنفس شكل أزرار شاشة التصويت مع اسم وصورة كل لاعب تحت كل اختيار
-            const ordered = [...choices].sort((a, b) => (b.isTruth ? 1 : 0) - (a.isTruth ? 1 : 0));
+            const truthChoice = choices.find(c => c.isTruth) || { id: 'c_truth', text: qObj.a || '', isTruth: true, authors: [] };
+            const decoyChoices = choices.filter(c => !c.isTruth);
 
-            document.getElementById('choices-reveal-list').innerHTML = ordered.map((c, idx) => {
+            // تعبئة بطاقة «الإجابة هي» الذهبية + من اختارها
+            const truthVoters = Object.entries(votes)
+                .filter(([, cid]) => cid === truthChoice.id)
+                .map(([pid]) => players[pid])
+                .filter(Boolean);
+
+            const truthTextEl = document.getElementById('truth-golden-text');
+            if (truthTextEl) truthTextEl.textContent = truthChoice.text || qObj.a || '';
+
+            const cornerEl = document.getElementById('truth-corner-mascots');
+            if (cornerEl) {
+                cornerEl.innerHTML = truthVoters.slice(0, 4).map((v, i) => `
+                    <div class="truth-corner-fig ${isPlayerAway(v) ? 'is-player-away' : ''}" style="animation-delay:${120 + i * 90}ms;" title="${escapeHtml(v.name)}">
+                        ${renderMascotSvg(v.avatar)}
+                    </div>
+                `).join('');
+            }
+
+            const truthVotersEl = document.getElementById('truth-voters-strip');
+            if (truthVotersEl) {
+                truthVotersEl.innerHTML = truthVoters.length
+                    ? `<span class="reveal-row-label" style="color:#BBF7D0;">🎯 اختارها:</span>` + truthVoters.map(v => `
+                        <span class="reveal-person-chip is-truth-voter ${isPlayerAway(v) ? 'is-player-away' : ''}">
+                            <span class="reveal-person-avatar">${renderMascotSvg(v.avatar)}</span>
+                            <span>${escapeHtml(v.name)}</span>
+                            <span class="reveal-pts-pill">+200</span>
+                        </span>`).join('')
+                    : `<span class="reveal-empty-note" style="color:#FFF3C4;">لم يختر الإجابة الصحيحة أحد في هذه الجولة</span>`;
+            }
+
+            // بناء بطاقات الدوك (عند البداية تظهر الإجابة الصحيحة ضمن الاختيارات قبل أن تنطلق للأعلى تماماً كالفيديو)
+            const buildDecoyHtml = (c, idx, revealDetails) => {
                 const voters = Object.entries(votes)
                     .filter(([, cid]) => cid === c.id)
                     .map(([pid]) => players[pid])
                     .filter(Boolean);
                 const authors = (c.authors || []).map(aid => players[aid]).filter(Boolean);
                 const isMine = (c.authors || []).includes(myPlayerId);
-
-                const votersHtml = voters.length
-                    ? voters.map(v => `
-                        <span class="reveal-person-chip ${c.isTruth ? 'is-truth-voter' : ''} ${isPlayerAway(v) ? 'is-player-away' : ''}">
-                            <span class="reveal-person-avatar">${renderMascotSvg(v.avatar)}</span>
-                            <span>${escapeHtml(v.name)}</span>
-                            ${c.isTruth ? '<span class="reveal-pts-pill">+200</span>' : ''}
-                        </span>`).join('')
-                    : `<span class="reveal-empty-note">لم يخترها أحد</span>`;
-
-                if (c.isTruth) {
-                    return `
-                        <div class="reveal-choice-item is-truth-item" style="animation-delay:${idx * 70}ms;">
-                            <div class="reveal-choice-bar is-truth-bar">
-                                <span>✅ ${escapeHtml(c.text)}</span>
-                                <span class="reveal-bar-badge">الإجابة الصحيحة +200</span>
-                            </div>
-                            <div class="reveal-people-tray">
-                                <div class="reveal-sub-row">
-                                    <span class="reveal-row-label">🎯 اختارها:</span>
-                                    ${votersHtml}
-                                </div>
-                            </div>
-                        </div>`;
-                }
-
                 const fooledPts = voters.length > 0 && authors.length > 0 ? voters.length * 100 : 0;
+
                 const authorsHtml = authors.length
                     ? authors.map(a => `
                         <span class="reveal-person-chip is-author ${isPlayerAway(a) ? 'is-player-away' : ''}">
@@ -10928,15 +11708,24 @@
                             <span>${escapeHtml(a.name)}</span>
                             ${fooledPts > 0 ? `<span class="reveal-pts-pill">+${fooledPts}</span>` : ''}
                         </span>`).join('')
-                    : `<span class="reveal-empty-note">🤖 خدعة تلقائية</span>`;
+                    : `<span class="reveal-empty-note">خدعة تلقائية</span>`;
 
+                const votersHtml = voters.length
+                    ? voters.map(v => `
+                        <span class="reveal-person-chip ${isPlayerAway(v) ? 'is-player-away' : ''}">
+                            <span class="reveal-person-avatar">${renderMascotSvg(v.avatar)}</span>
+                            <span>${escapeHtml(v.name)}</span>
+                        </span>`).join('')
+                    : `<span class="reveal-empty-note">لم ينخدع بها أحد</span>`;
+
+                const ribbonLabel = isMine ? 'خدعتك' : (authors.length ? 'خدعة' : 'تمويه');
                 return `
-                    <div class="reveal-choice-item" style="animation-delay:${idx * 70}ms;">
-                        <div class="reveal-choice-bar ${isMine ? 'is-mine-bar' : ''}">
+                    <div class="reveal-choice-item" style="animation-delay:${idx * 65}ms;">
+                        <div class="reveal-choice-bar is-light-pill ${isMine ? 'is-mine-bar' : ''}" style="${isMine ? 'color:#FFFFFF;text-shadow:0 2px 0 #2B1705;' : ''}">
+                            ${revealDetails ? `<span class="reveal-corner-ribbon">${ribbonLabel}</span>` : ''}
                             <span>${escapeHtml(c.text)}</span>
-                            ${isMine ? '<span class="reveal-bar-badge">خدعتك</span>' : ''}
                         </div>
-                        <div class="reveal-people-tray">
+                        <div class="reveal-people-tray ${revealDetails ? 'is-tray-reveal' : 'is-hidden-suspense'}">
                             <div class="reveal-sub-row">
                                 <span class="reveal-row-label">✍️ صاحب الخدعة:</span>
                                 ${authorsHtml}
@@ -10947,10 +11736,98 @@
                             </div>
                         </div>
                     </div>`;
-            }).join('');
+            };
+
+            const listEl = document.getElementById('choices-reveal-list');
+            const truthWrap = document.getElementById('truth-spotlight-wrap');
+            const footerEl = document.getElementById('reveal-dock-footer');
+            const spinEl = document.getElementById('arena-reveal-spinner');
+            const chkEl = document.getElementById('arena-reveal-check');
+            const clockEl = document.getElementById('arena-timer-clock');
 
             document.getElementById('btn-to-round-results').classList.toggle('hidden', !isHost);
             document.getElementById('choices-guest-wait').classList.toggle('hidden', isHost);
+
+            if (!isFreshReveal) {
+                if (spinEl) spinEl.classList.add('hidden');
+                if (chkEl) chkEl.classList.remove('hidden');
+                if (clockEl) clockEl.textContent = '✓';
+                if (truthWrap) {
+                    truthWrap.classList.remove('is-revealed');
+                    truthWrap.classList.add('is-instant');
+                }
+                if (listEl) listEl.innerHTML = decoyChoices.map((c, idx) => buildDecoyHtml(c, idx, true)).join('');
+                if (footerEl) {
+                    footerEl.classList.remove('is-cta-hidden');
+                    footerEl.classList.add('is-cta-shown');
+                }
+                return;
+            }
+
+            // أنميشن الكشف السينمائي ذو الـ 3 مراحل المطابق تماماً للفيديو:
+            lastRevealedChoicesKey = revealKey;
+            clearRevealChoreoTimers();
+
+            // المرحلة 1 (0ms): دوران عجلة التشويق العلوية + عرض جميع الاختيارات (بما فيها الصحيحة) في الأسفل
+            if (spinEl) spinEl.classList.remove('hidden');
+            if (chkEl) chkEl.classList.add('hidden');
+            if (clockEl) clockEl.textContent = '...';
+            if (truthWrap) {
+                truthWrap.classList.remove('is-revealed', 'is-instant');
+            }
+            if (footerEl) {
+                footerEl.classList.remove('is-cta-shown');
+                footerEl.classList.add('is-cta-hidden');
+            }
+
+            if (listEl) {
+                listEl.innerHTML = choices.map((c, idx) => {
+                    if (c.isTruth) {
+                        return `
+                            <div id="reveal-suspense-truth-row" class="reveal-choice-item is-suspense-truth" style="animation-delay:${idx * 55}ms;">
+                                <div class="reveal-choice-bar is-light-pill">
+                                    <span>${escapeHtml(c.text)}</span>
+                                </div>
+                            </div>`;
+                    }
+                    return buildDecoyHtml(c, idx, false);
+                }).join('');
+            }
+
+            // المرحلة 2 (1050ms): صعود الإجابة الصحيحة من الأسفل وتمددها لبطاقة «الإجابة هي» الذهبية + تحوّل الدائرة العلوية إلى صح أخضر ✓
+            revealChoreoTimers.push(setTimeout(() => {
+                if (!currentRoomData || currentRoomData.status !== 'choices_reveal') return;
+                const liftRow = document.getElementById('reveal-suspense-truth-row');
+                if (liftRow) liftRow.classList.add('is-lifted-away');
+
+                if (spinEl) spinEl.classList.add('hidden');
+                if (chkEl) chkEl.classList.remove('hidden');
+                if (clockEl) clockEl.textContent = '✓';
+
+                if (truthWrap) {
+                    void truthWrap.offsetWidth;
+                    truthWrap.classList.add('is-revealed');
+                }
+
+                playCartoonPop('win');
+                const vp = document.getElementById('viewport-wrap');
+                if (vp) {
+                    const r = vp.getBoundingClientRect();
+                    spawnJoyBurst(r.left + r.width * 0.5, r.top + r.height * 0.34, 'mega');
+                }
+            }, 1050));
+
+            // المرحلة 3 (1550ms): كشف أصحاب الخدع ومن انخدع بهم تحت كل خيار + ظهور زر «إظهار النتيجة»
+            revealChoreoTimers.push(setTimeout(() => {
+                if (!currentRoomData || currentRoomData.status !== 'choices_reveal') return;
+                if (listEl) {
+                    listEl.innerHTML = decoyChoices.map((c, idx) => buildDecoyHtml(c, idx, true)).join('');
+                }
+                if (footerEl) {
+                    footerEl.classList.remove('is-cta-hidden');
+                    footerEl.classList.add('is-cta-shown');
+                }
+            }, 1550));
         }
 
         /* --- المرحلة 5 (بعد النقر على «التالي»): إظهار نتيجة الجولة الحالية --- */
@@ -11161,44 +12038,127 @@
             }
         }
 
-        /* --- المرحلة النهائية: منصة التتويج --- */
+        /* --- المرحلة النهائية: شاشة «الفائز هو» الاحترافية بالأشعة الدوارة والأشرطة المتحركة --- */
+        let lastAnimatedWinnerKey = '';
+
         function renderFinishedPhase(room) {
             const players = Object.values(room.players || {}).sort((a, b) => (b.score || 0) - (a.score || 0));
+            const roundGain = room.roundGain || {};
             const champ = players[0];
 
+            const finishKey = `finished_${room.code}_${room.currentRound || 0}`;
+            const isFreshFinish = lastAnimatedWinnerKey !== finishKey;
+
             if (champ) {
-                document.getElementById('winner-name-banner').textContent = champ.name;
-                document.getElementById('winner-score-banner').textContent = `المجموع النهائي: ${champ.score || 0} نقطة`;
+                const nameEl = document.getElementById('winner-name-banner');
+                const mascotEl = document.getElementById('winner-hero-mascot');
+                if (nameEl) nameEl.textContent = champ.name;
+                if (mascotEl) mascotEl.innerHTML = renderMascotSvg(champ.avatar);
             }
 
-            const medals = ['🥇', '🥈', '🥉'];
-            document.getElementById('final-leaderboard').innerHTML = players.map((p, i) => `
-                <div class="score-rank-card ${i === 0 ? 'rank-first' : ''}">
-                    <div style="display:flex;align-items:center;gap:10px;">
-                        <span style="font-size:20px;width:28px;text-align:center;">${medals[i] || ('#' + (i + 1))}</span>
-                        <div style="width:40px;height:40px;flex-shrink:0;">${renderMascotSvg(p.avatar)}</div>
-                        <span style="font-weight:900;font-size:15px;">${escapeHtml(p.name)}</span>
+            if (isFreshFinish) {
+                lastAnimatedWinnerKey = finishKey;
+                const halo = document.getElementById('winner-hero-mascot-wrap');
+                const pod = document.getElementById('winner-podium-shell');
+                if (halo) { halo.style.animation = 'none'; void halo.offsetWidth; halo.style.animation = ''; }
+                if (pod) { pod.style.animation = 'none'; void pod.offsetWidth; pod.style.animation = ''; }
+            }
+
+            const topScore = players.reduce((mx, p) => Math.max(mx, p.score || 0), 0);
+            const barScaleMax = Math.max(300, topScore || 300);
+
+            const lbEl = document.getElementById('final-leaderboard');
+            lbEl.innerHTML = players.map((p, idx) => {
+                const score = p.score || 0;
+                const gain = Math.min(score, Math.max(0, roundGain[p.id] || 0));
+                const pct = topScore > 0 ? Math.max(8, Math.min(100, (score / barScaleMax) * 100)) : 0;
+                const rankClass = idx === 0 ? 'rank-1' : (idx === 2 ? 'rank-3' : '');
+                const initialW = isFreshFinish ? '0%' : `${pct.toFixed(2)}%`;
+                const initialScore = isFreshFinish ? 0 : score;
+                const shownCls = isFreshFinish ? '' : 'is-shown';
+
+                return `
+                    <div class="results-player-row ${idx === 0 ? 'is-leader' : ''} ${idx === 0 ? 'has-gained' : ''} ${isPlayerAway(p) ? 'is-player-away' : ''}"
+                        style="animation-delay:${180 + idx * 90}ms;">
+                        <div class="results-avatar-wrap">${renderMascotSvg(p.avatar)}</div>
+                        <div class="results-bar-col">
+                            <div class="results-meta-top">
+                                <div class="results-name-group">
+                                    <span class="results-player-name">${escapeHtml(p.name)}</span>
+                                    ${p.id === myPlayerId ? '<span class="results-me-tag">أنت</span>' : ''}
+                                </div>
+                                <div class="results-score-side">
+                                    ${gain > 0 ? `<span class="results-gain-pop ${shownCls}">+${gain}</span>` : ''}
+                                    <span class="results-score-num" data-from="0" data-to="${score}">${initialScore}</span>
+                                </div>
+                            </div>
+                            <div class="results-bar-track">
+                                <div class="results-bar-gain ${!isFreshFinish && pct > 0 ? 'has-fill' : ''}"
+                                    data-target-pct="${pct.toFixed(2)}"
+                                    style="width:${initialW};background-color:#2563EB;background-image:repeating-linear-gradient(-55deg,rgba(255,255,255,0.28) 0 6px,rgba(255,255,255,0) 6px 12px),linear-gradient(180deg,#60A5FA 0%,#2563EB 65%,#1D4ED8 100%);"></div>
+                            </div>
+                        </div>
+                        <div class="results-rank-box ${rankClass}" style="animation-delay:${240 + idx * 90}ms;">${idx + 1}</div>
                     </div>
-                    <span class="total-score-pill">${p.score || 0} نقطة</span>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
-            document.getElementById('btn-play-again').classList.toggle('hidden', !isHost);
+            if (isFreshFinish) {
+                animateRoundResultsBars(lbEl);
+            }
 
-            const celebKey = `finished_${room.code}`;
+            const playAgainBtn = document.getElementById('btn-play-again');
+            const backLobbyBtn = document.getElementById('btn-back-lobby');
+            if (playAgainBtn) {
+                playAgainBtn.disabled = !isHost;
+                playAgainBtn.textContent = isHost ? 'لعبة جديدة' : 'بانتظار القائد...';
+            }
+            if (backLobbyBtn) {
+                backLobbyBtn.textContent = isHost ? 'الرجوع لغرفة الانتظار' : 'مغادرة الغرفة';
+            }
+
+            const celebKey = `finished_${room.code}_${room.currentRound || 0}`;
             if (lastCelebratedKey !== celebKey) {
                 lastCelebratedKey = celebKey;
-                const vp = document.getElementById('viewport-wrap').getBoundingClientRect();
-                spawnJoyBurst(vp.left + vp.width * 0.3, vp.top + vp.height * 0.25, 'mega');
-                setTimeout(() => spawnJoyBurst(vp.left + vp.width * 0.72, vp.top + vp.height * 0.28, 'mega'), 260);
+                const vp = document.getElementById('viewport-wrap');
+                if (vp) {
+                    const r = vp.getBoundingClientRect();
+                    spawnJoyBurst(r.left + r.width * 0.28, r.top + r.height * 0.24, 'mega');
+                    setTimeout(() => spawnJoyBurst(r.left + r.width * 0.72, r.top + r.height * 0.26, 'mega'), 260);
+                    setTimeout(() => spawnJoyBurst(r.left + r.width * 0.5, r.top + r.height * 0.18, 'mega'), 560);
+                }
                 playCartoonPop('win');
+            }
+        }
+
+        async function hostQuickNewMatch() {
+            if (!isHost || !currentRoomRef || !currentRoomData) {
+                return showToast('فقط قائد الغرفة يمكنه بدء لعبة جديدة!', 'info');
+            }
+            lastFinalRoundAnnouncedKey = '';
+            lastRevealedChoicesKey = '';
+            lastAnimatedResultsKey = '';
+            lastAnimatedWinnerKey = '';
+            await hostStartGame();
+        }
+
+        async function handleBackToLobbyClick() {
+            if (isHost) {
+                await hostRestartMatch();
+            } else {
+                leaveRoomToHome();
             }
         }
 
         async function hostRestartMatch() {
             if (!isHost || !currentRoomRef || !currentRoomData) return;
+            lastFinalRoundAnnouncedKey = '';
+            lastRevealedChoicesKey = '';
+            lastAnimatedResultsKey = '';
+            lastAnimatedWinnerKey = '';
             await currentRoomRef.update({
                 status: 'lobby',
+                currentRound: 0,
                 currentQuestion: null,
                 submissions: null,
                 choices: null,
